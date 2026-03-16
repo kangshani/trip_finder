@@ -1,0 +1,31 @@
+{
+  "home_airport": "SFO",
+  "interests_ranked": [
+    "wildlife",
+    "natural_beauty",
+    "historical_sites",
+    "food",
+    "museum",
+    "culture",
+    "cities"
+  ],
+  "group_size": "1-2",
+  "trip_length_days": { "min": 7, "max": 14 },
+  "travel_style": "comfort",
+  "child_friendly_required": false,
+  "elderly_friendly_required": false,
+  "target_months": ["Jun", "Jul", "Aug"],
+  "hotel_preferences": {
+    "min_rating_google": 4.3,
+    "min_rating_relaxed": 4.0,
+    "min_reviews": 500,
+    "nightly_budget_eur": { "min": 100, "max": 200 },
+    "type": "hotel",
+    "required_features": [
+      "free_cancellation",
+      "walking_distance_to_attractions",
+      "24_hour_front_desk",
+      "private_bathroom"
+    ]
+  }
+}

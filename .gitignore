@@ -1,0 +1,17 @@
+# Environment & secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+
+# Temp files
+.tmp/
+
+# OS files
+.DS_Store
+
+# Junk file
+=1.24.0

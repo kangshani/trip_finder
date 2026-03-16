@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template 4: Compact Table + Accordion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+  :root {
+    --primary: #2c3e50;
+    --blue: #2980b9;
+    --green: #27ae60;
+    --orange: #f39c12;
+    --red: #e74c3c;
+    --bg: #ecf0f1;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #dce1e5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); max-width: 860px; margin: 0 auto; padding: 20px; }
+
+  /* Header */
+  .header {
+    background: var(--primary);
+    color: white;
+    padding: 30px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .header h1 { font-size: 1.6em; }
+  .header .sub { opacity: 0.7; font-size: 0.9em; margin-top: 4px; }
+  .header .total-budget {
+    text-align: right;
+    background: rgba(255,255,255,0.1);
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+  .header .total-budget .amount { font-size: 1.4em; font-weight: 700; }
+  .header .total-budget .label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+
+  /* Quick info bar */
+  .info-bar {
+    display: flex;
+    background: white;
+    border: 1px solid var(--border);
+    border-top: none;
+  }
+  .info-bar .item {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-right: 1px solid var(--border);
+    font-size: 0.85em;
+  }
+  .info-bar .item:last-child { border-right: none; }
+  .info-bar .item strong { display: block; color: var(--blue); }
+
+  /* Accordion */
+  .accordion { margin-top: 16px; }
+
+  .acc-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+
+  .acc-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+    gap: 14px;
+  }
+  .acc-header:hover { background: #f8f9fa; }
+
+  .acc-arrow {
+    font-size: 0.8em;
+    color: var(--muted);
+    transition: transform 0.2s;
+    min-width: 16px;
+  }
+  .acc-item.open .acc-arrow { transform: rotate(90deg); }
+
+  .acc-day-badge {
+    font-size: 0.7em;
+    font-weight: 700;
+    color: white;
+    background: var(--blue);
+    padding: 4px 10px;
+    border-radius: 4px;
+    min-width: 50px;
+    text-align: center;
+  }
+  .acc-item.day-trip .acc-day-badge { background: var(--green); }
+
+  .acc-title { flex: 1; font-weight: 600; font-size: 0.95em; }
+  .acc-budget { font-weight: 600; color: var(--blue); font-size: 0.9em; }
+  .acc-item.day-trip .acc-budget { color: var(--green); }
+
+  .acc-body {
+    display: none;
+    border-top: 1px solid var(--border);
+  }
+  .acc-item.open .acc-body { display: block; }
+
+  /* Table inside accordion */
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88em;
+  }
+  .schedule-table th {
+    background: #f8f9fa;
+    padding: 8px 16px;
+    text-align: left;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f2f5;
+    vertical-align: top;
+  }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .schedule-table tr:hover { background: #fafbfc; }
+
+  .cost-cell { white-space: nowrap; font-weight: 500; }
+  .cost-cell.free { color: var(--green); }
+  .cost-cell.paid { color: var(--blue); }
+
+  .details-cell { color: var(--muted); font-size: 0.9em; }
+  .name-cell { font-weight: 500; }
+
+  .table-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #f8f9fa;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--primary);
+    border-top: 2px solid var(--border);
+  }
+
+  /* Info sections below */
+  .info-sections { margin-top: 24px; }
+
+  .info-acc-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+  .info-acc-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    cursor: pointer;
+    gap: 14px;
+    font-weight: 600;
+  }
+  .info-acc-header:hover { background: #f8f9fa; }
+  .info-acc-body { display: none; padding: 16px 20px; border-top: 1px solid var(--border); }
+  .info-acc-item.open .info-acc-body { display: block; }
+  .info-acc-item.open .acc-arrow { transform: rotate(90deg); }
+
+  .budget-table { width: 100%; border-collapse: collapse; }
+  .budget-table th { background: var(--primary); color: white; padding: 8px 16px; text-align: left; font-size: 0.85em; }
+  .budget-table td { padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 0.9em; }
+  .budget-table tr:last-child { font-weight: 700; background: #f8f9fa; }
+
+  .tips-list { padding-left: 18px; }
+  .tips-list li { padding: 4px 0; font-size: 0.9em; }
+
+  .checklist label { display: flex; align-items: center; padding: 5px 0; cursor: pointer; font-size: 0.9em; gap: 8px; }
+  .checklist input { accent-color: var(--blue); }
+
+  /* Print */
+  .print-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 24px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9em;
+  }
+  .print-btn:hover { opacity: 0.9; }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.8em; padding: 24px 0 10px; }
+
+  @media print {
+    .acc-body, .info-acc-body { display: block !important; }
+    .print-btn { display: none; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>London &amp; Nearby</h1>
+    <div class="sub">8 Days &bull; June 2026 &bull; Family with Kids (5-9)</div>
+  </div>
+  <div class="total-budget">
+    <div class="label">Total per person</div>
+    <div class="amount">&pound;1,370-1,980</div>
+  </div>
+</div>
+
+<div class="info-bar">
+  <div class="item"><strong>8 Days</strong>Duration</div>
+  <div class="item"><strong>Mid-Range</strong>&pound;150-250/day</div>
+  <div class="item"><strong>2 Day Trips</strong>Windsor + Cotswolds</div>
+  <div class="item"><strong>S. Kensington</strong>Base</div>
+</div>
+
+<div class="accordion">
+
+  <!-- Day 1 -->
+  <div class="acc-item open">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 1</span>
+      <span class="acc-title">South Bank Exploration</span>
+      <span class="acc-budget">&pound;180-220</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Morning</td><td class="name-cell">Arrive &amp; Check In</td><td class="details-cell">Drop bags, freshen up</td><td class="cost-cell free">&mdash;</td></tr>
+          <tr><td>11:00</td><td class="name-cell">London Eye</td><td class="details-cell">30-min capsule ride, book timed tickets</td><td class="cost-cell paid">&pound;30/ad</td></tr>
+          <tr><td>12:30</td><td class="name-cell">Lunch at Wahaca</td><td class="details-cell">Mexican street food, kid-friendly</td><td class="cost-cell paid">&pound;40-50</td></tr>
+          <tr><td>13:30</td><td class="name-cell">SEA LIFE Aquarium</td><td class="details-cell">Sharks, penguins, interactive zones</td><td class="cost-cell paid">&pound;28/ad</td></tr>
+          <tr><td>15:30</td><td class="name-cell">South Bank Walk</td><td class="details-cell">Street performers, book market</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>16:30</td><td class="name-cell">Gabriel's Wharf</td><td class="details-cell">Riverside playground</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>18:30</td><td class="name-cell">Dinner at Giraffe</td><td class="details-cell">Family-friendly, global menu</td><td class="cost-cell paid">&pound;50-60</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Settle in &amp; riverside family fun</span>
+        <span>&pound;180-220 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 2</span>
+      <span class="acc-title">Royal London &amp; Parks</span>
+      <span class="acc-budget">&pound;160-200</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>9:30</td><td class="name-cell">Changing of the Guard</td><td class="details-cell">Buckingham Palace, arrive 30 min early</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>11:30</td><td class="name-cell">St James's Park</td><td class="details-cell">Pelicans, lake, wildlife</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>12:30</td><td class="name-cell">Lunch at The Mall Cafe</td><td class="details-cell">In St James's Park</td><td class="cost-cell paid">&pound;35-45</td></tr>
+          <tr><td>14:30</td><td class="name-cell">Westminster Abbey</td><td class="details-cell">Poets' Corner, kids under 6 free</td><td class="cost-cell paid">&pound;27/ad</td></tr>
+          <tr><td>16:00</td><td class="name-cell">Diana Playground</td><td class="details-cell">Pirate ship! Best playground in London</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>18:30</td><td class="name-cell">Honest Burgers</td><td class="details-cell">Famous rosemary fries</td><td class="cost-cell paid">&pound;45-55</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Palaces, guards, and green spaces</span>
+        <span>&pound;160-200 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 3</span>
+      <span class="acc-title">Museum Day - South Kensington</span>
+      <span class="acc-budget">&pound;130-170</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>9:30</td><td class="name-cell">Natural History Museum</td><td class="details-cell">Dinosaurs, blue whale, earthquake simulator</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>12:00</td><td class="name-cell">V&amp;A Cafe</td><td class="details-cell">Victorian tiled cafe</td><td class="cost-cell paid">&pound;35-45</td></tr>
+          <tr><td>13:00</td><td class="name-cell">Science Museum</td><td class="details-cell">Wonderlab interactive gallery</td><td class="cost-cell paid">&pound;10/pp</td></tr>
+          <tr><td>15:30</td><td class="name-cell">Oddono's Gelati</td><td class="details-cell">Ice cream break</td><td class="cost-cell paid">&pound;5-8</td></tr>
+          <tr><td>18:30</td><td class="name-cell">Pizza Pilgrims</td><td class="details-cell">Kids love the pizza oven</td><td class="cost-cell paid">&pound;40-50</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Dinosaurs, space, and interactive science</span>
+        <span>&pound;130-170 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 4</span>
+      <span class="acc-title">Tower of London &amp; City</span>
+      <span class="acc-budget">&pound;190-230</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>9:00</td><td class="name-cell">Tower of London</td><td class="details-cell">Crown Jewels, Yeoman tours, armor</td><td class="cost-cell paid">&pound;33/ad</td></tr>
+          <tr><td>12:30</td><td class="name-cell">St Katharine Docks</td><td class="details-cell">Lunch by the marina</td><td class="cost-cell paid">&pound;45-55</td></tr>
+          <tr><td>13:30</td><td class="name-cell">Tower Bridge</td><td class="details-cell">Glass floor walkway!</td><td class="cost-cell paid">&pound;12/ad</td></tr>
+          <tr><td>15:00</td><td class="name-cell">HMS Belfast</td><td class="details-cell">WWII warship to explore</td><td class="cost-cell paid">&pound;26/ad</td></tr>
+          <tr><td>18:30</td><td class="name-cell">Tas Restaurant</td><td class="details-cell">Turkish, kid-friendly</td><td class="cost-cell paid">&pound;45-55</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Knights, castles, and crown jewels</span>
+        <span>&pound;190-230 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="acc-item day-trip">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 5</span>
+      <span class="acc-title">Windsor Castle (Day Trip)</span>
+      <span class="acc-budget">&pound;200-280</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>8:30</td><td class="name-cell">Train from Paddington</td><td class="details-cell">Direct, ~30 min</td><td class="cost-cell paid">&pound;12-15</td></tr>
+          <tr><td>9:30</td><td class="name-cell">Windsor Castle</td><td class="details-cell">State Apartments, Dolls' House, Chapel</td><td class="cost-cell paid">&pound;30/ad</td></tr>
+          <tr><td>13:00</td><td class="name-cell">Lunch in Windsor</td><td class="details-cell">Cote Brasserie or Bill's</td><td class="cost-cell paid">&pound;45-55</td></tr>
+          <tr><td>15:00</td><td class="name-cell">Legoland (Option A)</td><td class="details-cell">Rides, Miniland, building zones</td><td class="cost-cell paid">&pound;45/pp</td></tr>
+          <tr><td>16:30</td><td class="name-cell">Eton town walk</td><td class="details-cell">Famous college, High Street</td><td class="cost-cell free">Free</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>The King's weekend home</span>
+        <span>&pound;200-280 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 6 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 6</span>
+      <span class="acc-title">British Museum, Covent Garden &amp; Camden</span>
+      <span class="acc-budget">&pound;140-180</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>9:30</td><td class="name-cell">British Museum</td><td class="details-cell">Mummies, Rosetta Stone, Samurai armor</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>12:00</td><td class="name-cell">Covent Garden lunch</td><td class="details-cell">Shake Shack or Homeslice</td><td class="cost-cell paid">&pound;40-50</td></tr>
+          <tr><td>14:00</td><td class="name-cell">Transport Museum</td><td class="details-cell">Vintage buses, kids under 18 free</td><td class="cost-cell paid">&pound;20/ad</td></tr>
+          <tr><td>16:00</td><td class="name-cell">Canal walk to Camden</td><td class="details-cell">Houseboats, locks, street art</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>18:30</td><td class="name-cell">Camden Market dinner</td><td class="details-cell">Dozens of cuisines</td><td class="cost-cell paid">&pound;35-45</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Ancient treasures &amp; canal-side markets</span>
+        <span>&pound;140-180 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 7 -->
+  <div class="acc-item day-trip">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 7</span>
+      <span class="acc-title">Cotswolds (Day Trip)</span>
+      <span class="acc-budget">&pound;180-240</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>8:00</td><td class="name-cell">Car hire / guided tour</td><td class="details-cell">1.5 hr drive</td><td class="cost-cell paid">&pound;50-80</td></tr>
+          <tr><td>10:00</td><td class="name-cell">Bourton-on-the-Water</td><td class="details-cell">Kids paddle, Model Village, Birdland</td><td class="cost-cell paid">&pound;5-12</td></tr>
+          <tr><td>13:30</td><td class="name-cell">Bibury</td><td class="details-cell">Arlington Row, Trout Farm</td><td class="cost-cell paid">&pound;6/pp</td></tr>
+          <tr><td>15:00</td><td class="name-cell">Stow-on-the-Wold</td><td class="details-cell">Tree-framed door, antique shops</td><td class="cost-cell free">Free</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Storybook English countryside</span>
+        <span>&pound;180-240 per person</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 8 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 8</span>
+      <span class="acc-title">Greenwich &amp; Departure</span>
+      <span class="acc-budget">&pound;160-200</span>
+    </div>
+    <div class="acc-body">
+      <table class="schedule-table">
+        <thead><tr><th style="width:70px">Time</th><th>Activity</th><th>Details</th><th style="width:100px">Cost</th></tr></thead>
+        <tbody>
+          <tr><td>9:00</td><td class="name-cell">Thames Clipper</td><td class="details-cell">Scenic 30-min river bus ride</td><td class="cost-cell paid">&pound;8/ad</td></tr>
+          <tr><td>9:45</td><td class="name-cell">Cutty Sark</td><td class="details-cell">Famous tea clipper ship</td><td class="cost-cell paid">&pound;16/ad</td></tr>
+          <tr><td>11:00</td><td class="name-cell">Maritime Museum</td><td class="details-cell">Interactive gallery, ship simulator</td><td class="cost-cell free">Free</td></tr>
+          <tr><td>13:30</td><td class="name-cell">Royal Observatory</td><td class="details-cell">Stand on Prime Meridian Line!</td><td class="cost-cell paid">&pound;18/ad</td></tr>
+          <tr><td>17:00</td><td class="name-cell">Hamleys</td><td class="details-cell">7 floors of toys!</td><td class="cost-cell paid">Varies</td></tr>
+          <tr><td>19:00</td><td class="name-cell">Farewell: Dishoom</td><td class="details-cell">Book 2+ weeks ahead!</td><td class="cost-cell paid">&pound;55-70</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <span>Maritime history &amp; final adventures</span>
+        <span>&pound;160-200 per person</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Info accordions -->
+<div class="info-sections">
+
+  <div class="info-acc-item">
+    <div class="info-acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      Budget Summary
+    </div>
+    <div class="info-acc-body">
+      <table class="budget-table">
+        <thead><tr><th>Category</th><th>Estimated</th></tr></thead>
+        <tbody>
+          <tr><td>Accommodation (7 nights)</td><td>&pound;700-1,000</td></tr>
+          <tr><td>Attractions</td><td>&pound;200-280</td></tr>
+          <tr><td>Food &amp; dining</td><td>&pound;280-380</td></tr>
+          <tr><td>Transport</td><td>&pound;80-120</td></tr>
+          <tr><td>Day trips</td><td>&pound;60-100</td></tr>
+          <tr><td><strong>Total/person</strong></td><td><strong>&pound;1,370-1,980</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-acc-item">
+    <div class="info-acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      Essential Tips
+    </div>
+    <div class="info-acc-body">
+      <ul class="tips-list">
+        <li><strong>Kids under 11</strong> travel FREE on Tube/bus with a paying adult</li>
+        <li><strong>Family Railcard</strong> (&pound;30) saves 1/3 on trains and 60% off kids' fares</li>
+        <li><strong>Free museums</strong>: Natural History, Science, British Museum, V&amp;A</li>
+        <li><strong>June</strong>: Sunrise ~4:45, sunset ~21:20. Average 15-22&deg;C</li>
+        <li><strong>Avoid rush hours</strong> with kids (8-9:30, 17-18:30)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-acc-item">
+    <div class="info-acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      Packing Checklist
+    </div>
+    <div class="info-acc-body">
+      <div class="checklist">
+        <label><input type="checkbox"> Comfortable walking shoes</label>
+        <label><input type="checkbox"> Light rain jacket / umbrella</label>
+        <label><input type="checkbox"> Layers</label>
+        <label><input type="checkbox"> Sunscreen &amp; sun hats</label>
+        <label><input type="checkbox"> Reusable water bottles</label>
+        <label><input type="checkbox"> Portable phone charger</label>
+        <label><input type="checkbox"> Snacks for kids</label>
+        <label><input type="checkbox"> Travel card games</label>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center; margin-top: 20px;">
+  <button class="print-btn" onclick="window.print()">Print This Plan</button>
+</div>
+
+<footer>Plan created March 2026 &bull; Prices are estimates &bull; Template: Compact Table + Accordion</footer>
+
+</body>
+</html>

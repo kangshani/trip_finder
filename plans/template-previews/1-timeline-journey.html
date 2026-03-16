@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template 1: Timeline Journey</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  :root {
+    --primary: #1e3a5f;
+    --accent: #e74c3c;
+    --accent-light: #fdecea;
+    --green: #27ae60;
+    --green-light: #eafaf1;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #e8ecf1;
+    --timeline: #d4dbe4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* Header */
+  .hero {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c6faa 50%, #3498db 100%);
+    color: white;
+    padding: 50px 30px;
+    text-align: center;
+  }
+  .hero h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .hero .meta { font-size: 1.05em; opacity: 0.85; }
+  .hero .tags { margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero .tag { background: rgba(255,255,255,0.18); padding: 6px 16px; border-radius: 20px; font-size: 0.85em; }
+
+  /* Overview strip */
+  .overview-strip {
+    display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+    background: white; padding: 20px; border-bottom: 1px solid var(--border);
+    font-size: 0.9em;
+  }
+  .overview-strip .item { text-align: center; }
+  .overview-strip .item .label { color: var(--muted); font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; }
+  .overview-strip .item .val { font-weight: 600; margin-top: 2px; }
+
+  /* Day nav sidebar */
+  .layout { display: flex; max-width: 1100px; margin: 0 auto; }
+  .day-nav {
+    position: sticky; top: 0; height: 100vh;
+    width: 200px; min-width: 200px;
+    background: white; border-right: 1px solid var(--border);
+    padding: 20px 0; overflow-y: auto;
+  }
+  .day-nav a {
+    display: block; padding: 10px 20px; text-decoration: none;
+    color: var(--text); font-size: 0.85em; border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .day-nav a:hover, .day-nav a.active { background: var(--bg); border-left-color: var(--accent); color: var(--accent); }
+  .day-nav a.day-trip { color: var(--green); }
+  .day-nav a .budget { font-size: 0.75em; color: var(--muted); display: block; }
+
+  /* Main timeline */
+  .main { flex: 1; padding: 40px 30px 40px 60px; }
+
+  .day-section { margin-bottom: 60px; position: relative; }
+  .day-milestone {
+    background: var(--primary);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 2;
+  }
+  .day-milestone.day-trip { background: var(--green); }
+  .day-theme { color: var(--muted); font-style: italic; margin-bottom: 24px; margin-left: 8px; font-size: 0.9em; }
+
+  /* Timeline line */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--timeline);
+    border-radius: 3px;
+  }
+
+  /* Activity */
+  .activity {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    background: var(--card);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .activity:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateX(4px);
+  }
+  .activity::before {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 20px;
+    width: 13px;
+    height: 13px;
+    background: var(--accent);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--timeline);
+    z-index: 1;
+  }
+  .activity.free::before { background: var(--green); }
+
+  .activity-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .activity-time { font-size: 0.8em; font-weight: 600; color: var(--accent); background: var(--accent-light); padding: 2px 10px; border-radius: 12px; }
+  .activity.free .activity-time { color: var(--green); background: var(--green-light); }
+  .activity-cost { font-size: 0.8em; font-weight: 600; color: var(--muted); background: var(--bg); padding: 2px 10px; border-radius: 12px; }
+  .activity-cost.free { color: var(--green); background: var(--green-light); }
+  .activity-name { font-weight: 600; font-size: 1.05em; margin-bottom: 4px; }
+  .activity-details { color: var(--muted); font-size: 0.88em; line-height: 1.5; }
+
+  .day-budget-bar {
+    margin-top: 16px;
+    padding: 12px 20px;
+    background: linear-gradient(90deg, var(--primary), #2c6faa);
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+  }
+  .day-budget-bar.day-trip { background: linear-gradient(90deg, #1e8449, var(--green)); }
+
+  /* Sections below */
+  .info-sections { max-width: 1100px; margin: 0 auto; padding: 40px 30px; }
+  .info-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .info-card h2 { color: var(--primary); font-size: 1.2em; margin-bottom: 14px; border-bottom: 2px solid var(--accent); padding-bottom: 8px; display: inline-block; }
+  .info-card ul { padding-left: 20px; }
+  .info-card li { padding: 4px 0; font-size: 0.92em; }
+  .budget-table { width: 100%; border-collapse: collapse; }
+  .budget-table th { background: var(--primary); color: white; padding: 10px 16px; text-align: left; }
+  .budget-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .budget-table tr:last-child { font-weight: 700; background: var(--bg); }
+
+  .checklist label { display: block; padding: 5px 0; cursor: pointer; font-size: 0.92em; }
+  .checklist input { margin-right: 8px; }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.8em; padding: 30px; border-top: 1px solid var(--border); }
+
+  @media (max-width: 768px) {
+    .day-nav { display: none; }
+    .main { padding: 20px 16px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>London &amp; Nearby</h1>
+  <div class="meta">8 Days in June 2026 &bull; Family Travel Plan</div>
+  <div class="tags">
+    <span class="tag">Family with Kids (5-9)</span>
+    <span class="tag">&pound;150-250/day</span>
+    <span class="tag">History &amp; Culture</span>
+    <span class="tag">Nature &amp; Outdoors</span>
+  </div>
+</div>
+
+<div class="overview-strip">
+  <div class="item"><div class="label">Duration</div><div class="val">8 Days</div></div>
+  <div class="item"><div class="label">Budget</div><div class="val">&pound;1,370-1,980/pp</div></div>
+  <div class="item"><div class="label">Day Trips</div><div class="val">Windsor + Cotswolds</div></div>
+  <div class="item"><div class="label">Base</div><div class="val">South Kensington</div></div>
+</div>
+
+<div class="layout">
+  <nav class="day-nav">
+    <a href="#day1" class="active">Day 1 <span class="budget">&pound;180-220</span></a>
+    <a href="#day2">Day 2 <span class="budget">&pound;160-200</span></a>
+    <a href="#day3">Day 3 <span class="budget">&pound;130-170</span></a>
+    <a href="#day4">Day 4 <span class="budget">&pound;190-230</span></a>
+    <a href="#day5" class="day-trip">Day 5 - Windsor <span class="budget">&pound;200-280</span></a>
+    <a href="#day6">Day 6 <span class="budget">&pound;140-180</span></a>
+    <a href="#day7" class="day-trip">Day 7 - Cotswolds <span class="budget">&pound;180-240</span></a>
+    <a href="#day8">Day 8 <span class="budget">&pound;160-200</span></a>
+    <a href="#budget" style="margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px;">Budget Summary</a>
+    <a href="#tips">Essential Tips</a>
+    <a href="#packing">Packing List</a>
+  </nav>
+
+  <div class="main">
+
+    <!-- DAY 1 -->
+    <div class="day-section" id="day1">
+      <div class="day-milestone">Day 1 &mdash; South Bank Exploration</div>
+      <div class="day-theme">Settle in &amp; riverside family fun</div>
+      <div class="timeline">
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">Morning</span>
+            <span class="activity-cost free">-</span>
+          </div>
+          <div class="activity-name">Arrive &amp; Check In</div>
+          <div class="activity-details">Drop bags, freshen up at hotel</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">11:00</span>
+            <span class="activity-cost">&pound;30/ad &pound;25/ch</span>
+          </div>
+          <div class="activity-name">London Eye</div>
+          <div class="activity-details">Book timed tickets in advance. 30-min capsule ride with panoramic city views. Kids love it!</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">12:30</span>
+            <span class="activity-cost">&pound;40-50 family</span>
+          </div>
+          <div class="activity-name">Lunch at Wahaca Southbank</div>
+          <div class="activity-details">Mexican street food, kid-friendly menu</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">13:30</span>
+            <span class="activity-cost">&pound;28/ad &pound;23/ch</span>
+          </div>
+          <div class="activity-name">SEA LIFE London Aquarium</div>
+          <div class="activity-details">Interactive zones, sharks, penguins. Right next to London Eye. Book online for 20% off!</div>
+        </div>
+        <div class="activity free">
+          <div class="activity-header">
+            <span class="activity-time">15:30</span>
+            <span class="activity-cost free">Free</span>
+          </div>
+          <div class="activity-name">Walk along South Bank</div>
+          <div class="activity-details">Street performers, skateboard park, book market under Waterloo Bridge</div>
+        </div>
+        <div class="activity free">
+          <div class="activity-header">
+            <span class="activity-time">16:30</span>
+            <span class="activity-cost free">Free</span>
+          </div>
+          <div class="activity-name">Gabriel's Wharf Playground</div>
+          <div class="activity-details">Let kids burn energy at the riverside playground</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">18:30</span>
+            <span class="activity-cost">&pound;50-60 family</span>
+          </div>
+          <div class="activity-name">Dinner at Giraffe Southbank</div>
+          <div class="activity-details">Family-friendly chain with global menu</div>
+        </div>
+      </div>
+      <div class="day-budget-bar">
+        <span>Day 1 Budget</span>
+        <span>&pound;180-220 /person</span>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day-section" id="day2">
+      <div class="day-milestone">Day 2 &mdash; Royal London &amp; Parks</div>
+      <div class="day-theme">Palaces, guards, and green spaces</div>
+      <div class="timeline">
+        <div class="activity free">
+          <div class="activity-header">
+            <span class="activity-time">9:30</span>
+            <span class="activity-cost free">Free</span>
+          </div>
+          <div class="activity-name">Changing of the Guard</div>
+          <div class="activity-details">Buckingham Palace gates. Starts at 11:00 - arrive 30 min early for a good spot</div>
+        </div>
+        <div class="activity free">
+          <div class="activity-header">
+            <span class="activity-time">11:30</span>
+            <span class="activity-cost free">Free</span>
+          </div>
+          <div class="activity-name">St James's Park</div>
+          <div class="activity-details">Pelicans fed daily at 14:30, explore the lake, spot wildlife</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">14:30</span>
+            <span class="activity-cost">&pound;27/ad &pound;12/ch</span>
+          </div>
+          <div class="activity-name">Westminster Abbey</div>
+          <div class="activity-details">Magnificent interior, Poets' Corner. Kids under 6 free</div>
+        </div>
+        <div class="activity free">
+          <div class="activity-header">
+            <span class="activity-time">16:00</span>
+            <span class="activity-cost free">Free</span>
+          </div>
+          <div class="activity-name">Diana Memorial Playground</div>
+          <div class="activity-details">Hyde Park / Kensington Gardens. Pirate ship! One of London's best playgrounds</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">18:30</span>
+            <span class="activity-cost">&pound;45-55 family</span>
+          </div>
+          <div class="activity-name">Dinner at Honest Burgers</div>
+          <div class="activity-details">Excellent burgers, famous rosemary fries</div>
+        </div>
+      </div>
+      <div class="day-budget-bar">
+        <span>Day 2 Budget</span>
+        <span>&pound;160-200 /person</span>
+      </div>
+    </div>
+
+    <!-- DAY 5 (Day Trip sample) -->
+    <div class="day-section" id="day5">
+      <div class="day-milestone day-trip">Day 5 &mdash; Day Trip: Windsor Castle</div>
+      <div class="day-theme">The King's weekend home</div>
+      <div class="timeline">
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">8:30</span>
+            <span class="activity-cost">&pound;12-15 return</span>
+          </div>
+          <div class="activity-name">Train from Paddington</div>
+          <div class="activity-details">Direct to Windsor &amp; Eton Central, ~30 min</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">9:30</span>
+            <span class="activity-cost">&pound;30/ad &pound;16.50/ch</span>
+          </div>
+          <div class="activity-name">Windsor Castle</div>
+          <div class="activity-details">State Apartments, Queen Mary's Dolls' House, St George's Chapel. Audio guides included. Allow 3 hours</div>
+        </div>
+        <div class="activity">
+          <div class="activity-header">
+            <span class="activity-time">15:00</span>
+            <span class="activity-cost">&pound;45/person</span>
+          </div>
+          <div class="activity-name">Option A: Legoland Windsor</div>
+          <div class="activity-details">Rides, building zones, Miniland. Book in advance for best price</div>
+        </div>
+      </div>
+      <div class="day-budget-bar day-trip">
+        <span>Day 5 Budget (Day Trip)</span>
+        <span>&pound;200-280 /person</span>
+      </div>
+    </div>
+
+    <p style="text-align:center; color: var(--muted); padding: 20px; font-style: italic;">
+      ... Days 3, 4, 6, 7, 8 follow the same timeline pattern ...
+    </p>
+
+  </div>
+</div>
+
+<!-- Budget & Tips below -->
+<div class="info-sections" id="budget">
+  <div class="info-card">
+    <h2>Budget Summary</h2>
+    <table class="budget-table">
+      <thead><tr><th>Category</th><th>Estimated Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Accommodation (7 nights)</td><td>&pound;700-1,000</td></tr>
+        <tr><td>Attractions &amp; entry fees</td><td>&pound;200-280</td></tr>
+        <tr><td>Food &amp; dining</td><td>&pound;280-380</td></tr>
+        <tr><td>Transport</td><td>&pound;80-120</td></tr>
+        <tr><td>Day trips</td><td>&pound;60-100</td></tr>
+        <tr><td><strong>Total per person</strong></td><td><strong>&pound;1,370-1,980</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-card" id="tips">
+    <h2>Essential Tips</h2>
+    <ul>
+      <li><strong>Kids under 11</strong> travel FREE on Tube/bus with a paying adult</li>
+      <li><strong>Family &amp; Friends Railcard</strong> (&pound;30) saves 1/3 on train fares</li>
+      <li><strong>Free museums</strong>: Natural History, Science, British Museum, V&amp;A</li>
+      <li><strong>June daylight</strong>: Sunrise ~4:45, sunset ~21:20</li>
+      <li><strong>Weather</strong>: 15-22&deg;C average, pack layers + rain jacket</li>
+    </ul>
+  </div>
+</div>
+
+<footer>Plan created March 2026 &bull; Prices are estimates &mdash; verify before booking &bull; Template: Timeline Journey</footer>
+
+</body>
+</html>

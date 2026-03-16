@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar glass-panel">
+            <h2>Trip Finder</h2>
+            
+            <div class="filter-group">
+                <label for="search-input">Search</label>
+                <input type="text" id="search-input" placeholder="Name, tag, or description...">
+            </div>
+
+            <div class="filter-group">
+                <label for="sort-select">Sort By</label>
+                <select id="sort-select">
+                    <option value="score">Preference Score</option>
+                    <option value="name">Destination Name</option>
+                    <option value="cost">Rough Cost</option>
+                    <option value="flight">Flight Time</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Continent</label>
+                <div id="continent-filters" class="checkbox-group">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Travel Month</label>
+                <div id="month-filters" class="checkbox-group checkbox-group-grid">
+                    <label class="checkbox-label"><input type="checkbox" value="Jan" class="month-cb"> Jan</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Feb" class="month-cb"> Feb</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Mar" class="month-cb"> Mar</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Apr" class="month-cb"> Apr</label>
+                    <label class="checkbox-label"><input type="checkbox" value="May" class="month-cb"> May</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Jun" class="month-cb"> Jun</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Jul" class="month-cb"> Jul</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Aug" class="month-cb"> Aug</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Sep" class="month-cb"> Sep</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Oct" class="month-cb"> Oct</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Nov" class="month-cb"> Nov</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Dec" class="month-cb"> Dec</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Preference Score</label>
+                <div class="range-filter">
+                    <input type="range" id="score-min" min="0" max="100" step="1" value="0">
+                    <span id="score-min-label" class="range-label">0</span>
+                    <span class="range-separator">–</span>
+                    <input type="range" id="score-max" min="0" max="100" step="1" value="100">
+                    <span id="score-max-label" class="range-label">100</span>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Interest Tags</label>
+                <div id="tag-filters" class="checkbox-group">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Suitability</label>
+                <label class="checkbox-label"><input type="checkbox" id="filter-child"> Child friendly</label>
+                <label class="checkbox-label"><input type="checkbox" id="filter-elderly"> Elderly friendly</label>
+            </div>
+            
+            <div class="sidebar-footer">
+                <span id="result-count">0 destinations</span>
+            </div>
+        </aside>
+
+        <!-- Main Content (Explore View) -->
+        <main class="main-content">
+            <header class="top-nav glass-panel">
+                <div class="nav-tabs">
+                    <button class="tab-btn" data-target="map-view">Map View</button>
+                    <button class="tab-btn active" data-target="explore-view">Explore</button>
+                    <button class="tab-btn" data-target="compare-view">Compare <span id="compare-count" class="badge">0</span></button>
+                    <button class="tab-btn" data-target="preference-view">Preferences</button>
+                    <button class="tab-btn" data-target="usage-view">API Usage</button>
+                </div>
+            </header>
+
+            <div id="explore-view" class="view-content active">
+                <div class="explore-toolbar">
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-mode="cards">Cards</button>
+                        <button class="toggle-btn" data-mode="charts">Charts</button>
+                    </div>
+                </div>
+
+                <div id="cards-mode" class="explore-mode active">
+                    <div class="card-grid" id="destination-grid">
+                        <!-- Cards populated via JS -->
+                    </div>
+                </div>
+
+                <div id="charts-mode" class="explore-mode">
+                    <div class="charts-dashboard">
+                        <div class="chart-row">
+                            <div class="chart-panel glass-panel">
+                                <h3 class="chart-title">Region Distribution</h3>
+                                <div id="chart-region" class="chart-container"></div>
+                            </div>
+                            <div class="chart-panel glass-panel">
+                                <h3 class="chart-title">Season Breakdown</h3>
+                                <div id="chart-season" class="chart-container"></div>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-panel glass-panel wide">
+                                <h3 class="chart-title">Preference Scores</h3>
+                                <div id="chart-scores" class="chart-container"></div>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-panel glass-panel">
+                                <h3 class="chart-title">Interest Category Coverage</h3>
+                                <div id="chart-interests" class="chart-container"></div>
+                            </div>
+                            <div class="chart-panel glass-panel">
+                                <h3 class="chart-title">Top Tags</h3>
+                                <div id="chart-tags" class="chart-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="map-view" class="view-content">
+                <div id="leaflet-map"></div>
+            </div>
+
+            <!-- Destination Detail Panel (slide-in) -->
+            <div id="detail-panel" class="detail-panel glass-panel">
+                <button id="detail-close" class="detail-close">&times;</button>
+                <div id="detail-content"></div>
+            </div>
+            
+            <div id="compare-view" class="view-content">
+                <div class="placeholder-msg">Compare view coming soon...</div>
+            </div>
+
+            <div id="preference-view" class="view-content">
+                <div class="pref-container">
+                    <!-- State 1: Not initialized -->
+                    <div id="pref-init" class="pref-section">
+                        <div class="pref-hero">
+                            <h2>Learn Your Preferences</h2>
+                            <p>Compare destinations side by side. The system learns what matters to you — then ranks all destinations and finds similar ones.</p>
+                            <div class="pref-stats" id="pref-init-stats"></div>
+                            <button id="pref-start-btn" class="btn-primary">Start Learning</button>
+                        </div>
+                    </div>
+
+                    <!-- State 2: Comparison mode -->
+                    <div id="pref-compare" class="pref-section" style="display:none;">
+                        <div class="pref-progress">
+                            <span class="pref-count">#<span id="pref-comparison-count">0</span></span>
+                            <span class="pref-phase-badge" id="pref-phase">Exploration</span>
+                            <span class="pref-hint">Pick the destination you'd rather visit</span>
+                        </div>
+                        <div class="pref-cards">
+                            <div class="pref-card-wrapper">
+                                <div id="pref-card-a" class="pref-card glass-panel"></div>
+                                <button id="pref-pick-a" class="btn-choice">Prefer This</button>
+                            </div>
+                            <div class="pref-vs">VS</div>
+                            <div class="pref-card-wrapper">
+                                <div id="pref-card-b" class="pref-card glass-panel"></div>
+                                <button id="pref-pick-b" class="btn-choice">Prefer This</button>
+                            </div>
+                        </div>
+                        <div class="pref-bottom-actions">
+                            <button id="pref-pick-equal" class="btn-secondary">No Preference</button>
+                            <button id="pref-stop-btn" class="btn-secondary">Stop &amp; View Results</button>
+                        </div>
+                    </div>
+
+                    <!-- State 3: Results -->
+                    <div id="pref-results" class="pref-section" style="display:none;">
+                        <div class="pref-results-header">
+                            <h2>Your Preference Rankings</h2>
+                            <div class="pref-results-actions">
+                                <button id="pref-continue-btn" class="btn-primary">Continue Learning</button>
+                                <button id="pref-reset-btn" class="btn-secondary btn-danger">Reset</button>
+                            </div>
+                        </div>
+                        <div id="pref-scores-list" class="pref-scores"></div>
+                    </div>
+
+                    <!-- Similarity search (always visible when initialized) -->
+                    <div id="pref-similar-section" class="pref-section" style="display:none;">
+                        <h3>Find Similar Destinations</h3>
+                        <div class="pref-similar-controls">
+                            <select id="pref-similar-select"></select>
+                            <button id="pref-similar-btn" class="btn-primary">Find Similar</button>
+                        </div>
+                        <div id="pref-similar-results" class="pref-similar-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="usage-view" class="view-content">
+                <div class="usage-container">
+                    <h2>Search API Usage</h2>
+                    <div class="usage-grid">
+                        <!-- Brave Search -->
+                        <div class="usage-card glass-panel">
+                            <div class="usage-card-header">
+                                <h3>Brave Search</h3>
+                                <span class="usage-status" id="usage-brave-status">Active</span>
+                            </div>
+                            <div class="usage-card-body">
+                                <div class="usage-main-stat">
+                                    <span class="usage-count" id="usage-brave-used">0</span>
+                                    <span class="usage-separator">/</span>
+                                    <span class="usage-limit" id="usage-brave-limit">1000</span>
+                                </div>
+                                <div class="usage-label">calls this month</div>
+                                <div class="usage-bar-container">
+                                    <div class="usage-bar" id="usage-brave-bar" style="width:0%"></div>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Remaining</span>
+                                    <span id="usage-brave-remaining">1000</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Cost after limit</span>
+                                    <span>$5 / 1K calls</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Resets</span>
+                                    <span>Monthly (auto)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DuckDuckGo -->
+                        <div class="usage-card glass-panel">
+                            <div class="usage-card-header">
+                                <h3>DuckDuckGo</h3>
+                                <span class="usage-status usage-status-free">Free</span>
+                            </div>
+                            <div class="usage-card-body">
+                                <div class="usage-main-stat">
+                                    <span class="usage-count" id="usage-ddg-total">0</span>
+                                </div>
+                                <div class="usage-label">total calls (no limit)</div>
+                                <div class="usage-detail">
+                                    <span>Role</span>
+                                    <span>Fallback when Brave limit reached</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Cost</span>
+                                    <span>Free (unlimited)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Serper.dev -->
+                        <div class="usage-card glass-panel">
+                            <div class="usage-card-header">
+                                <h3>Serper.dev</h3>
+                                <span class="usage-status" id="usage-serper-status">Active</span>
+                            </div>
+                            <div class="usage-card-body">
+                                <div class="usage-main-stat">
+                                    <span class="usage-count" id="usage-serper-remaining">2500</span>
+                                </div>
+                                <div class="usage-label">credits remaining</div>
+                                <div class="usage-bar-container">
+                                    <div class="usage-bar usage-bar-serper" id="usage-serper-bar" style="width:100%"></div>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Used</span>
+                                    <span><span id="usage-serper-used">0</span> of <span id="usage-serper-total">2500</span></span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Expires</span>
+                                    <span id="usage-serper-expiry">2026-09-10</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Role</span>
+                                    <span>On-demand (not in auto fallback)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SerpApi Google Hotels -->
+                        <div class="usage-card glass-panel">
+                            <div class="usage-card-header">
+                                <h3>SerpApi Hotels</h3>
+                                <span class="usage-status" id="usage-serpapi-status">Active</span>
+                            </div>
+                            <div class="usage-card-body">
+                                <div class="usage-main-stat">
+                                    <span class="usage-count" id="usage-serpapi-used">0</span>
+                                    <span class="usage-separator">/</span>
+                                    <span class="usage-limit" id="usage-serpapi-limit">250</span>
+                                </div>
+                                <div class="usage-label">calls this month</div>
+                                <div class="usage-bar-container">
+                                    <div class="usage-bar" id="usage-serpapi-bar" style="width:0%"></div>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Remaining</span>
+                                    <span id="usage-serpapi-remaining">250</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Cost after limit</span>
+                                    <span>$50 / 5K calls</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Role</span>
+                                    <span>Hotel price verification</span>
+                                </div>
+                                <div class="usage-detail">
+                                    <span>Resets</span>
+                                    <span>Monthly (auto)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

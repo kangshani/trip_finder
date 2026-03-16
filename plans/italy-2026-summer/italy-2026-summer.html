@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy — Travel Plan — August 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+  :root {
+    --primary: #1a5c3a;
+    --accent: #c0392b;
+    --blue: #2980b9;
+    --green: #27ae60;
+    --orange: #e67e22;
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #dce1e5;
+    --tag-bg: #f0f0ea;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.7; }
+
+  .header {
+    background: linear-gradient(135deg, var(--primary), #2c8a5f);
+    color: white; padding: 30px; border-radius: 10px 10px 0 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .header h1 { font-size: 1.8em; }
+  .header .sub { opacity: 0.7; font-size: 0.9em; margin-top: 4px; }
+  .header .total-budget { text-align: right; background: rgba(255,255,255,0.12); padding: 12px 20px; border-radius: 8px; }
+  .header .total-budget .amount { font-size: 1.4em; font-weight: 700; }
+  .header .total-budget .label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+
+  .info-bar {
+    display: flex; background: white; border: 1px solid var(--border); border-top: none;
+  }
+  .info-bar .item { flex: 1; text-align: center; padding: 12px; border-right: 1px solid var(--border); font-size: 0.85em; }
+  .info-bar .item:last-child { border-right: none; }
+  .info-bar .item strong { display: block; color: var(--blue); }
+
+  h2 { font-size: 1.4em; color: var(--primary); margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+  h3 { font-size: 1.15em; color: var(--primary); margin: 20px 0 10px; }
+  h4 { font-size: 1em; color: var(--text); margin: 14px 0 8px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 0.9em; }
+  th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+  th { background: var(--tag-bg); font-weight: 600; }
+  tr:nth-child(even) { background: #fafafa; }
+
+  .urgent-list { list-style: none; padding: 0; }
+  .urgent-list li {
+    padding: 10px 14px; margin-bottom: 6px;
+    background: white; border: 1px solid var(--border); border-radius: 6px;
+    font-size: 0.9em; display: flex; align-items: center; gap: 10px;
+  }
+  .urgency {
+    font-size: 0.7em; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+  }
+  .urgency-now { background: #fdedec; color: var(--accent); }
+  .urgency-2wk { background: #fef5e7; color: var(--orange); }
+  .urgency-1wk { background: #eafaf1; color: var(--green); }
+
+  .accordion { margin-top: 16px; }
+  .acc-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .acc-header {
+    display: flex; align-items: center; padding: 14px 20px; cursor: pointer; user-select: none; gap: 14px; transition: background 0.15s; flex-wrap: wrap;
+  }
+  .acc-header:hover { background: #f8f9fa; }
+  .acc-arrow { font-size: 0.8em; color: var(--muted); transition: transform 0.2s; min-width: 16px; }
+  .acc-item.open .acc-arrow { transform: rotate(90deg); }
+  .acc-day-badge { font-size: 0.7em; font-weight: 700; color: white; background: var(--blue); padding: 4px 10px; border-radius: 4px; min-width: 50px; text-align: center; }
+  .acc-item.day-trip .acc-day-badge { background: var(--green); }
+  .acc-title { flex: 1; font-weight: 600; font-size: 0.95em; }
+  .acc-budget { font-weight: 600; color: var(--blue); font-size: 0.9em; }
+  .acc-time-summary {
+    width: 100%; font-size: 0.78em; color: #3a6fa0; padding-left: 80px;
+    display: flex; gap: 16px; margin-top: -4px;
+  }
+  .acc-time-summary span { background: #eef6ff; padding: 2px 8px; border-radius: 4px; }
+  .acc-item.day-trip .acc-budget { color: var(--green); }
+  .acc-body { display: none; border-top: 1px solid var(--border); }
+  .acc-item.open .acc-body { display: block; }
+
+  .route-box {
+    background: #f8f9fa; padding: 14px 20px; font-size: 0.88em; border-bottom: 1px solid var(--border);
+  }
+  .route-box strong { color: var(--primary); }
+  .route-flow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 8px;
+  }
+  .route-stop {
+    background: white; border: 1px solid var(--border); padding: 4px 12px; border-radius: 16px;
+    font-weight: 500; font-size: 0.88em;
+  }
+  .route-stop a { color: var(--primary); text-decoration: none; }
+  .route-stop a:hover { color: var(--accent); text-decoration: underline; }
+  .route-arrow { color: var(--muted); font-size: 0.8em; }
+  .route-transport {
+    font-size: 0.75em; color: var(--muted); background: #eef2f7; padding: 2px 8px; border-radius: 10px;
+  }
+
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+  .schedule-table th {
+    background: #f8f9fa; padding: 8px 16px; text-align: left;
+    font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td { padding: 10px 16px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .schedule-table tr:hover { background: #fafbfc; }
+  .name-cell { font-weight: 500; }
+  .name-cell a { color: var(--primary); text-decoration: none; }
+  .name-cell a:hover { color: var(--accent); text-decoration: underline; }
+  .cost-cell { white-space: nowrap; font-weight: 500; }
+  .cost-cell.free { color: var(--green); }
+  .cost-cell.paid { color: var(--blue); }
+  .details-cell { color: var(--muted); font-size: 0.9em; }
+  .ticket-cell { font-size: 0.85em; color: var(--muted); }
+
+  .table-footer {
+    display: flex; justify-content: space-between; padding: 10px 16px;
+    background: #f8f9fa; font-size: 0.85em; font-weight: 600; color: var(--primary);
+    border-top: 2px solid var(--border);
+  }
+
+  .day-totals {
+    display: flex; justify-content: space-between; padding: 8px 16px;
+    background: #eef6ff; font-size: 0.82em; font-weight: 600; color: #3a6fa0;
+    border-top: 1px dashed var(--border);
+  }
+  .food-recs {
+    padding: 14px 20px; background: #fffbf0; border-top: 1px solid #f5e6c8;
+  }
+  .food-recs h4 { color: var(--orange); font-size: 0.85em; margin: 0 0 6px; }
+  .food-recs ul { padding-left: 18px; margin: 0; }
+  .food-recs li { font-size: 0.85em; padding: 2px 0; }
+
+  .hotel-card {
+    display: inline-block; padding: 8px 14px; margin: 4px; background: var(--tag-bg); border-radius: 8px; font-size: 0.9em;
+  }
+
+  .attraction {
+    margin: 24px 0; padding: 20px; border: 1px solid var(--border); border-radius: 10px; background: white;
+  }
+  .attraction-header {
+    display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
+  }
+  .attraction-name { font-size: 1.1em; font-weight: 700; color: var(--primary); }
+  .attraction-tags { display: flex; gap: 6px; flex-wrap: wrap; font-size: 0.78em; }
+  .tag { padding: 3px 10px; border-radius: 12px; background: var(--tag-bg); color: var(--muted); white-space: nowrap; }
+  .tag.time { background: #e8f0e8; color: #2c5f2d; }
+  .tag.cost { background: #fff3e0; color: #b37300; }
+  .tag.walk { background: #e3f2fd; color: #1565c0; }
+  .tag.free { background: #eafaf1; color: var(--green); }
+  .attraction-img { width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin: 10px 0; }
+  .attraction-desc { font-size: 0.92em; line-height: 1.8; margin-bottom: 8px; }
+  .attraction-desc-zh { font-size: 0.9em; line-height: 1.9; margin-bottom: 8px; color: var(--text); font-family: 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+  .ticket-info {
+    background: #f8f9fa; padding: 10px 14px; border-radius: 6px; font-size: 0.85em; margin-top: 8px;
+    border-left: 3px solid var(--blue);
+  }
+
+  .city-group-header {
+    font-size: 1.05em; font-weight: 600; color: var(--text); margin: 22px 0 8px;
+    padding: 6px 12px; background: linear-gradient(90deg, var(--tag-bg), transparent);
+    border-left: 3px solid var(--primary); border-radius: 0 4px 4px 0;
+  }
+  .city-group-header:first-of-type { margin-top: 0; }
+  .attr-acc-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .attr-acc-header {
+    display: flex; align-items: center; padding: 12px 16px; cursor: pointer; user-select: none; gap: 12px; transition: background 0.15s;
+  }
+  .attr-acc-header:hover { background: #f8f9fa; }
+  .attr-acc-header .attr-name { flex: 1; font-weight: 600; font-size: 0.95em; color: var(--primary); }
+  .attr-name-zh { display: block; font-size: 0.8em; font-weight: 400; color: var(--muted); font-family: 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif; margin-top: 1px; }
+  .attr-acc-header .attraction-tags { margin-left: auto; }
+  .attr-acc-body { display: none; border-top: 1px solid var(--border); padding: 16px 20px; }
+  .attr-acc-item.open .attr-acc-body { display: block; }
+  .attr-acc-item.open .acc-arrow { transform: rotate(90deg); }
+
+  .lang-toggle {
+    display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; font-size: 0.78em; margin-bottom: 10px;
+  }
+  .lang-btn {
+    padding: 4px 14px; cursor: pointer; background: white; border: none; font-family: inherit;
+    font-weight: 500; color: var(--muted); transition: all 0.15s;
+  }
+  .lang-btn.active { background: var(--primary); color: white; }
+  .lang-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .lang-en, .lang-zh { }
+  .lang-zh { display: none; }
+  .attraction-content.show-zh .lang-en { display: none; }
+  .attraction-content.show-zh .lang-zh { display: block; }
+
+  .section-lang-toggle { float: right; margin-top: -36px; }
+
+  .transport-card {
+    background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px;
+  }
+  .transport-card h4 { color: var(--primary); margin: 0 0 8px; }
+  .transport-card ul { padding-left: 18px; }
+  .transport-card li { font-size: 0.9em; padding: 2px 0; }
+
+  .event-item {
+    padding: 10px 14px; margin-bottom: 6px; background: white; border: 1px solid var(--border); border-radius: 6px;
+    display: flex; align-items: center; gap: 12px; font-size: 0.9em;
+  }
+  .event-date {
+    font-size: 0.75em; font-weight: 700; background: var(--primary); color: white;
+    padding: 4px 10px; border-radius: 4px; white-space: nowrap;
+  }
+  .event-warn {
+    font-size: 0.75em; font-weight: 700; background: #fdedec; color: var(--accent);
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+  }
+
+  .links a {
+    display: inline-block; margin: 4px 6px 4px 0; padding: 6px 14px;
+    background: var(--tag-bg); border-radius: 6px; color: var(--primary);
+    text-decoration: none; font-size: 0.85em;
+  }
+  .links a:hover { background: var(--blue); color: white; }
+
+  .info-acc-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .info-acc-header { display: flex; align-items: center; padding: 14px 20px; cursor: pointer; gap: 14px; font-weight: 600; }
+  .info-acc-header:hover { background: #f8f9fa; }
+  .info-acc-body { display: none; padding: 16px 20px; border-top: 1px solid var(--border); }
+  .info-acc-item.open .info-acc-body { display: block; }
+  .info-acc-item.open .acc-arrow { transform: rotate(90deg); }
+
+  .tips-section { margin: 12px 0; padding: 14px 18px; background: white; border-radius: 8px; border: 1px solid var(--border); }
+  .tips-section h4 { color: var(--primary); margin: 0 0 8px; }
+  .tips-section ul { padding-left: 18px; }
+  .tips-section li { font-size: 0.9em; padding: 2px 0; }
+
+  .checklist label { display: flex; align-items: center; padding: 5px 0; cursor: pointer; font-size: 0.9em; gap: 8px; }
+  .checklist input { accent-color: var(--blue); }
+
+  .budget-table td:last-child { text-align: right; font-weight: 600; }
+
+  .print-btn {
+    display: inline-block; margin: 16px 0; padding: 10px 24px; background: var(--primary);
+    color: white; border: none; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.9em;
+  }
+  .print-btn:hover { opacity: 0.9; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8em; padding: 24px 0 10px; border-top: 1px solid var(--border); margin-top: 30px; }
+
+  /* TOC Widget */
+  .toc-widget {
+    position: fixed; top: 80px; right: 20px; width: 200px;
+    background: white; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); z-index: 100;
+    max-height: calc(100vh - 120px); overflow-y: auto;
+    font-size: 0.82em; line-height: 1.5;
+  }
+  .toc-widget h3 {
+    font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); margin: 0 0 10px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .toc-widget a {
+    display: block; padding: 5px 8px; margin: 1px 0; border-radius: 4px;
+    color: var(--text); text-decoration: none; transition: all 0.15s;
+  }
+  .toc-widget a:hover { background: #f0f2f5; color: var(--primary); }
+  .toc-widget a.active { background: var(--primary); color: white; font-weight: 500; }
+  .toc-widget .toc-sub { padding-left: 16px; font-size: 0.92em; }
+  .toc-widget .toc-sub.active { background: var(--blue); }
+
+  @media print { .acc-body, .info-acc-body, .attr-acc-body { display: block !important; } .print-btn, .toc-widget { display: none; } body { background: white; } }
+  @media (max-width: 1200px) { .toc-widget { display: none; } }
+  @media (max-width: 600px) {
+    .header { flex-direction: column; gap: 12px; }
+    .info-bar { flex-wrap: wrap; }
+    .info-bar .item { min-width: 45%; }
+    .route-flow { flex-direction: column; align-items: flex-start; }
+    .attraction-header { flex-direction: column; }
+    .attraction-img { height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<div class="header">
+  <div>
+    <h1>Italy</h1>
+    <div class="sub">6-7 Days &bull; August 2026 &bull; 2 Travelers &bull; Comfort Budget</div>
+  </div>
+  <div class="total-budget">
+    <div class="label">Total per person</div>
+    <div class="amount">&euro;805&ndash;1,080</div>
+  </div>
+</div>
+<div class="info-bar">
+  <div class="item"><strong>6-7 Days</strong>Duration</div>
+  <div class="item"><strong>&euro;110-160</strong>Per Day (2 pax)</div>
+  <div class="item"><strong>2 Day Trips</strong>Venice + Pisa</div>
+  <div class="item"><strong>3 Hotel Bases</strong>Milan &bull; Florence &bull; Rome</div>
+</div>
+
+<!-- ============ BOOK IN ADVANCE ============ -->
+<h2 id="sec-book">Book in Advance</h2>
+<p style="font-size:0.88em; color:var(--muted); margin-bottom:12px;">Sorted by urgency. The top items require the most lead time.</p>
+<ul class="urgent-list">
+  <li><span class="urgency urgency-now">NOW (2-3 months)</span> <strong>Schengen visa</strong> &mdash; 15-45 day processing + biometrics. &euro;90/person. <a href="https://visa.vfsglobal.com/one-pager/italy/china/english/">Apply via VFS Global</a></li>
+  <li><span class="urgency urgency-now">NOW (2-3 months)</span> <strong>Hotel accommodation</strong> &mdash; August is peak season. Book on <a href="https://www.booking.com">Booking.com</a> with free cancellation</li>
+  <li><span class="urgency urgency-now">NOW (2-3 months)</span> <strong>The Last Supper tickets</strong> &mdash; Sells out months ahead. Only 15 min viewing slots. Book at <a href="https://www.vivaticket.com">vivaticket.com</a></li>
+  <li><span class="urgency urgency-2wk">2-3 weeks</span> <strong>Vatican Museums</strong> &mdash; Skip-the-line essential in August. Book at <a href="https://www.museivaticani.va">museivaticani.va</a></li>
+  <li><span class="urgency urgency-2wk">2-3 weeks</span> <strong>Uffizi Gallery</strong> &mdash; Timed entry required in August. Book at <a href="https://www.uffizi.it/en/tickets">uffizi.it</a></li>
+  <li><span class="urgency urgency-2wk">2-3 weeks</span> <strong>Colosseum + Forum combo</strong> &mdash; Book at <a href="https://www.coopculture.it">coopculture.it</a>. Skip-the-line with online tickets</li>
+  <li><span class="urgency urgency-2wk">2 weeks</span> <strong>Galleria Borghese</strong> &mdash; Must pre-book. Fixed 2-hour slots, max 360 visitors. Book at <a href="https://galleriaborghese.beniculturali.it">galleriaborghese.it</a></li>
+  <li><span class="urgency urgency-1wk">1-2 weeks</span> <strong>Leaning Tower of Pisa</strong> &mdash; Timed entry. Book at <a href="https://www.opapisa.it">opapisa.it</a></li>
+  <li><span class="urgency urgency-1wk">1 week</span> <strong>Train tickets</strong> &mdash; "Super Economy" fares &euro;10-19/leg on <a href="https://www.thetrainline.com">Trainline</a> or <a href="https://www.italotreno.com/en">Italo</a></li>
+  <li><span class="urgency urgency-1wk">1 week</span> <strong>Florence Duomo dome climb</strong> &mdash; Timed slots required. Book at <a href="https://duomo.firenze.it">duomo.firenze.it</a></li>
+</ul>
+
+<!-- ============ DAILY ITINERARY ============ -->
+<h2 id="sec-itinerary">Daily Itinerary</h2>
+<div class="accordion">
+
+  <!-- DAY 1 -->
+  <div class="acc-item open">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 1</span>
+      <span class="acc-title">Milan &mdash; Duomo, History &amp; Hidden Gems</span>
+      <span class="acc-budget">&euro;60&ndash;90</span>
+      <div class="acc-time-summary"><span>Commute: ~49 min</span><span>Tour: ~4h must-see / ~7h with optional</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop"><a href="#attraction-milan-duomo">Duomo di Milano</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 2 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-galleria">Galleria V. Emanuele II</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 8 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-san-bernardino">San Bernardino alle Ossa</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Metro M3 12 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-binario21">Shoah Memorial of Milan</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Metro M2 12 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-castello">Castello Sforzesco</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 8 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-san-maurizio">Chiesa di San Maurizio</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 7 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-last-supper">The Last Supper</a> <em>(optional)</em></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-milan-duomo">Duomo di Milano</a></td><td>~1.5-2 hours</td><td class="cost-cell paid">&euro;17-22</td><td class="ticket-cell">Duomo Pass: &euro;17 (stairs) / &euro;22 (lift). Book at <a href="https://ticket.duomomilano.it">duomomilano.it</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-galleria">Galleria V. Emanuele II</a></td><td>~30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-san-bernardino">San Bernardino alle Ossa</a></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Small chapel &mdash; no crowds</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-binario21">Shoah Memorial of Milan</a></td><td>~1-1.5 hours</td><td class="cost-cell paid">~&euro;10</td><td class="ticket-cell"><a href="https://www.memorialedelashoah.it">memorialedelashoah.it</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-castello">Castello Sforzesco</a> <em>(optional)</em></td><td>~1.5-2 hours</td><td class="cost-cell paid">Courtyard free; museums &euro;5</td><td class="ticket-cell">Buy at the door or online</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-san-maurizio">Chiesa di San Maurizio</a> <em>(optional)</em></td><td>~30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. &ldquo;Sistine Chapel of Milan&rdquo;</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-last-supper">The Last Supper</a> <em>(optional)</em></td><td>~45 min-1 hour</td><td class="cost-cell paid">&euro;15 + &euro;2 fee</td><td class="ticket-cell"><a href="https://cenacolovinciano.org">cenacolovinciano.org</a> &mdash; book months ahead!</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Gothic grandeur &amp; Leonardo da Vinci</span><span>&euro;60&ndash;90 /person</span></div>
+      <div class="day-totals"><span>Commute: ~49 min</span><span>Tour: ~4h must-see / ~7h with optional</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Risotto alla Milanese</strong> &mdash; Creamy saffron-infused risotto, the signature dish of Milan</li>
+          <li><strong>Cotoletta alla Milanese</strong> &mdash; Breaded veal cutlet, crispy and golden</li>
+          <li><strong>Aperitivo in Navigli</strong> &mdash; ~&euro;10-15 gets a drink + buffet of pasta, pizza, snacks (5-8pm)</li>
+          <li><strong>Luini Panzerotti</strong> &mdash; Famous fried dough pockets near Duomo (~&euro;3)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="acc-item day-trip">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 2</span>
+      <span class="acc-title">Day Trip: Venice</span>
+      <span class="acc-budget">&euro;80&ndash;120</span>
+      <div class="acc-time-summary"><span>Commute: ~65 min + 4h50 trains</span><span>Tour: ~5.5h must-see / ~6.5h with optional</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Milan Centrale</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train 2h25</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-grand-canal">Line 1 vaporetto (Grand Canal)</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Vaporetto 35 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-rialto">Rialto Bridge &amp; Market</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-bovolo">Palazzo Contarini del Bovolo</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-st-marks">St. Mark&rsquo;s Basilica</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 1 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-campanile-sm">St. Mark&rsquo;s Campanile</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 2 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-doges-palace">Doge&rsquo;s Palace &amp; Bridge of Sighs</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 7 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-acqua-alta">Libreria Acqua Alta</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train 2h25</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Milan</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Train (return)</td><td>~2h25 each way</td><td class="cost-cell paid">&euro;40-110 RT</td><td class="ticket-cell"><a href="https://www.trenitalia.com">Trenitalia</a> or <a href="https://www.italotreno.it">Italo</a> &mdash; book early for best fares</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-grand-canal">Line 1 vaporetto (Grand Canal)</a></td><td>~35 min</td><td class="cost-cell paid">&euro;9.50 / &euro;25 day pass</td><td class="ticket-cell">Best way to see the entire Grand Canal. <a href="https://www.veneziaunica.it">veneziaunica.it</a> or ACTV kiosks</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-rialto">Rialto Bridge &amp; Market</a></td><td>~45 min-1 hour</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-bovolo">Palazzo Contarini del Bovolo</a> <em>(optional)</em></td><td>~30 min</td><td class="cost-cell paid">&euro;8</td><td class="ticket-cell"><a href="https://www.scala-contarini-del-bovolo.com">scala-contarini-del-bovolo.com</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-st-marks">St. Mark&rsquo;s Basilica</a></td><td>~1-1.5 hours</td><td class="cost-cell paid">Free (&euro;6 skip line)</td><td class="ticket-cell">Free entry. Skip-the-line &euro;6 at <a href="https://www.basilicasanmarco.it">basilicasanmarco.it</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-campanile-sm">St. Mark&rsquo;s Campanile</a></td><td>~30 min</td><td class="cost-cell paid">~&euro;10</td><td class="ticket-cell">Buy at the door or online. Best panoramic view of Venice</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-doges-palace">Doge&rsquo;s Palace &amp; Bridge of Sighs</a></td><td>~2-2.5 hours</td><td class="cost-cell paid">~&euro;30</td><td class="ticket-cell"><a href="https://palazzoducale.visitmuve.it">visitmuve.it</a> &mdash; Bridge of Sighs included in tour</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-acqua-alta">Libreria Acqua Alta</a> <em>(optional)</em></td><td>~20 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Famous bookshop photo-op</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Canals, mosaics &amp; gondolas</span><span>&euro;80&ndash;120 /person</span></div>
+      <div class="day-totals"><span>Commute: ~65 min + 4h50 trains</span><span>Tour: ~5.5h must-see / ~6.5h with optional</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Cicchetti</strong> &mdash; Venetian tapas at wine bars (bacari). &euro;1-3/piece. Rialto Market area is best</li>
+          <li><strong>Fresh seafood</strong> &mdash; Sarde in saor, fritto misto, spaghetti alle vongole</li>
+          <li>Avoid restaurants on St. Mark&rsquo;s Square (overpriced tourist traps)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 3</span>
+      <span class="acc-title">Florence &mdash; Renaissance Treasures</span>
+      <span class="acc-budget">&euro;70&ndash;100</span>
+      <div class="acc-time-summary"><span>Commute: ~42 min + 1h40 train</span><span>Tour: ~5.5h must-see / ~9h with optional</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Milan Centrale</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train 1h40</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-florence-duomo">Duomo &amp; Dome Climb</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 8 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-uffizi">Uffizi Gallery</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 4 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-porcellino">Fontana del Porcellino</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 4 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-ponte-vecchio">Ponte Vecchio</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 6 min across Ponte Vecchio</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-pitti">Palazzo Pitti &amp; Boboli Gardens</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 20 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-santa-croce">Basilica of Santa Croce</a> <em>(optional)</em></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Train Milan &rarr; Florence</td><td>~1h40</td><td class="cost-cell paid">&euro;15-50</td><td class="ticket-cell"><a href="https://www.trenitalia.com">Trenitalia</a> or <a href="https://www.italotreno.it">Italo</a> &mdash; book early from &euro;15</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-florence-duomo">Piazza del Duomo</a></td><td>~2-3 hours</td><td class="cost-cell paid">&euro;30 combo</td><td class="ticket-cell"><a href="https://duomo.firenze.it">duomo.firenze.it</a> &mdash; pre-book dome climb</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-uffizi">Uffizi Gallery</a></td><td>~2-3 hours</td><td class="cost-cell paid">&euro;25 + &euro;4 reservation</td><td class="ticket-cell"><a href="https://www.uffizi.it/en/tickets">uffizi.it</a> &mdash; timed entry essential</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-porcellino">Fontana del Porcellino</a> <em>(optional)</em></td><td>~10 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">Rub the boar&rsquo;s nose for luck!</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-ponte-vecchio">Ponte Vecchio</a></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-pitti">Palazzo Pitti &amp; Boboli Gardens</a> <em>(optional)</em></td><td>~2-3 hours</td><td class="cost-cell paid">&euro;22 combined</td><td class="ticket-cell"><a href="https://www.uffizi.it/en/pitti-palace">uffizi.it</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-santa-croce">Basilica of Santa Croce</a> <em>(optional)</em></td><td>~45 min-1 hour</td><td class="cost-cell paid">~&euro;8</td><td class="ticket-cell"><a href="https://www.santacroceopera.it">santacroceopera.it</a> &mdash; tombs of Michelangelo, Galileo, Machiavelli</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Birthplace of the Renaissance</span><span>&euro;70&ndash;100 /person</span></div>
+      <div class="day-totals"><span>Commute: ~42 min + 1h40 train</span><span>Tour: ~5.5h must-see / ~9h with optional</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Mercato Centrale</strong> &mdash; Upscale food hall near San Lorenzo, great for lunch</li>
+          <li><strong>Bistecca alla fiorentina</strong> &mdash; Massive T-bone steak for sharing (~&euro;45-60/kg)</li>
+          <li><strong>Lampredotto sandwich</strong> &mdash; Florentine street food from market vendors (~&euro;4-5)</li>
+          <li><strong>Gelato</strong> &mdash; Get it daily. Look for "produzione propria" (house-made). Try Vivoli or La Carraia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="acc-item day-trip">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 4</span>
+      <span class="acc-title">Day Trip: Pisa + More Florence</span>
+      <span class="acc-budget">&euro;50&ndash;80</span>
+      <div class="acc-time-summary"><span>Commute: ~33 min + 2h20 trains</span><span>Tour: ~3h must-see / ~3.5h with optional</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Florence SMN</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train 1h10</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-pisa">Piazza dei Miracoli</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 8 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-cavalieri">Piazza dei Cavalieri</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train 1h10</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Florence</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 25 min uphill</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-piazzale">Piazzale Michelangelo</a> (sunset)</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Train Florence &harr; Pisa (RT)</td><td>~1h10 each way</td><td class="cost-cell paid">&euro;16-20 RT</td><td class="ticket-cell"><a href="https://www.trenitalia.com">Trenitalia</a> Regionale &mdash; runs every 20-30 min</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-pisa">Leaning Tower + Cathedral</a></td><td>~2-3 hours</td><td class="cost-cell paid">Tower &euro;25, Cathedral free</td><td class="ticket-cell"><a href="https://www.opapisa.it/en/tickets">opapisa.it</a> &mdash; timed entry, book ahead!</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-cavalieri">Piazza dei Cavalieri</a> <em>(optional)</em></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-piazzale">Piazzale Michelangelo</a></td><td>~30-45 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Best at sunset</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>The famous lean &amp; Florence at golden hour</span><span>&euro;50&ndash;80 /person</span></div>
+      <div class="day-totals"><span>Commute: ~33 min + 2h20 trains</span><span>Tour: ~3h must-see / ~3.5h with optional</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Pisa lunch</strong> &mdash; Eat away from Piazza dei Miracoli for better value. Try Via Santa Maria</li>
+          <li><strong>Oltrarno dinner (Florence)</strong> &mdash; Cross Ponte Vecchio for authentic trattorias at better prices</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 5</span>
+      <span class="acc-title">Rome &mdash; Ancient Wonders</span>
+      <span class="acc-budget">&euro;50&ndash;70</span>
+      <div class="acc-time-summary"><span>Commute: ~35 min + 1h30 train</span><span>Tour: ~4.5h</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Florence SMN</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train 1h30</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Hotel check-in</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 5 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-colosseum">Colosseum</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 2 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-arch-constantine">Arch of Constantine</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 3 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-roman-forum">Roman Forum &amp; Palatine Hill</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 18 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-sant-ignazio">Church of Sant&rsquo;Ignazio</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 7 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-trevi">Trevi Fountain</a></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Train Florence &rarr; Rome</td><td>~1h30</td><td class="cost-cell paid">&euro;20-50</td><td class="ticket-cell"><a href="https://www.trenitalia.com">Trenitalia</a> or <a href="https://www.italotreno.it">Italo</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-colosseum">Colosseum</a></td><td>~1.5-2 hours</td><td class="cost-cell paid">&euro;18 combo</td><td class="ticket-cell"><a href="https://colosseo.it/en/opening-times-and-tickets/">colosseo.it</a> &mdash; combo with Forum. Opens 30 days ahead</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-arch-constantine">Arch of Constantine</a></td><td>~10-15 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Right beside the Colosseum</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-roman-forum">Roman Forum &amp; Palatine Hill</a></td><td>~1.5-2 hours</td><td class="cost-cell paid">Included in combo</td><td class="ticket-cell">Same ticket as Colosseum</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-sant-ignazio">Church of Sant&rsquo;Ignazio</a></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Stunning trompe-l&rsquo;&oelig;il ceiling</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-trevi">Trevi Fountain</a></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Visit early morning or late evening</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Gladiators, emperors &amp; wishes</span><span>&euro;50&ndash;70 /person</span></div>
+      <div class="day-totals"><span>Commute: ~35 min + 1h30 train</span><span>Tour: ~4.5h</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Alle Carrette</strong> (Via Madonna dei Monti 95) &mdash; Excellent Roman pizza near Monti</li>
+          <li><strong>Supplizio</strong> &mdash; Gourmet suppl&igrave; (fried rice balls with mozzarella, ~&euro;2 each)</li>
+          <li><strong>The "Big 4" Roman pastas</strong> &mdash; Cacio e pepe, carbonara, amatriciana, gricia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 6</span>
+      <span class="acc-title">Rome &mdash; Vatican, Pantheon &amp; Tempietto</span>
+      <span class="acc-budget">&euro;50&ndash;70</span>
+      <div class="acc-time-summary"><span>Commute: ~75 min</span><span>Tour: ~6h must-see / ~7.5h with optional</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Hotel</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Metro Line A 25 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-vatican">Vatican Museums &amp; Sistine Chapel</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-st-peters">St. Peter&rsquo;s Basilica</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-castel-santangelo">Castel Sant&rsquo;Angelo</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 15 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-pantheon">Pantheon</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 30 min / Bus 20 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-tempietto">Tempietto del Bramante</a></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-vatican">Vatican Museums &amp; Sistine Chapel</a></td><td>~3-4 hours</td><td class="cost-cell paid">&euro;20 + &euro;4 online</td><td class="ticket-cell"><a href="https://www.museivaticani.va">museivaticani.va</a> &mdash; skip-the-line essential</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-st-peters">St. Peter&rsquo;s Basilica</a></td><td>~1-1.5 hours</td><td class="cost-cell paid">Free (dome &euro;8-10)</td><td class="ticket-cell">Free entry. Dome: pay at the door</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-castel-santangelo">Castel Sant&rsquo;Angelo</a> <em>(optional)</em></td><td>~1-1.5 hours</td><td class="cost-cell paid">&euro;20</td><td class="ticket-cell"><a href="https://www.coopculture.it">coopculture.it</a> &mdash; rooftop terrace views</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-pantheon">Pantheon</a></td><td>~30 min-1 hour</td><td class="cost-cell paid">&euro;5</td><td class="ticket-cell">Timed entry at <a href="https://www.pantheonroma.com/en/visit-the-pantheon/">pantheonroma.com</a>. Free 1st Sunday</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-tempietto">Tempietto del Bramante</a></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Tiny Renaissance masterpiece on the Janiculum</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Michelangelo&rsquo;s masterpiece &amp; Roman charm</span><span>&euro;50&ndash;70 /person</span></div>
+      <div class="day-totals"><span>Commute: ~75 min</span><span>Tour: ~6h must-see / ~7.5h with optional</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Prati lunch</strong> &mdash; Near Vatican. Try Pizzarium (pizza al taglio by Gabriele Bonci)</li>
+          <li><strong>Trastevere dinner</strong> &mdash; Best neighborhood for authentic Roman food. Da Enzo, Tonnarello</li>
+          <li><strong>Pizza al taglio</strong> &mdash; Thin, crispy, sold by weight. Perfect quick lunch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 7 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 7</span>
+      <span class="acc-title">Rome &mdash; Borghese, Spanish Steps &amp; Departure</span>
+      <span class="acc-budget">&euro;30&ndash;50</span>
+      <div class="acc-time-summary"><span>Commute: ~45 min</span><span>Tour: ~2.5h must-see / ~4.5h with optional</span></div>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop"><a href="#attraction-borghese">Galleria Borghese</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 20 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-trevi">Spanish Steps</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 25 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-bocca-verita">Bocca della Verit&agrave;</a> <em>(optional)</em></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 12 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-caracalla">Baths of Caracalla</a> <em>(optional)</em></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-borghese">Galleria Borghese</a></td><td>~2 hours (fixed slot)</td><td class="cost-cell paid">&euro;16 + &euro;2 reservation</td><td class="ticket-cell"><a href="https://galleriaborghese.beniculturali.it">galleriaborghese.it</a> &mdash; must pre-book 10 days ahead</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-trevi">Spanish Steps</a></td><td>~20-30 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-bocca-verita">Bocca della Verit&agrave;</a> <em>(optional)</em></td><td>~15-20 min</td><td class="cost-cell free">Free (donation)</td><td class="ticket-cell">No ticket needed. The &ldquo;Mouth of Truth&rdquo; from Roman Holiday</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-caracalla">Baths of Caracalla</a> <em>(optional)</em></td><td>~1-1.5 hours</td><td class="cost-cell paid">&euro;8</td><td class="ticket-cell"><a href="https://www.coopculture.it">coopculture.it</a> &mdash; massive ancient Roman baths</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Final Roman gems &amp; hidden viewpoints</span><span>&euro;30&ndash;50 /person</span></div>
+      <div class="day-totals"><span>Commute: ~45 min</span><span>Tour: ~2.5h must-see / ~4.5h with optional</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Pizzeria da Baffetto</strong> (Via del Governo Vecchio) &mdash; Classic Roman pizza</li>
+          <li><strong>Testaccio</strong> &mdash; Most authentic Roman food scene. Worth the detour</li>
+          <li><strong>Farewell gelato</strong> &mdash; Fatamorgana or Giolitti for a final sweet treat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end accordion -->
+
+<!-- ============ WHERE TO STAY ============ -->
+<h2 id="sec-stay">Where to Stay</h2>
+<p style="font-size:0.85em; color:var(--muted); margin-bottom:12px;">Prices verified via Google Hotels on 2026-03-11 for Aug 1-8. Filters: Google rating &ge;4.2, 500+ reviews, &euro;100-200/night. Book 2-3 months ahead for August.</p>
+
+<h3>Milan &mdash; Brera / Duomo area (1 night, Aug 1-2)</h3>
+<p style="font-size:0.88em; margin-bottom:8px;">Walk to Duomo, Galleria, Castello Sforzesco. Metro for Last Supper &amp; Navigli.</p>
+<div class="hotel-card"><strong>Meli&aacute; Milano</strong> &euro;185/night &middot; 4.4&#9733; &middot; 4,731 reviews &middot; 5-star</div>
+<div class="hotel-card"><strong>NH Collection Milano Touring</strong> &euro;191/night &middot; 4.4&#9733; &middot; 3,790 reviews &middot; 4-star</div>
+<div class="hotel-card"><strong>Hotel Cavour</strong> &euro;178/night &middot; 4.2&#9733; &middot; 1,040 reviews &middot; 4-star</div>
+
+<h3>Florence &mdash; Centro Storico (2 nights, Aug 3-5)</h3>
+<p style="font-size:0.88em; margin-bottom:8px;">Walk to Duomo, Uffizi, Ponte Vecchio. All major sights within 20 min on foot.</p>
+<div class="hotel-card"><strong>B&amp;B HOTEL Firenze Laurus al Duomo</strong> &euro;140/night &middot; 4.8&#9733; &middot; 3,716 reviews &middot; 4-star</div>
+<div class="hotel-card"><strong>Hotel Pitti Palace al Ponte Vecchio</strong> &euro;120/night &middot; 4.6&#9733; &middot; 3,848 reviews &middot; 4-star</div>
+<div class="hotel-card"><strong>Ambasciatori Hotel Florence</strong> &euro;129/night &middot; 4.3&#9733; &middot; 6,449 reviews &middot; 4-star</div>
+
+<h3>Rome &mdash; Monti / Termini area (3 nights, Aug 5-8)</h3>
+<p style="font-size:0.88em; margin-bottom:8px;">Walk to Colosseum &amp; Forum. Metro to Vatican. Vibrant neighborhood with great restaurants.</p>
+<div class="hotel-card"><strong>Napoleon Hotel Roma</strong> &euro;114/night &middot; 4.3&#9733; &middot; 2,055 reviews &middot; 4-star</div>
+<div class="hotel-card"><strong>Best Western Plus Hotel Universo</strong> &euro;137/night &middot; 4.3&#9733; &middot; 3,144 reviews &middot; 4-star</div>
+<div class="hotel-card"><strong>The Britannia Hotel</strong> &euro;121/night &middot; 4.5&#9733; &middot; 730 reviews &middot; 4-star</div>
+
+<p style="font-size:0.88em; color:var(--muted); margin-top:12px;">Book on <a href="https://www.booking.com">Booking.com</a> or <a href="https://www.hotels.com">Hotels.com</a> with free cancellation. Check <a href="https://www.google.com/travel/hotels">Google Hotels</a> for price comparison. Prices may vary &mdash; verify before booking.</p>
+
+<!-- ============ GETTING AROUND ============ -->
+<h2 id="sec-transport">Getting Around</h2>
+
+<div class="transport-card">
+  <h4>Within Cities</h4>
+  <ul>
+    <li><strong>Milan</strong> &mdash; Walk in Brera/Duomo area. Metro for longer trips (~&euro;2.20/ride)</li>
+    <li><strong>Venice</strong> &mdash; Walk + vaporetto (water bus). Day pass ~&euro;25. No cars or bikes</li>
+    <li><strong>Florence</strong> &mdash; Entirely walkable. All major sights within 20 min of each other</li>
+    <li><strong>Pisa</strong> &mdash; Walk from station to Leaning Tower (~20 min)</li>
+    <li><strong>Rome</strong> &mdash; Walk in Monti/Centro. Metro for Vatican (~&euro;1.50/ride, 48h pass ~&euro;12.50)</li>
+  </ul>
+</div>
+
+<div class="transport-card">
+  <h4>Between Cities (High-Speed Train)</h4>
+  <ul>
+    <li><strong>Milan &rarr; Venice (RT)</strong> &mdash; 2h15 each way, &euro;30-90 RT</li>
+    <li><strong>Milan &rarr; Florence</strong> &mdash; 1h45, &euro;15-45</li>
+    <li><strong>Florence &rarr; Pisa (RT)</strong> &mdash; 1h each way, &euro;16-30 RT</li>
+    <li><strong>Florence &rarr; Rome</strong> &mdash; 1h30, &euro;20-50</li>
+    <li>Book via <a href="https://www.thetrainline.com/">Trainline</a>, <a href="https://www.italotreno.com/en">Italo</a>, or <a href="https://www.trenitalia.com/en.html">Trenitalia</a>. Early "Super Economy" fares: &euro;10-19/leg</li>
+  </ul>
+</div>
+
+<div class="transport-card">
+  <h4>Taxis &amp; Ride-Hailing</h4>
+  <p style="font-size:0.85em; color:var(--muted); margin-bottom:8px;">Skip regular Uber (Italy only has expensive Uber Black/Lux). Use these instead:</p>
+  <table>
+    <tr><th>App</th><th>Coverage</th><th>Best For</th></tr>
+    <tr><td><strong>Free Now</strong></td><td>Rome, Milan, Florence</td><td>Best overall &mdash; set pickup, see price, pay in-app</td></tr>
+    <tr><td><strong>AppTaxi</strong></td><td>All cities + Venice water taxis</td><td>Only app with Venice water taxi support</td></tr>
+    <tr><td><strong>IT Taxi</strong></td><td>All major cities</td><td>Good backup option</td></tr>
+    <tr><td><strong>Bolt</strong></td><td>Several cities</td><td>Budget-friendly, also offers scooters</td></tr>
+  </table>
+</div>
+
+<!-- ============ EVENTS ============ -->
+<h2 id="sec-events">August Events</h2>
+<p style="font-size:0.88em; color:var(--muted); margin-bottom:12px;">Events happening during your trip &mdash; to participate in or plan around.</p>
+
+<div class="event-item">
+  <span class="event-date">Aug 10</span>
+  <div><strong>Feast of San Lorenzo</strong> &mdash; Meteor shower watching from rooftops with wine. A magical Florentine tradition</div>
+</div>
+<div class="event-item">
+  <span class="event-date">Aug 15</span>
+  <div><strong>Ferragosto</strong> &mdash; National holiday. Feasts, fireworks, outdoor concerts. <span class="event-warn">Many shops close</span> Plan meals and supplies accordingly</div>
+</div>
+<div class="event-item">
+  <span class="event-date">Aug 16</span>
+  <div><strong>Palio di Siena</strong> &mdash; Historic bareback horse race in Siena&rsquo;s main square. Day trip from Florence possible. <a href="https://www.ilpalio.org">ilpalio.org</a></div>
+</div>
+<div class="event-item">
+  <span class="event-date">Jun-Sep</span>
+  <div><strong>Verona Arena Opera Festival</strong> &mdash; Outdoor opera in a 2,000-year-old Roman amphitheater. World-class productions. <a href="https://www.arena.it">arena.it</a></div>
+</div>
+<div class="event-item">
+  <span class="event-date">All Aug</span>
+  <div><strong>Outdoor cinema &amp; concerts</strong> &mdash; Free or low-cost events in parks and piazzas across Rome and Florence. <span class="event-warn">Crowds</span> Tourist areas extra busy in August</div>
+</div>
+
+<!-- ============ ATTRACTIONS GUIDE ============ -->
+<h2 id="sec-attractions">Attractions Guide</h2>
+<div style="display:flex; justify-content:space-between; align-items:center; margin:-8px 0 12px;">
+  <span style="font-size:0.85em; color:var(--muted);">Click to expand each attraction. Use the toggle to switch language.</span>
+  <div class="lang-toggle" id="global-lang-toggle">
+    <button class="lang-btn active" onclick="setAllLang('en')">English</button>
+    <button class="lang-btn" onclick="setAllLang('zh')">&#20013;&#25991;</button>
+  </div>
+</div>
+
+<!-- MILAN ATTRACTIONS -->
+<div class="city-group-header" id="sec-city-milan">Milan 米兰</div>
+<div class="attr-acc-item" id="attraction-milan-duomo" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Duomo di Milano <span class="attr-name-zh">米兰大教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">~&euro;14</span>
+      <span class="tag walk">Piazza del Duomo, Milan</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/milan-duomo.jpg" alt="Milan Duomo">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Milan's Duomo is Italy's largest church and the third largest in the world, a masterpiece of Gothic architecture that took nearly six centuries to complete. The exterior is adorned with over 3,400 statues and 135 spires, each one a marvel of intricate craftsmanship. Inside, the vast nave is solemnly beautiful, with stained glass windows casting kaleidoscopic colours across the marble floors.</div>
+        <div class="attraction-desc">Climbing to the rooftop terraces is one of Milan's unmissable experiences. From the top, you can examine the Gothic spires and their exquisite carvings up close while enjoying panoramic views across the entire city. On clear days, the Alps are visible on the horizon. Book online in advance and choose the stairs option (cheaper and a better experience than the elevator).</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">米兰大教堂是意大利最大的教堂，也是世界第三大教堂，历经近六个世纪建造而成。这座哥特式建筑的外观装饰着3,400多座雕像和135座尖塔，每一处细节都令人叹为观止。教堂内部宽敞肃穆，彩色玻璃窗在阳光下流光溢彩。</div>
+        <div class="attraction-desc-zh">登上大教堂的屋顶露台是米兰最不可错过的体验之一。站在露台上，你可以近距离欣赏哥特式尖塔的精美雕刻，同时俯瞰整个米兰城市全景。晴天时甚至可以远眺阿尔卑斯山脉。建议网上提前购票，选择步行登顶（比电梯便宜且体验更好）。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Rooftop + cathedral combo ~&euro;14. Book at <a href="https://www.duomomilano.it">duomomilano.it</a>. Stairs &euro;10, elevator &euro;14.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-galleria" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Galleria Vittorio Emanuele II <span class="attr-name-zh">埃马努埃莱二世长廊</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">1 min from Duomo</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/galleria-vittorio-emanuele-ii.jpeg" alt="Galleria Vittorio Emanuele II">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Built in 1877, this magnificent shopping arcade is affectionately known as Milan's "living room" (il salotto) and is one of the world's oldest shopping malls. The galleria is celebrated for its spectacular glass-vaulted ceiling and ornate iron framework, forming a grand covered passage that connects the Duomo square to La Scala opera house.</div>
+        <div class="attraction-desc">In the centre of the galleria, look for the mosaic of a bull on the floor &mdash; spinning three times on its heel is said to bring good luck, a ritual every visitor must try. The arcade is lined with flagship stores of luxury brands like Prada and Gucci, but even without shopping, the architecture alone is worth savouring. Stop at the historic Camparino bar for an aperitivo.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">这座建于1877年的购物长廊被米兰人亲切地称为"客厅"（il salotto），是世界上最古老的购物商场之一。长廊以壮观的玻璃穹顶和铁艺结构闻名，连接着大教堂广场和斯卡拉歌剧院。</div>
+        <div class="attraction-desc-zh">在长廊中央的都灵公牛马赛克上用脚跟旋转三圈据说能带来好运——这是每位游客必做的有趣仪式。长廊两侧是Prada、Gucci等奢侈品牌的旗舰店，即使不购物，建筑本身也值得细细品味。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-castello" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Castello Sforzesco <span class="attr-name-zh">斯福尔扎城堡</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">Courtyard free; museums &euro;5</span>
+      <span class="tag walk">10-15 min from Duomo</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/castello-sforzesco.jpg" alt="Castello Sforzesco">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Sforza Castle, built in the 15th century, is one of Milan's most important historical landmarks. This imposing red-brick fortress served as the palace of the Sforza dynasty, and Leonardo da Vinci himself contributed to the design of its fortifications. Inside, the castle museums house Michelangelo's final, unfinished sculpture &mdash; the Rondanini Piet&agrave;, a deeply moving work he was still carving just days before his death.</div>
+        <div class="attraction-desc">Behind the castle lies Parco Sempione, a welcome retreat during the hot August afternoons. The park is filled with shady trees, a lake, and cafes where you can enjoy an Italian-style leisurely break between sightseeing stops. The castle courtyards are free to explore, making it an ideal place to wander without a ticket.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">斯福尔扎城堡始建于15世纪，是米兰最重要的历史地标之一。这座宏伟的红砖城堡曾是斯福尔扎家族的宫殿，达·芬奇亲自参与了防御工事的设计。城堡内收藏着米开朗基罗未完成的最后一件雕塑作品《隆达尼尼的圣殇》。</div>
+        <div class="attraction-desc-zh">城堡后方是森皮奥内公园（Parco Sempione），是炎热八月午后休憩的好去处。公园内绿树成荫，有湖泊和咖啡馆，可以在游览间隙享受意大利式的悠闲时光。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Courtyards free. Museum combo &euro;5. Free entry every first and third Tuesday after 2pm.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-last-supper" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">The Last Supper <span class="attr-name-zh">最后的晚餐</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~45 min-1 hour</span>
+      <span class="tag cost">~&euro;15</span>
+      <span class="tag walk">15 min from Castello</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/the-last-supper-by-leonardo-da-vinci.jpg" alt="The Last Supper by Leonardo da Vinci">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Leonardo da Vinci's Last Supper is one of the world's most famous paintings, created between 1495 and 1498 on the refectory wall of the Santa Maria delle Grazie convent. The monumental fresco captures the dramatic moment when Jesus reveals that one of his twelve apostles will betray him. Each figure's expression and gesture conveys a different emotional reaction, creating a scene of extraordinary psychological depth.</div>
+        <div class="attraction-desc">Tickets must be booked weeks or even months in advance &mdash; only small groups are admitted at a time, with each visit limited to just 15 minutes. Pay close attention to how Leonardo used perspective to create an astonishing sense of spatial depth, making the painted room appear to extend the real refectory. This is a truly once-in-a-lifetime experience that justifies the advance planning required.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">达·芬奇的《最后的晚餐》是世界上最著名的壁画之一，绘制在圣母感恩教堂食堂的墙壁上。这幅创作于1495-1498年的巨作描绘了耶稣在被捕前与十二门徒共进最后晚餐的戏剧性时刻。画面中每个人物的表情和姿态都传达着不同的情感。</div>
+        <div class="attraction-desc-zh"><strong>必须提前数周甚至数月预订门票</strong>——每次只允许少量游客进入，每组参观时间仅15分钟。建议仔细观察达·芬奇如何运用透视法创造出令人惊叹的空间纵深感。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;15. Book at <a href="https://www.vivaticket.com">vivaticket.com</a>. Sells out months ahead &mdash; book as early as possible. 15-min viewing slots only.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-san-maurizio" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">San Maurizio al Monastero Maggiore <span class="attr-name-zh">圣莫里齐奥教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30-45 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">5 min from Castello</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/san-maurizio-al-monastero-maggiore-interior.jpg" alt="San Maurizio al Monastero Maggiore interior">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Often called "Milan's Sistine Chapel," this 16th-century church is one of Italy's most underrated treasures. Nearly every inch of its interior walls is covered with vibrant Renaissance frescoes depicting biblical scenes, saints, and intricate decorative patterns. Unlike the tourist-packed Duomo, San Maurizio is usually wonderfully quiet and contemplative.</div>
+        <div class="attraction-desc">Entry is free and there is rarely any queue, making it a perfect hidden gem to visit between the main sights. The quality of the artwork rivals many famous museums, yet most visitors to Milan walk right past it. The church is divided into two sections &mdash; don't miss the rear hall behind the dividing wall, which contains equally stunning frescoes.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">被誉为"米兰的西斯廷教堂"，这座16世纪的教堂内部几乎每一寸墙壁都覆盖着色彩斑斓的文艺复兴壁画。与游客如织的大教堂不同，这里通常非常安静。免费且几乎不需要排队，是米兰最被低估的宝藏之一。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-brera" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Pinacoteca di Brera <span class="attr-name-zh">布雷拉美术馆</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">~&euro;15</span>
+      <span class="tag walk">15 min from Duomo</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/pinacoteca-di-brera-courtyard.jpg" alt="Pinacoteca di Brera courtyard">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Brera Art Gallery is one of Italy's most important art museums, housing masterworks by Raphael, Caravaggio, Bellini, Tintoretto, and many others. Set within a beautiful palazzo in the bohemian Brera district, the gallery offers a world-class collection without the overwhelming crowds of Florence's Uffizi. Hidden within the complex is a little-known botanical garden (Orto Botanico), a tranquil oasis in the heart of the city.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">布雷拉美术馆是意大利最重要的艺术博物馆之一，收藏了拉斐尔、卡拉瓦乔、贝利尼、丁托列托等大师的杰作。馆内还隐藏着一个鲜为人知的植物园（Orto Botanico），是闹市中的一片世外桃源。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;15. Free first Sunday of each month. <a href="https://pinacotecabrera.org">pinacotecabrera.org</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-san-bernardino" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">San Bernardino alle Ossa <span class="attr-name-zh">圣贝纳迪诺骸骨教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~20-30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">3 min from Duomo, Milan</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/ossuary-of-san-bernardino-alle-ossa-milan.jpg" alt="Ossuary of San Bernardino alle Ossa, Milan">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Hidden just steps from the Duomo on Piazza Santo Stefano, San Bernardino alle Ossa is one of Milan's most macabre and unforgettable sights. The small ossuary chapel, reached through a narrow corridor to the right of the church entrance, is entirely decorated with human skulls and bones arranged in ornate patterns across the walls, pillars, and doorways. The vault above is adorned with frescoes by Sebastiano Ricci dating from 1695.</div>
+        <div class="attraction-desc">The ossuary dates back to 1210, when an adjacent cemetery ran out of space and a room was built to house the remains. In 1728, King John V of Portugal visited and was so impressed that he commissioned an identical chapel in &Eacute;vora. Despite its proximity to the Duomo, the church sees relatively few visitors &mdash; making it a hauntingly atmospheric experience without the crowds.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣贝纳迪诺骸骨教堂就隐藏在大教堂附近的圣斯特凡诺广场上，是米兰最令人震撼的景点之一。穿过教堂入口右侧的狭窄走廊，进入一间小礼拜堂——墙壁、柱子和门框上密密麻麻地排列着人类头骨和骨骼，形成精美而诡异的装饰图案。穹顶上是塞巴斯蒂亚诺·里奇1695年绘制的壁画。</div>
+        <div class="attraction-desc-zh">骸骨堂的历史可追溯至1210年，当时邻近的墓地已满，于是建造了一间房间来安放遗骸。1728年葡萄牙国王若昂五世参观后深受感动，命人在埃武拉建造了一座相同的教堂。尽管距离大教堂仅几步之遥，这里的游客却相对稀少。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Free (small donation appreciated). Open Mon-Fri 8am-12pm &amp; 1:30-6pm, weekends 9:30am-12:30pm. Photography allowed (no flash).</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-binario21" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Memoriale della Shoah (Binario 21) <span class="attr-name-zh">米兰火车站21号站台</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~45-60 min</span>
+      <span class="tag cost">~&euro;10</span>
+      <span class="tag walk">Milano Centrale Station</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/memoriale-della-shoah-binario-21-milan.jpg" alt="Memoriale della Shoah, Binario 21, Milan">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Beneath Milan's grand Central Station lies one of Europe's most moving Holocaust memorials. Platform 21 (Binario 21) was the secret underground platform from which Jewish prisoners, political dissidents, and other persecuted people were loaded into cattle cars and deported to Auschwitz and other concentration camps. Between 1943 and 1945, twenty trains carrying up to 1,200 people departed from this hidden platform.</div>
+        <div class="attraction-desc">Opened in 2013, the memorial preserves two original freight cars used in the deportations. A wall projects the names of the deported, and the stark, industrial space &mdash; with its exposed concrete and rail tracks &mdash; creates an atmosphere of profound solemnity. Audio guides are available in multiple languages. A deeply important and sobering experience.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">在米兰中央火车站宏伟的大厅之下，隐藏着欧洲最令人动容的大屠杀纪念馆之一。21号站台（Binario 21）是一个秘密地下站台，1943至1945年间，犹太囚犯和政治犯从这里被装入牲畜车厢，运往奥斯维辛等集中营。二十列火车载着多达1200人从这个隐秘站台出发。</div>
+        <div class="attraction-desc-zh">纪念馆于2013年开放，保存了两节当年用于运送囚犯的原始货运车厢。墙壁上投射着被驱逐者的姓名，裸露的混凝土和铁轨营造出深沉肃穆的氛围。提供多语言语音导览。这是一次深刻而发人深省的体验。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> &euro;10 (students/over 65: &euro;5). Book at <a href="https://www.memorialeshoah.it">memorialeshoah.it</a>. Guided tours available (~45-60 min).</div>
+  </div>
+</div>
+
+<!-- VENICE ATTRACTIONS -->
+<div class="city-group-header" id="sec-city-venice">Venice 威尼斯</div>
+<div class="attr-acc-item" id="attraction-rialto" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Rialto Bridge &amp; Market <span class="attr-name-zh">里亚托桥与市场</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~45 min-1 hour</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">20 min from station, Venice</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/rialto-bridge-venice.jpg" alt="Rialto Bridge, Venice">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Rialto Bridge is the oldest and most magnificent bridge spanning Venice's Grand Canal, built in 1591. Two rows of shops line its span selling jewellery and souvenirs, while the central arcade at the top provides stunning views of the Grand Canal in both directions, with gondolas and water taxis gliding below.</div>
+        <div class="attraction-desc">The adjacent Rialto Market has been in operation since 1097. In the early morning, fishermen display fresh Adriatic seafood on their stalls. Arrive early to beat the crowds and experience the most authentic side of Venetian daily life &mdash; the fish market (Pescheria) is particularly photogenic and closes by midday.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">里亚托桥是横跨大运河的最古老也是最宏伟的桥梁，建于1591年。桥上两排商铺出售珠宝和纪念品，桥顶中央的拱廊提供了欣赏大运河两岸风光的绝佳视角。</div>
+        <div class="attraction-desc-zh">桥边的里亚托市场自1097年起就一直在运营。清晨时分，渔民们将新鲜的亚得里亚海海鲜摆满摊位。建议早上到达，既能避开人群，又能感受最地道的威尼斯生活气息。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-st-marks" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">St. Mark&rsquo;s Basilica <span class="attr-name-zh">圣马可大教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">Free (&euro;3 skip line)</span>
+      <span class="tag walk">10 min from Rialto, Venice</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/st-mark-s-basilica-venice.jpg" alt="St. Mark's Basilica, Venice">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">St. Mark's Basilica is the supreme example of Byzantine architecture in the Western world. The interior is covered with over 8,000 square metres of golden mosaics depicting biblical scenes, shimmering mysteriously in the candlelight &mdash; earning it the nickname "the Golden Church." The mosaics span from the 12th to the 16th century, making the basilica a living timeline of Venetian art.</div>
+        <div class="attraction-desc">The Pala d'Oro altarpiece behind the main altar is encrusted with thousands of precious gems. For the best views, pay the small extra fee to visit the upper-level loggia (Loggia dei Cavalli), which offers a panoramic overlook of St. Mark's Square. Note: shoulders and knees must be covered for entry. Pay &euro;3 online for a skip-the-line reservation to avoid the often hour-long queues.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣马可大教堂是拜占庭建筑艺术在西方世界的巅峰之作。教堂内部超过8,000平方米的金色马赛克镶嵌画覆盖了墙壁和穹顶，在烛光映照下闪烁着神秘的光芒，因此也被称为"金色大教堂"。</div>
+        <div class="attraction-desc-zh">教堂的Pala d'Oro祭坛屏风镶嵌了数千颗宝石。建议额外付费参观二楼露台（Loggia dei Cavalli），俯瞰圣马可广场全景。注意：需要遮盖肩膀和膝盖。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Free entry. Skip-the-line reservation &euro;3. Loggia/museum extra. <a href="https://www.basilicasanmarco.it">basilicasanmarco.it</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-doges-palace" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Doge&rsquo;s Palace <span class="attr-name-zh">总督宫</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-2.5 hours</span>
+      <span class="tag cost">~&euro;30</span>
+      <span class="tag walk">1 min from Basilica, Venice</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/doge-s-palace-venice.jpg" alt="Doge's Palace, Venice">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Doge's Palace was the seat of power for the Venetian Republic for over a thousand years. Its Gothic exterior, with distinctive pink-and-white marble and delicate pointed arches, is one of Venice's most recognisable landmarks. Inside, the Great Council Hall contains Tintoretto's enormous painting "Paradise" on its ceiling &mdash; one of the largest oil paintings in the world.</div>
+        <div class="attraction-desc">Walking across the famous Bridge of Sighs connects the ornate palace to the grim prison cells beyond &mdash; legend says that prisoners, glimpsing Venice's beauty through the bridge's small windows for the last time, would let out a sigh of despair. The Secret Itineraries tour (book separately) reveals hidden rooms and Casanova's escape route.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">总督宫是威尼斯共和国千年历史的权力中心，哥特式外观以粉白相间的大理石和精致的尖拱装饰而闻名。内部大议事厅天花板上悬挂着丁托列托的巨幅油画《天堂》。</div>
+        <div class="attraction-desc-zh">穿过著名的叹息桥（Bridge of Sighs），你将从华丽的宫殿进入阴暗的监狱——据说囚犯们通过桥上的小窗最后一次望向威尼斯美景时，都会发出一声叹息。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;30. Book at <a href="https://palazzoducale.visitmuve.it">visitmuve.it</a>. Combo with other civic museums available.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-grand-canal" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Grand Canal <span class="attr-name-zh">大运河</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30-45 min</span>
+      <span class="tag cost">&euro;7.50 / &euro;25 day pass</span>
+      <span class="tag walk">Water experience, Venice</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/grand-canal-venice.jpg" alt="Grand Canal, Venice">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Grand Canal is Venice's "main street," a 3.8-kilometre waterway winding through the city in a reverse S-shape. Along its banks stand over 170 palaces and churches spanning from the 12th to the 18th century, their Gothic, Renaissance, and Baroque facades reflected in the shimmering water below.</div>
+        <div class="attraction-desc">Taking the Line 1 vaporetto from the train station to St. Mark's Square is the best way to see the entire Grand Canal &mdash; a 45-minute journey that functions as the world's most beautiful bus ride. For a more romantic experience, a gondola ride at dusk costs approximately &euro;80-100 for 30 minutes. Sit on the right side of the vaporetto for the best photo opportunities.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">大运河是威尼斯的"主干道"，全长约3.8公里，呈倒S形蜿蜒穿过整座城市。运河两岸矗立着170多座从12世纪到18世纪的宫殿和教堂。</div>
+        <div class="attraction-desc-zh">乘坐1号水上巴士从火车站到圣马可广场全程约45分钟，是欣赏大运河全貌的最佳方式。黄昏时分乘坐贡多拉则更为浪漫（约&euro;80-100/30分钟）。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Single vaporetto &euro;7.50. Day pass &euro;25 (best value if riding 4+ times). Buy at ACTV kiosks or <a href="https://actv.avmspa.it/en">ACTV app</a>.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-burano" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Burano Island <span class="attr-name-zh">布拉诺岛</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">Included in day pass</span>
+      <span class="tag walk">40 min vaporetto from San Marco</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/colorful-houses-of-burano.jpg" alt="Colorful houses of Burano">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Burano is famous worldwide for its brightly coloured fishermen's houses and exquisite lace-making tradition. Each house is painted a different vivid colour &mdash; legend says this was originally so fishermen could identify their homes through the fog. The island is far quieter than the main island of Venice and a photographer's paradise with every alleyway offering a postcard-perfect composition.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">布拉诺岛以五彩缤纷的渔民房屋和精致的蕾丝工艺闻名于世。每栋房子都涂着鲜艳的色彩——据说最初是为了让渔民在大雾天也能辨认自己的家。这里比主岛安静许多，是拍照的天堂。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-bovolo" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Palazzo Contarini del Bovolo <span class="attr-name-zh">蜗牛宫</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30 min</span>
+      <span class="tag cost">~&euro;8</span>
+      <span class="tag walk">5 min from San Marco</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/palazzo-contarini-del-bovolo-spiral-staircase.jpg" alt="Palazzo Contarini del Bovolo spiral staircase">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">This 15th-century palazzo is famous for its extraordinary external spiral staircase &mdash; "Bovolo" means "snail" in the Venetian dialect. Climbing the 80 steps to the rooftop terrace rewards you with a 360-degree panorama of Venice's terracotta rooftops and bell towers. It's a hidden gem that few tourists find, yet offers some of the best views in Venice.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">这座15世纪宫殿以其独特的外部螺旋楼梯而闻名——"Bovolo"在威尼斯方言中就是"蜗牛"的意思。攀登80级台阶到达顶层露台，可以360度俯瞰威尼斯赤陶色的屋顶和钟楼。游客不多但风景绝佳的隐藏宝藏。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;8. Buy at the door. No advance booking needed.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-campanile-sm" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">St. Mark&rsquo;s Campanile <span class="attr-name-zh">圣马可钟楼</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30 min</span>
+      <span class="tag cost">~&euro;10</span>
+      <span class="tag walk">St. Mark&rsquo;s Square, Venice</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/st-mark-s-campanile-venice.jpg" alt="St. Mark's Campanile, Venice">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Standing 98.6 metres tall, St. Mark's Campanile is the tallest structure in Venice and one of the most recognisable symbols of the city. Originally built in the 12th century as a lighthouse, the current tower is actually a faithful reconstruction completed in 1912 after the original dramatically collapsed in 1902. From its summit you can see the labyrinth of canals, the red-tiled rooftops, the lagoon islands, and on clear days even the distant Alps.</div>
+        <div class="attraction-desc">The bell tower holds five historic bells, each with a different purpose in Venetian civic life. In 1609, Galileo Galilei famously used the tower to demonstrate his telescope to the Doge. An elevator takes you to the top (or climb 323 steps), where the panoramic views of Venice from above are unmatched. Lines can be long in August &mdash; consider booking a skip-the-line ticket.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣马可钟楼高98.6米，是威尼斯最高的建筑，也是这座城市最具标志性的地标之一。钟楼最初建于12世纪作为灯塔使用，现在的塔楼实际上是1902年原塔坍塌后于1912年忠实重建的。从塔顶可以俯瞰运河迷宫、红瓦屋顶、泻湖群岛，天气好时甚至能看到远处的阿尔卑斯山脉。</div>
+        <div class="attraction-desc-zh">钟楼内有五口历史悠久的钟，每口钟在威尼斯市民生活中各有不同用途。1609年，伽利略曾在此向总督展示他的望远镜。电梯可直达塔顶（也可攀登323级台阶），从高处俯瞰威尼斯的全景无与伦比。八月排队可能很长，建议购买免排队门票。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;10 (skip-the-line &euro;18.50). Open daily 10am-5:40pm. Elevator to the top. Free for children under 6.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-acqua-alta" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Libreria Acqua Alta <span class="attr-name-zh">沉船书店</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~20-30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">10 min from St. Mark&rsquo;s, Venice</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/libreria-acqua-alta-venice.jpg" alt="Libreria Acqua Alta, Venice">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Libreria Acqua Alta (&ldquo;Bookshop of High Water&rdquo;) is one of the most whimsical and photogenic spots in Venice. Opened in 2002, this eccentric bookshop stores its books in bathtubs, boats, and even a full-sized gondola to protect them from Venice's periodic flooding. The &ldquo;fire exit&rdquo; leads directly into a canal, and resident cats lounge among the towering stacks of books, adding to the fairy-tale atmosphere.</div>
+        <div class="attraction-desc">The shop's most famous feature is the staircase built entirely from damaged books &mdash; one of the most photographed spots in Venice. Browse an eclectic mix of new and vintage books about Venetian art, history, novels, and comics. Visit early morning or late afternoon on weekdays to avoid the crowds. A delightful, free-to-enter detour from the main tourist trail.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">沉船书店（Libreria Acqua Alta，意为"涨潮书店"）是威尼斯最奇妙、最上镜的地方之一。这家2002年开业的古怪书店将书籍存放在浴缸、小船甚至一艘真正的贡多拉中，以保护它们免受威尼斯周期性洪水的侵袭。店内的"消防出口"直接通向运河，几只猫咪在堆积如山的书堆间悠然踱步。</div>
+        <div class="attraction-desc-zh">书店最著名的特色是用破损书籍搭建的楼梯——这是威尼斯最受欢迎的拍照点之一。店内有丰富的威尼斯艺术、历史书籍和漫画。建议工作日清晨或傍晚前往以避开人群。免费进入，是远离主要游客路线的一处迷人小憩。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Free entry. Open daily 9am-7:15pm. Located at Calle Longa Santa Maria Formosa 5176b. Photography welcome.</div>
+  </div>
+</div>
+
+<!-- FLORENCE ATTRACTIONS -->
+<div class="city-group-header" id="sec-city-florence">Florence 佛罗伦萨</div>
+<div class="attr-acc-item" id="attraction-florence-duomo" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Piazza del Duomo (Florence) <span class="attr-name-zh">佛罗伦萨大教堂广场</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag cost">~&euro;30 combo</span>
+      <span class="tag walk">Centro Storico, Florence</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/florence-duomo-and-brunelleschi-s-dome.jpg" alt="Florence Duomo and Brunelleschi's dome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Florence's Cathedral (Santa Maria del Fiore) is the defining masterpiece of Renaissance architecture. Brunelleschi's dome, measuring 45 metres in diameter, was the largest brick dome ever built when completed in 1436, and its engineering still astonishes experts today. The cathedral's exterior is clad in white, green, and pink marble, glittering like an enormous jewel under the Tuscan sun.</div>
+        <div class="attraction-desc">Climbing the 463 steps to the dome's summit is Florence's most unforgettable experience. You'll pass through the narrow passage between the dome's inner and outer shells, getting an extraordinary close-up view of Vasari's vast fresco "The Last Judgement," before emerging at the top to gaze across a sea of red-tiled rooftops and the rolling Tuscan hills beyond. <strong>Timed dome climb slots must be pre-booked online.</strong></div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">佛罗伦萨大教堂（圣母百花大教堂）是文艺复兴建筑的标志性杰作。布鲁内莱斯基设计的穹顶直径达45米，建成时是世界上最大的砖砌穹顶，至今仍令工程师们赞叹不已。教堂外部以白色、绿色和粉红色大理石装饰，在阳光下如同一件巨大的珠宝。</div>
+        <div class="attraction-desc-zh">攀登463级台阶登顶是佛罗伦萨最令人难忘的体验——你将穿过穹顶内壁和外壁之间的狭窄通道，近距离欣赏瓦萨里的巨幅壁画《末日审判》，最终到达顶部俯瞰整座城市的红瓦屋顶和远处的托斯卡纳丘陵。<strong>必须网上提前预约登顶时段。</strong></div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Combo ~&euro;30 (dome + baptistery + bell tower + museum). Book timed dome climb at <a href="https://duomo.firenze.it">duomo.firenze.it</a>. Cathedral entry is free.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-uffizi" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Uffizi Gallery <span class="attr-name-zh">乌菲兹美术馆</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag cost">~&euro;25</span>
+      <span class="tag walk">8 min from Duomo, Florence</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/the-birth-of-venus-by-botticelli-uffizi-gallery.jpg" alt="The Birth of Venus by Botticelli, Uffizi Gallery">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Uffizi Gallery is one of the world's most important art museums, housing the greatest collection of Italian Renaissance paintings anywhere on Earth. Botticelli's "The Birth of Venus" and "Primavera," Leonardo da Vinci's "Annunciation," and masterworks by Raphael, Caravaggio, and Titian are all here, displayed in elegant rooms overlooking the Arno River.</div>
+        <div class="attraction-desc">Visit at opening time (8:15am) or after 5pm to avoid the worst crowds. <strong>In August, booking timed-entry tickets online in advance is essential</strong> &mdash; walk-up queues can stretch for hours in the summer heat. Allow at least 2 hours; art enthusiasts could easily spend a full day. The rooftop cafe offers lovely views over Piazza della Signoria.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">乌菲兹美术馆是世界上最重要的艺术博物馆之一，收藏了从中世纪到文艺复兴时期最伟大的画作。波提切利的《维纳斯的诞生》和《春》、达·芬奇的《天使报喜》、拉斐尔和卡拉瓦乔的作品都珍藏于此。</div>
+        <div class="attraction-desc-zh">建议在开馆时（8:15am）或下午5点后入场以避开最拥挤的时段。<strong>八月务必提前网上购买免排队门票。</strong></div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;25. Book timed entry at <a href="https://www.uffizi.it/en/tickets">uffizi.it</a>. Audio guide &euro;6 extra.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-ponte-vecchio" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Ponte Vecchio <span class="attr-name-zh">老桥</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~20-30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">3 min from Uffizi, Florence</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/ponte-vecchio-florence.jpg" alt="Ponte Vecchio, Florence">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Built in 1345, the Ponte Vecchio is Florence's oldest bridge and the only one spared from destruction by the retreating German army in World War II. Both sides of the bridge are lined with gold and silver jewellery shops, a tradition dating back to the 16th century when the Medici family ordered the original butchers and tanners to be replaced with more refined trades.</div>
+        <div class="attraction-desc">At dusk, standing on the bridge or viewing it from the opposite bank is one of Florence's most iconic experiences, as the golden sunset light transforms the Arno River into a mirror. Above the shops runs the Vasari Corridor &mdash; the Medici family's private elevated passageway from the Palazzo Vecchio to the Pitti Palace across the river.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">老桥建于1345年，是佛罗伦萨最古老的桥梁，也是二战中唯一未被德军炸毁的佛罗伦萨桥梁。桥上两侧林立着金银珠宝店，传统可追溯到16世纪美第奇家族下令将原本的肉铺和皮革店迁走之后。</div>
+        <div class="attraction-desc-zh">黄昏时分站在桥上或从河对岸远眺老桥，是佛罗伦萨最经典的风景之一。桥上方是瓦萨里走廊——美第奇家族从旧宫到皮蒂宫的私人通道。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-accademia" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Galleria dell&rsquo;Accademia <span class="attr-name-zh">学院美术馆</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">~&euro;16</span>
+      <span class="tag walk">8 min from Duomo, Florence</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/david-by-michelangelo.jpg" alt="David by Michelangelo">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Accademia Gallery is world-famous as the home of Michelangelo's original David, a 5.17-metre marble masterpiece widely regarded as the pinnacle of Western sculpture. Carved from a single block of Carrara marble between 1501 and 1504, the statue's anatomical precision and emotional intensity are breathtaking when seen in person. The gallery also houses four unfinished "Prisoner" sculptures by Michelangelo, which reveal the mesmerising process of a figure being "freed" from raw stone.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">学院美术馆因收藏米开朗基罗的《大卫》原作而闻名世界。这尊高达5.17米的大理石雕像被认为是西方雕塑艺术的巅峰之作。馆内还有米开朗基罗四件未完成的"囚徒"雕塑，可以看到雕塑从石块中被"释放"出来的过程。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;16. Book at <a href="https://www.galleriaaccademiafirenze.it">galleriaaccademiafirenze.it</a>. Timed entry recommended.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-piazzale" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Piazzale Michelangelo <span class="attr-name-zh">米开朗基罗广场</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30-45 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">25 min uphill from Ponte Vecchio</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/view-from-piazzale-michelangelo.jpg" alt="View from Piazzale Michelangelo">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">This panoramic terrace offers the most spectacular view in all of Florence. The Duomo's dome, the Palazzo Vecchio tower, the bridges over the Arno &mdash; the entire city unfolds at your feet like a living Renaissance painting. <strong>Sunset is the ideal time to visit</strong>, when the golden light turns the terracotta rooftops to amber and the sky blazes behind the Tuscan hills.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">这个观景平台提供了佛罗伦萨最壮观的全景。大教堂穹顶、旧宫塔楼、阿诺河上的桥梁——整座城市在你脚下铺展开来。<strong>强烈推荐日落时分前往</strong>，金色的夕阳将红瓦屋顶染成琥珀色。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-pitti" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Palazzo Pitti &amp; Boboli Gardens <span class="attr-name-zh">皮蒂宫与波波里花园</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag cost">~&euro;16-22</span>
+      <span class="tag walk">5 min from Ponte Vecchio</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/palazzo-pitti-and-boboli-gardens.jpg" alt="Palazzo Pitti and Boboli Gardens">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Pitti Palace is Florence's largest palace and former residence of the Medici grand dukes. Behind it lie the Boboli Gardens, a masterpiece of Italian landscape design featuring fountains, sculptures, an orange grove, and hilltop terraces with sweeping city views. On hot August afternoons, the shaded garden paths offer a welcome escape from the heat and crowds of the city centre.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">皮蒂宫是佛罗伦萨最大的宫殿，曾是美第奇家族的王宫。后方的波波里花园是意大利式园林的典范，有喷泉、雕塑、柑橘园和可以俯瞰城市的山顶露台。八月炎热的午后，这里是避暑休憩的理想去处。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Boboli Gardens &euro;10. Pitti Palace galleries &euro;16. Combo &euro;22. <a href="https://www.uffizi.it/en/pitti-palace">uffizi.it</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-santa-croce" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Basilica di Santa Croce <span class="attr-name-zh">圣十字教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">~&euro;8</span>
+      <span class="tag walk">15 min from Duomo, Florence</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/basilica-di-santa-croce-florence.jpg" alt="Basilica di Santa Croce, Florence">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Basilica di Santa Croce is the world's largest active Franciscan church, often called the &ldquo;Pantheon of Florence&rdquo; for housing the tombs of some of Italy's most illustrious figures: Michelangelo, Galileo, Machiavelli, and the composer Rossini, among nearly 300 burials. The church dates back to 1294 and was designed by Arnolfo di Cambio, the same architect behind Florence's cathedral.</div>
+        <div class="attraction-desc">Beyond the famous tombs, the church contains extraordinary frescoes by Giotto in the Bardi and Peruzzi chapels &mdash; among the most important works in the history of Western painting. The Pazzi Chapel by Brunelleschi, a masterpiece of early Renaissance architecture, and Donatello's gilded relief of the Annunciation are also highlights. The ticket includes the cloisters, museum, and crypt.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣十字教堂是世界上最大的现役方济各会教堂，因安葬了意大利最杰出的人物而被称为"佛罗伦萨的万神殿"：米开朗基罗、伽利略、马基雅维利和作曲家罗西尼等近300座墓葬皆在此处。教堂始建于1294年，由佛罗伦萨大教堂的同一位建筑师阿诺尔福·迪·坎比奥设计。</div>
+        <div class="attraction-desc-zh">除了著名的墓葬，教堂内还有乔托在巴尔迪礼拜堂和佩鲁齐礼拜堂绘制的壁画——这是西方绘画史上最重要的作品之一。布鲁内莱斯基设计的帕齐礼拜堂是早期文艺复兴建筑的杰作，多纳泰罗的镀金《天使报喜》浮雕也是亮点。门票包含回廊、博物馆和地下墓室。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;8. Book at <a href="https://www.santacroceopera.it">santacroceopera.it</a>. Free for children under 12 and Florence residents.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-porcellino" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Il Porcellino <span class="attr-name-zh">金猪喷泉</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~10 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">5 min from Ponte Vecchio, Florence</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/il-porcellino-fountain-florence.jpg" alt="Il Porcellino fountain, Florence">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Il Porcellino (&ldquo;The Little Pig&rdquo;) is Florence's beloved bronze boar fountain, located at the Loggia del Mercato Nuovo between Piazza della Repubblica and the Ponte Vecchio. The original was sculpted by Baroque master Pietro Tacca around 1634, based on a Hellenistic marble original now in the Uffizi. The current statue is a 1998 copy; Tacca's bronze is preserved in the Museo Stefano Bardini.</div>
+        <div class="attraction-desc">Legend has it that rubbing the boar's snout ensures your return to Florence &mdash; the nose has been polished to a brilliant golden sheen by millions of hopeful visitors. Place a coin in its jaws and let it fall through the grating below for extra good luck. The surrounding Mercato Nuovo is a lively market selling leather goods, scarves, and souvenirs. Visit in the evening for fewer crowds and better photos.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">"金猪喷泉"（Il Porcellino）是佛罗伦萨深受喜爱的铜制野猪喷泉，位于共和广场和老桥之间的新市场凉廊。原作由巴洛克大师彼得罗·塔卡于1634年左右根据一尊古希腊大理石原作雕刻而成。现在的雕像是1998年的复制品，塔卡的铜像保存在巴尔迪尼博物馆中。</div>
+        <div class="attraction-desc-zh">传说摸摸野猪的鼻子就能确保你会回到佛罗伦萨——无数满怀希望的游客已经把猪鼻子擦得金光闪闪。在它嘴里放一枚硬币，让硬币掉进下方的格栅，可以获得额外的好运。周围的新市场出售皮具、围巾和纪念品。建议傍晚前往，人少拍照更好。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PISA ATTRACTIONS -->
+<div class="city-group-header" id="sec-city-pisa">Pisa 比萨</div>
+<div class="attr-acc-item" id="attraction-pisa" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Piazza dei Miracoli (Pisa) <span class="attr-name-zh">奇迹广场（比萨）</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag cost">Tower ~&euro;20, Cathedral free</span>
+      <span class="tag walk">20 min from Pisa station</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/leaning-tower-of-pisa.jpg" alt="Leaning Tower of Pisa">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Piazza dei Miracoli (Square of Miracles) is a UNESCO World Heritage Site containing Pisa's three most important buildings: the Leaning Tower, the Cathedral, and the Baptistery. The tower, begun in 1173, started leaning during construction due to soft ground on one side. Climbing the 294 steps to the top is a uniquely disorienting experience &mdash; the lean is more dramatic than photos suggest.</div>
+        <div class="attraction-desc">The Cathedral is a Romanesque masterpiece in its own right. The Baptistery is famous for its remarkable acoustics &mdash; staff demonstrate the echo effect at regular intervals, producing sounds that seem almost supernatural. Don't forget to take the classic "pushing the tower" photo from the grass opposite. The tower has timed entry slots that sell out &mdash; book online in advance.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">奇迹广场是联合国教科文组织世界遗产，集中了比萨最重要的三座建筑：比萨斜塔、大教堂和洗礼堂。斜塔始建于1173年，因地基松软从建造初期就开始倾斜。攀登294级台阶到达塔顶，可以体验独特的倾斜感和俯瞰广场全景。</div>
+        <div class="attraction-desc-zh">大教堂是罗曼式建筑的杰作。洗礼堂以完美的声学效果闻名——工作人员会定时展示回声效果，宛如天籁之音。建议在广场草坪上拍摄经典的"推塔"照片留念。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Leaning Tower ~&euro;20 (timed entry). Cathedral free. Baptistery ~&euro;7. Book tower at <a href="https://www.opapisa.it">opapisa.it</a>.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-cavalieri" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Piazza dei Cavalieri <span class="attr-name-zh">骑士广场</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~20-30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">10 min from Miracoli, Pisa</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/piazza-dei-cavalieri-pisa.jpg" alt="Piazza dei Cavalieri, Pisa">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Piazza dei Cavalieri was the political heart of medieval Pisa and is now home to the prestigious Scuola Normale Superiore. The Palazzo della Carovana's facade is covered with elaborate sgraffito decorations designed by Vasari, showing Pisa's historical depth beyond just the famous leaning tower. It's a quieter, more authentic glimpse of the city.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">骑士广场曾是中世纪比萨的政治中心，现在是著名的高等师范学校所在地。广场上的骑士宫外墙覆盖着精美的壁画装饰，由瓦萨里设计。展现了比萨除斜塔之外的历史底蕴。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROME ATTRACTIONS -->
+<div class="city-group-header" id="sec-city-rome">Rome 罗马</div>
+<div class="attr-acc-item" id="attraction-colosseum" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Colosseum <span class="attr-name-zh">罗马斗兽场</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">~&euro;18 combo</span>
+      <span class="tag walk">5 min from Monti, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/colosseum-rome.jpg" alt="Colosseum, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Colosseum, built between AD 72 and 80, is one of the greatest architectural achievements of the ancient Roman Empire. This colossal amphitheatre could hold between 50,000 and 80,000 spectators who gathered to watch gladiatorial combats, wild beast hunts, and mock naval battles. Despite nearly two millennia of erosion, earthquakes, and stone-robbing, the remaining structure still radiates awe-inspiring power.</div>
+        <div class="attraction-desc">Arrive early at 8:30am at the Palatine Hill ticket office (almost no queue) and visit the Palatine and Forum first, ending at the Colosseum. Inside, you can see the underground passages &mdash; the system of lifts and trapdoors that launched animals and gladiators into the arena above. <strong>In August, booking skip-the-line combo tickets online is essential.</strong></div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">罗马斗兽场建于公元72-80年，是古罗马帝国最伟大的建筑成就之一。这座可容纳5万至8万名观众的巨型竞技场曾举办角斗士比赛、野兽搏斗和模拟海战等壮观表演。尽管经历了近两千年的侵蚀，残存的结构仍然散发着令人敬畏的力量。</div>
+        <div class="attraction-desc-zh">建议一早8:30到达帕拉丁山票务处（几乎不需排队），先游览帕拉丁山和广场，最后进入斗兽场。内部可以看到地下层的通道——将猛兽和角斗士送入竞技场的升降装置。<strong>八月务必提前网上购买免排队联票。</strong></div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Combo ~&euro;18 (Colosseum + Forum + Palatine). Book at <a href="https://www.coopculture.it">coopculture.it</a>. Valid 2 days.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-roman-forum" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Roman Forum &amp; Palatine Hill <span class="attr-name-zh">古罗马广场与帕拉丁山</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">Included in combo</span>
+      <span class="tag walk">3 min from Colosseum, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/roman-forum.jpg" alt="Roman Forum">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Roman Forum was once the political, religious, and commercial heart of the Roman Empire. Walking among ruins over 2,000 years old &mdash; the Senate house where Caesar was assassinated, the Temple of Vespasian, the Arch of Titus &mdash; feels like stepping into the very centre of history. The scale and grandeur of even the ruined structures hints at the extraordinary civilisation that built them.</div>
+        <div class="attraction-desc">The Palatine Hill, one of Rome's seven hills, is considered the birthplace of the city itself. The hilltop contains the ruins of emperors' palaces and is far quieter than the Colosseum below, with pine trees and gardens scattered among the imperial remains. On hot August days, the shade and relative tranquillity make it a welcome respite from the crowded streets.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">古罗马广场曾是罗马帝国的政治、宗教和商业中心。漫步在2000多年前的废墟之间——凯撒遇刺的元老院、维斯帕先神庙、提图斯凯旋门——仿佛置身于历史的漩涡中心。</div>
+        <div class="attraction-desc-zh">帕拉丁山是罗马七丘之一，被认为是罗马城的诞生地。山上是皇帝宫殿遗址，比斗兽场安静许多，松树和花园之间散落着皇宫遗迹，是炎热天气中寻求宁静的好去处。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Included in Colosseum combo ticket (~&euro;18). Enter via the Palatine Hill entrance on Via di San Gregorio for shorter queues.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-pantheon" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Pantheon <span class="attr-name-zh">万神殿</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30 min-1 hour</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">30 min walk / 15 min bus from Vatican</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/pantheon-rome.jpg" alt="Pantheon, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Built around AD 125, the Pantheon is the best-preserved building from ancient Rome. Its dome, 43.3 metres in diameter, features a 9-metre circular opening (the oculus) at its centre, through which a beam of sunlight enters and slowly rotates across the interior as the sun moves &mdash; the effect is most dramatic at noon. Nearly two thousand years after construction, it remains the world's largest unreinforced concrete dome.</div>
+        <div class="attraction-desc">The temple houses the tombs of the painter Raphael and several Italian kings. When it rains, water falls through the oculus onto the floor, where a drainage system designed two millennia ago channels it away &mdash; still working perfectly today. Entry is free, and the building's extraordinary engineering makes it one of the most impressive sights in Rome.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">万神殿建于公元125年，是古罗马保存最完好的建筑。直径43.3米的穹顶中央有一个直径9米的圆形天窗（oculus），阳光从天窗射入，随着太阳移动在室内形成一道缓慢旋转的光柱——正午时分最为壮观。</div>
+        <div class="attraction-desc-zh">殿内安葬着拉斐尔和几位意大利国王。下雨时，雨水从天窗落入殿内，地面排水系统自动将雨水排出——这个两千年前的工程设计至今完美运作。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-trevi" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Trevi Fountain &amp; Spanish Steps <span class="attr-name-zh">许愿池与西班牙阶梯</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~30-45 min total</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">10 min from Pantheon, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/trevi-fountain-rome.jpg" alt="Trevi Fountain, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Trevi Fountain (Fontana di Trevi) is Rome's largest and most famous Baroque fountain. Legend has it that tossing a coin over your right shoulder with your left hand into the water guarantees a return to Rome. Around &euro;3,000 in coins are thrown into the fountain each day, collected nightly and donated to charity.</div>
+        <div class="attraction-desc">The Spanish Steps, with their 135 elegant marble steps, have been one of Rome's most fashionable gathering spots since the 18th century. <strong>Visit both early morning or late evening</strong> to avoid the massive daytime crowds &mdash; the fountain is beautifully illuminated at night, creating a magical atmosphere that's far more enjoyable without the crush of tourists.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">许愿池（Fontana di Trevi）是罗马最大也是最著名的巴洛克喷泉。传说背对喷泉用右手从左肩抛一枚硬币入池，就能确保重返罗马。每天约有3000欧元的硬币被投入池中。</div>
+        <div class="attraction-desc-zh">西班牙阶梯共135级台阶，是罗马最优雅的集合地点之一。<strong>建议清晨或深夜前往</strong>——白天人山人海。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-borghese" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Galleria Borghese <span class="attr-name-zh">博尔盖塞美术馆</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2 hours (fixed slot)</span>
+      <span class="tag cost">~&euro;15</span>
+      <span class="tag walk">15 min from Spanish Steps, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/apollo-and-daphne-by-bernini-borghese-gallery.jpg" alt="Apollo and Daphne by Bernini, Borghese Gallery">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Borghese Gallery houses what may be the most exquisite collection of Bernini sculptures anywhere in the world. His "Apollo and Daphne" is a staggering achievement &mdash; marble transformed into what appears to be soft flesh and fluttering leaves. Each time slot admits only 360 visitors, creating an intimate, uncrowded viewing experience that's rare in Rome. <strong>Reservations are mandatory and must be booked online in advance.</strong></div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">博尔盖塞美术馆收藏了贝尼尼最精美的大理石雕塑，包括《阿波罗与达芙妮》——大理石在贝尼尼的手下仿佛变成了柔软的肌肤和飘动的树叶。每个时段仅允许360名游客入场。<strong>必须提前网上预约。</strong></div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;15. Must pre-book at <a href="https://galleriaborghese.beniculturali.it">galleriaborghese.it</a>. Fixed 2-hour slots. No walk-ups.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-trastevere" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Trastevere <span class="attr-name-zh">特拉斯提弗列</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">20 min from Pantheon, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/trastevere-neighborhood-rome.jpg" alt="Trastevere neighborhood, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Trastevere is Rome's most charming old neighbourhood, a labyrinth of narrow cobblestone alleys draped in ivy and wisteria. This is where Romans themselves go for dinner &mdash; the trattorias here serve some of the city's most authentic cuisine. The Basilica of Santa Maria in Trastevere is one of Rome's oldest churches, with golden mosaics rivalling those of St. Mark's in Venice.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">特拉斯提弗列是罗马最有魅力的老城区，狭窄的鹅卵石巷道两旁爬满了常春藤。这里是罗马人自己最爱的晚餐去处。圣母大殿是罗马最古老的教堂之一，内部金色马赛克堪比圣马可大教堂。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-aventine" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Aventine Hill <span class="attr-name-zh">阿文提诺山</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~45 min-1 hour</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">15 min from Colosseum, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/view-from-giardino-degli-aranci-aventine-hill.jpg" alt="View from Giardino degli Aranci, Aventine Hill">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Aventine Hill holds two must-visit spots: the Giardino degli Aranci (Orange Garden), one of Rome's finest sunset viewpoints, and the Knights of Malta Keyhole (Buco della Serratura). Through the tiny keyhole of the Priory's gate, you'll see a perfectly framed garden-lined avenue leading to St. Peter's dome in the distance &mdash; one of Rome's most delightful hidden surprises.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">阿文提诺山有两个必到之处：橘园（Giardino degli Aranci）是罗马最佳日落观赏点之一；马耳他骑士团的钥匙孔（Buco della Serratura）——透过大门小孔，你会看到一条由花园树篱完美框架的通道，尽头正是圣彼得大殿的穹顶。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-arch-constantine" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Arch of Constantine <span class="attr-name-zh">君士坦丁凯旋门</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~15 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Next to Colosseum, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/arch-of-constantine-rome.jpg" alt="Arch of Constantine, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Arch of Constantine is the largest and best-preserved Roman triumphal arch, standing 21 metres high and 25.9 metres wide. Erected between AD 312 and 315, it commemorates Emperor Constantine's victory over Maxentius at the Battle of the Milvian Bridge. The arch spans the Via Triumphalis, the ancient route taken by victorious generals entering Rome in triumphal procession.</div>
+        <div class="attraction-desc">Much of its sculptural decoration was reused from earlier monuments honouring Trajan, Hadrian, and Marcus Aurelius &mdash; with portrait heads replaced by Constantine's likeness. This recycling of imperial art makes the arch a fascinating gallery spanning three centuries of Roman sculpture. Located right beside the Colosseum, it's impossible to miss and free to view at any hour.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">君士坦丁凯旋门是现存最大、保存最完好的罗马凯旋门，高21米，宽25.9米。建于公元312至315年间，纪念君士坦丁大帝在米尔维安桥战役中击败马克森提乌斯的胜利。凯旋门横跨古代凯旋将军进入罗马时行走的凯旋大道。</div>
+        <div class="attraction-desc-zh">凯旋门上大量雕塑装饰来自更早期纪念图拉真、哈德良和马可·奥勒留的纪念碑——肖像头部被替换为君士坦丁的面容。这种帝国艺术的"回收利用"使凯旋门成为横跨三个世纪罗马雕塑的迷人画廊。就在斗兽场旁边，免费开放，全天可观。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-bocca-verita" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Bocca della Verit&agrave; <span class="attr-name-zh">真理之口</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~15-20 min</span>
+      <span class="tag free">Free / donation</span>
+      <span class="tag walk">10 min from Circus Maximus, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/bocca-della-verit-rome.jpg" alt="Bocca della Verità, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Bocca della Verit&agrave; (&ldquo;Mouth of Truth&rdquo;) is an ancient marble mask weighing 1,300 kg, set into the portico wall of the church of Santa Maria in Cosmedin. The massive tondo, 1.8 metres in diameter, probably depicts the sea god Oceanus and may have originally served as a Roman sewer cover. According to medieval legend, it will bite off the hand of anyone who tells a lie while their hand is in its mouth.</div>
+        <div class="attraction-desc">Made famous by the 1953 film &ldquo;Roman Holiday&rdquo; starring Audrey Hepburn and Gregory Peck, it remains one of Rome's most beloved photo opportunities. The church of Santa Maria in Cosmedin is itself a beautiful 6th-century basilica worth exploring. Queues form during the day &mdash; arrive early morning for the shortest wait. A small donation is appreciated.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">真理之口是一块重达1300公斤的古代大理石面具，嵌在圣母科斯梅丁教堂的门廊墙壁上。这个直径1.8米的巨大圆形浮雕可能描绘的是海神奥刻阿诺斯，最初可能是古罗马的下水道井盖。中世纪传说，任何撒谎的人把手伸进它嘴里都会被咬断。</div>
+        <div class="attraction-desc-zh">因1953年奥黛丽·赫本和格里高利·派克主演的电影《罗马假日》而闻名世界，至今仍是罗马最受欢迎的拍照打卡点之一。圣母科斯梅丁教堂本身也是一座值得探索的6世纪美丽教堂。白天会排队——清晨到达等待时间最短。需小额捐款。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Free / voluntary donation. Open daily 9:30am-5:50pm. 10 min walk from Circus Maximus, 15 min from Colosseum.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-castel-santangelo" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Castel Sant&rsquo;Angelo <span class="attr-name-zh">圣天使堡</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag cost">~&euro;17</span>
+      <span class="tag walk">Near Vatican, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/castel-sant-angelo-at-dusk-rome.jpg" alt="Castel Sant'Angelo at dusk, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Castel Sant'Angelo has been a tomb, a fortress, a papal residence, a prison, and a museum across its nearly 2,000-year history. Originally built in AD 139 as the mausoleum of Emperor Hadrian, it earned its current name in the 6th century when Pope Gregory I reportedly saw the Archangel Michael sheathing his sword atop the structure, signalling the end of a devastating plague.</div>
+        <div class="attraction-desc">The castle is connected to the Vatican by the Passetto di Borgo, a secret elevated passageway that popes used to escape danger &mdash; most notably during the Sack of Rome in 1527. Inside, explore lavish papal apartments, military weaponry, a Renaissance courtyard, and a dungeon where prisoners once languished. The rooftop terrace, crowned by a bronze angel statue, offers one of Rome's finest panoramic views, especially at sunset.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣天使堡在近两千年的历史中曾是陵墓、堡垒、教皇宫殿、监狱和博物馆。最初建于公元139年作为哈德良皇帝的陵墓，6世纪时教皇格里高利一世据说看到天使长米迦勒在堡顶收剑，标志着一场毁灭性瘟疫的结束，因此得名"圣天使堡"。</div>
+        <div class="attraction-desc-zh">城堡通过"博尔戈走廊"（Passetto di Borgo）与梵蒂冈相连——这是教皇们逃离危险时使用的秘密高架通道，1527年罗马之劫时最为著名。内部可探索奢华的教皇公寓、军事武器展、文艺复兴庭院和昔日囚犯的地牢。顶层露台矗立着青铜天使雕像，提供罗马最佳的全景视野之一，尤其是日落时分。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;17. Open Tue-Sun 9am-7:30pm (last entry 6:30pm). Free first Sunday of each month. Free for under 18. <a href="https://www.castelsantangelo.org">castelsantangelo.org</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-tempietto" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Tempietto di Bramante <span class="attr-name-zh">坦比埃多礼拜堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~20-30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Janiculum Hill, Trastevere</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/tempietto-di-bramante-rome.jpg" alt="Tempietto di Bramante, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Tempietto, designed by Donato Bramante around 1502, is considered one of the most harmonious buildings of the High Renaissance and a direct precursor to his design for St. Peter's Basilica. This tiny circular temple &mdash; only 4 metres in diameter &mdash; is surrounded by 16 granite Doric columns and crowned with a dome, achieving a perfection of proportion that has inspired architects for five centuries. It was built on the spot where, according to tradition, Saint Peter was crucified.</div>
+        <div class="attraction-desc">Commissioned by Ferdinand and Isabella of Spain, the Tempietto sits in a courtyard of the San Pietro in Montorio complex on the Janiculum Hill. Inside, a hole in the floor marks the legendary site of the cross. The building is now part of the Royal Academy of Spain. Even when the interior is closed, the exterior can be admired from the courtyard &mdash; a perfect detour when visiting nearby Trastevere.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">坦比埃多礼拜堂由多纳托·布拉曼特于1502年左右设计，被认为是文艺复兴盛期最和谐的建筑之一，也是圣彼得大殿设计的直接前身。这座直径仅4米的小型圆形神殿，由16根花岗岩多立克柱环绕，顶部覆以穹顶，达到了五个世纪以来一直启发建筑师的完美比例。传说这里是圣彼得殉道之处。</div>
+        <div class="attraction-desc-zh">由西班牙国王费迪南德和伊莎贝拉委托建造，坦比埃多位于贾尼科洛山上圣彼得蒙托里奥修道院的庭院中。殿内地板上有一个洞，标记着十字架的传说位置。即使内部关闭，也可以从庭院中欣赏其外观——游览特拉斯提弗列时的完美顺路之选。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Free. Courtyard usually open Tue-Sun 10am-6pm. Interior access varies. Part of the Royal Academy of Spain complex.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-sant-ignazio" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Church of Sant&rsquo;Ignazio <span class="attr-name-zh">圣依纳爵教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~20-30 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">5 min from Pantheon, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/ceiling-fresco-by-andrea-pozzo-church-of-sant-ignazio-rome.jpg" alt="Ceiling fresco by Andrea Pozzo, Church of Sant'Ignazio, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Church of Sant'Ignazio contains one of the most astonishing artistic illusions in the world. Painted between 1685 and 1694 by Andrea Pozzo, the vast ceiling fresco depicting the Apotheosis of Saint Ignatius uses the technique of quadratura to create the illusion of soaring architectural structures and an open sky on a completely flat surface. Stand on the small marble disc in the nave floor, look up, and prepare to have your perception of reality shattered.</div>
+        <div class="attraction-desc">Equally remarkable is Pozzo's fake dome &mdash; when the planned dome couldn't be built, he painted a flat canvas that, from a specific viewpoint, is indistinguishable from a real three-dimensional dome. The illusion is so convincing that it has fooled visitors for over three centuries. This is one of Rome's most underrated treasures, just steps from the Pantheon and rarely crowded.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣依纳爵教堂拥有世界上最令人惊叹的艺术错觉之一。安德烈亚·波佐于1685至1694年间绘制的巨幅天顶壁画《圣依纳爵升天》，运用透视法在完全平坦的天花板上创造出宏伟的建筑结构和开阔天空的幻象。站在中殿地面的小圆盘上仰望，你的空间感知将被彻底颠覆。</div>
+        <div class="attraction-desc-zh">同样令人叹为观止的是波佐的假穹顶——当计划中的穹顶无法建造时，他在一块平面画布上绘制了一个从特定角度看完全无法与真实三维穹顶区分的画作。三百多年来，这个错觉一直在"欺骗"着参观者。教堂距万神殿仅几步之遥，却鲜少拥挤。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Free. Open daily 7:30am-7pm. Look for the marble disc on the floor for the best viewing angle of both the ceiling and fake dome.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-caracalla" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Baths of Caracalla <span class="attr-name-zh">卡拉卡拉浴场遗迹</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-2 hours</span>
+      <span class="tag cost">~&euro;10</span>
+      <span class="tag walk">15 min from Colosseum, Rome</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/baths-of-caracalla-rome.jpg" alt="Baths of Caracalla, Rome">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Built between AD 212 and 216 under Emperor Caracalla, these were once the largest and most luxurious public baths in Rome, spanning 11 hectares and accommodating over 2,500 bathers simultaneously. The towering ruins &mdash; some walls still rise to 30 metres &mdash; reveal the extraordinary scale of ancient Roman engineering: heated pools, gymnasiums, libraries, gardens, and mosaic-covered floors, all served by a sophisticated system of underground furnaces and aqueducts.</div>
+        <div class="attraction-desc">Unlike the Colosseum and Forum, the Baths of Caracalla are far less crowded, allowing you to wander freely through the massive brick-and-concrete halls and imagine the social life that once filled these spaces. An audio guide (available via smartphone) shows reconstructions of the original interiors. In summer, the ruins host spectacular open-air opera performances by the Teatro dell'Opera di Roma.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">卡拉卡拉浴场建于公元212至216年间，曾是罗马最大、最奢华的公共浴场，占地11公顷，可同时容纳2500多名浴客。残存的高耸废墟——部分墙壁仍高达30米——展示了古罗马工程技术的惊人规模：加热泳池、健身房、图书馆、花园和马赛克地板，全部由精密的地下供暖系统和引水渠供给。</div>
+        <div class="attraction-desc-zh">与斗兽场和古罗马广场不同，卡拉卡拉浴场的游客要少得多，可以自由漫步于巨大的砖石大厅之间，想象曾经充斥其间的社交生活。手机语音导览可展示内部原貌的复原图。夏季，罗马歌剧院会在废墟中举办壮观的露天歌剧演出。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;10 (family &euro;36). Open daily 9am-6:30pm (varies by season). Audio guide available via smartphone app. <a href="https://www.coopculture.it">coopculture.it</a></div>
+  </div>
+</div>
+
+<!-- VATICAN ATTRACTIONS -->
+<div class="city-group-header" id="sec-city-vatican">Vatican City 梵蒂冈</div>
+<div class="attr-acc-item" id="attraction-vatican" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Vatican Museums &amp; Sistine Chapel <span class="attr-name-zh">梵蒂冈博物馆与西斯廷教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~3-4 hours</span>
+      <span class="tag cost">~&euro;17</span>
+      <span class="tag walk">Metro from Monti ~20 min</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/sistine-chapel-ceiling-by-michelangelo.jpg" alt="Sistine Chapel ceiling by Michelangelo">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Vatican Museums comprise one of the largest and most important art collections in the world, spanning thousands of years of human creativity. The climax of any visit is the Sistine Chapel &mdash; Michelangelo's ceiling frescoes depicting the Creation of Adam and the sweeping "Last Judgement" on the altar wall are among the supreme achievements of Western art, a vision of such power and beauty that it leaves visitors speechless.</div>
+        <div class="attraction-desc">Arrive at 8am when doors open, or visit after 3pm when crowds thin. <strong>The museums are closed on Sundays</strong> (except the last Sunday of each month, which is free but extremely crowded). The one-way route is approximately 7 kilometres long &mdash; wear comfortable shoes. Book skip-the-line tickets online to avoid the notoriously long queues that can stretch for hours in August heat.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">梵蒂冈博物馆是世界上最大、最重要的艺术博物馆之一。整个参观的高潮是西斯廷教堂——米开朗基罗在天花板上绘制的《创世纪》和祭坛墙上的《最后的审判》是人类艺术史上最伟大的成就之一。</div>
+        <div class="attraction-desc-zh">建议早上8点开门时入场或下午3点后参观。<strong>周日关闭</strong>（每月最后一个周日免费但极其拥挤）。参观路线单向，总长约7公里——穿舒适的鞋子。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> ~&euro;17. Book skip-the-line at <a href="https://www.museivaticani.va">museivaticani.va</a>. Audio guide &euro;7 extra. Closed Sundays (except last Sunday, free).</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-st-peters" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">St. Peter&rsquo;s Basilica <span class="attr-name-zh">圣彼得大教堂</span></span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">Free (dome &euro;8-10)</span>
+      <span class="tag walk">5 min from Vatican Museums</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="images/st-peter-s-basilica.jpg" alt="St. Peter's Basilica">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">St. Peter's Basilica is the largest church in the world and the holiest site in Catholicism. Among its most moving works is Michelangelo's Piet&agrave;, carved when he was just 25 years old, depicting the Virgin Mary cradling the body of Christ. Bernini's towering bronze baldachin, standing 29 metres tall over the papal altar, dominates the centre of the vast interior.</div>
+        <div class="attraction-desc">Arrive before 8am to beat the long security queues. Climbing to the dome (551 steps or elevator + 320 steps) rewards you with the most spectacular panoramic view in all of Rome, looking out across St. Peter's Square and the entire city. The basilica is free to enter, making it one of Rome's best-value experiences.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣彼得大教堂是世界上最大的教堂，也是天主教最神圣的地标。米开朗基罗25岁时创作的《圣殇》是最动人的作品之一。贝尼尼设计的巨大青铜华盖高达29米，矗立在教堂正中央。</div>
+        <div class="attraction-desc-zh">建议早上8点前到达以避免长队。登上穹顶（551级台阶或电梯+320级）可以获得罗马最壮观的全景视野。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Basilica: FREE entry. Dome: &euro;8 (stairs) or &euro;10 (elevator + stairs). No advance booking needed for basilica. Strict dress code: cover shoulders and knees.</div>
+  </div>
+</div>
+
+<!-- ============ BUDGET ============ -->
+<h2 id="sec-budget">Estimated Budget (Per Person, Excl. Flights)</h2>
+<table class="budget-table">
+  <tr><th>Category</th><th>Estimated Cost</th></tr>
+  <tr><td>Accommodation (6 nights)</td><td>&euro;380-440</td></tr>
+  <tr><td>Trains (all legs)</td><td>&euro;50-90</td></tr>
+  <tr><td>Food &amp; dining (6-7 days)</td><td>&euro;200-275</td></tr>
+  <tr><td>Attractions &amp; museums</td><td>&euro;75-125</td></tr>
+  <tr><td>Local transport (vaporetto, metro, apps)</td><td>&euro;30-50</td></tr>
+  <tr><td>SIM card</td><td>&euro;20-25</td></tr>
+  <tr><td>Miscellaneous</td><td>&euro;50-75</td></tr>
+  <tr><td><strong>Total per person</strong></td><td><strong>&euro;805&ndash;1,080</strong></td></tr>
+</table>
+<p style="font-size:0.85em; color:var(--muted);">Excludes international flights and Schengen visa fees (&euro;90/person).</p>
+
+<!-- ============ USEFUL LINKS ============ -->
+<h2 id="sec-links">Useful Links</h2>
+<div class="links">
+  <a href="https://www.italia.it/en">Italia.it &mdash; Official tourism portal</a>
+  <a href="https://www.trenitalia.com/en.html">Trenitalia &mdash; National rail operator</a>
+  <a href="https://www.italotreno.com/en">Italo &mdash; High-speed trains</a>
+  <a href="https://www.thetrainline.com/">Trainline &mdash; Compare &amp; book train tickets</a>
+  <a href="https://www.omio.com/">Omio &mdash; Multi-mode transport booking</a>
+  <a href="https://www.romemetro.it/">Rome Metro Map &mdash; Lines &amp; stations</a>
+  <a href="https://actv.avmspa.it/en">ACTV Venice &mdash; Vaporetto schedules &amp; passes</a>
+  <a href="https://visa.vfsglobal.com/one-pager/italy/china/english/">VFS Global &mdash; Schengen visa application</a>
+  <a href="https://www.ricksteves.com/europe/italy">Rick Steves Italy &mdash; Practical travel tips</a>
+  <a href="https://www.booking.com">Booking.com &mdash; Hotels with free cancellation</a>
+  <a href="https://www.google.com/travel/hotels">Google Hotels &mdash; Price comparison tool</a>
+  <a href="https://www.xe.com/currencyconverter/">XE Currency &mdash; Live EUR exchange rates</a>
+</div>
+
+<!-- ============ PRACTICAL TIPS ============ -->
+<h2 id="sec-tips">Practical Tips</h2>
+
+<div class="tips-section">
+  <h4>Money</h4>
+  <ul>
+    <li>Cards widely accepted. Carry ~&euro;50-100 cash for small trattorias, gelaterias, markets</li>
+    <li>Use bank ATMs (bancomat), avoid standalone ones with fees</li>
+    <li><strong>Tipping:</strong> Not expected. Round up or leave &euro;1-2. "Coperto" (cover charge &euro;1-3/person) on bills is normal, not a scam</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>August Weather &amp; Beating the Heat</h4>
+  <ul>
+    <li><strong>Temperature:</strong> 29-35&deg;C (85-95&deg;F). Explore before 11am &amp; after 5pm. Rest during midday</li>
+    <li>Rome has free drinking fountains ("nasoni") everywhere &mdash; bring a refillable water bottle</li>
+    <li>Museums and churches = air-conditioned respite from the heat</li>
+    <li>Sunscreen, hat, and sunglasses are essential</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>Cultural Norms</h4>
+  <ul>
+    <li><strong>Church dress code:</strong> Cover shoulders and knees (Vatican, Duomo, St. Mark's). Carry a light scarf</li>
+    <li><strong>Dining hours:</strong> Lunch 12:30-2:30pm, dinner 7:30-10pm. Many restaurants close between meals</li>
+    <li><strong>Basic Italian:</strong> "Buongiorno" (hello), "Grazie" (thanks), "Scusi" (excuse me), "Il conto, per favore" (check please)</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>Safety &amp; Scams</h4>
+  <ul>
+    <li><strong>Pickpocketing</strong> is the #1 risk. Rome: 33,000+ cases in 2024. Hotspots: metro, Colosseum area, stations</li>
+    <li>Use a <strong>cross-body bag</strong> with zippers. Phone and wallet in front pockets</li>
+    <li><strong>"Free" gift scam:</strong> bracelet, rose, or bird seed &rarr; demands payment. Say "No, grazie"</li>
+    <li><strong>Florence:</strong> "oil prints" scam targets East Asian tourists &mdash; decline unsolicited art prints</li>
+    <li><strong>Restaurants:</strong> Check menu prices before ordering. Avoid aggressive beckoning staff</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>Connectivity</h4>
+  <ul>
+    <li>Tourist SIM from TIM, Vodafone, or WindTre: ~&euro;20-25 for data + calls</li>
+    <li>Buy from official stores only &mdash; avoid airport kiosks and upselling</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4 id="sec-packing">Packing Checklist</h4>
+  <div class="checklist">
+    <label><input type="checkbox"> Comfortable walking shoes (cobblestones everywhere)</label>
+    <label><input type="checkbox"> Light, breathable clothing</label>
+    <label><input type="checkbox"> Church-appropriate layer (cover shoulders &amp; knees)</label>
+    <label><input type="checkbox"> Sunscreen, hat, sunglasses</label>
+    <label><input type="checkbox"> Refillable water bottle</label>
+    <label><input type="checkbox"> Cross-body bag with secure zippers</label>
+    <label><input type="checkbox"> Portable phone charger</label>
+    <label><input type="checkbox"> EU power adapter (Type C/F)</label>
+    <label><input type="checkbox"> Light scarf for church visits</label>
+    <label><input type="checkbox"> Copies of passport &amp; visa</label>
+  </div>
+</div>
+
+<div style="text-align:center;">
+  <button class="print-btn" onclick="window.print()">Print This Plan</button>
+</div>
+
+<footer>
+  <p>Plan generated by Trip Finder on 2026-03-11.<br>
+  All images from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a> (CC licensed).<br>
+  Prices and availability should be verified before booking.</p>
+</footer>
+
+<nav class="toc-widget">
+  <h3>Contents</h3>
+  <a href="#sec-book">Book in Advance</a>
+  <a href="#sec-itinerary">Daily Itinerary</a>
+  <a href="#sec-stay">Where to Stay</a>
+  <a href="#sec-transport">Getting Around</a>
+  <a href="#sec-events">August Events</a>
+  <a href="#sec-attractions">Attractions Guide</a>
+  <a href="#sec-city-milan" class="toc-sub">Milan</a>
+  <a href="#sec-city-venice" class="toc-sub">Venice</a>
+  <a href="#sec-city-florence" class="toc-sub">Florence</a>
+  <a href="#sec-city-pisa" class="toc-sub">Pisa</a>
+  <a href="#sec-city-rome" class="toc-sub">Rome</a>
+  <a href="#sec-city-vatican" class="toc-sub">Vatican City</a>
+  <a href="#sec-budget">Budget</a>
+  <a href="#sec-links">Useful Links</a>
+  <a href="#sec-tips">Practical Tips</a>
+  <a href="#sec-packing" style="padding-left:16px">Packing Checklist</a>
+</nav>
+
+<script>
+// TOC scroll spy — highlight current section
+(function() {
+  var tocLinks = document.querySelectorAll('.toc-widget a');
+  var sections = [];
+  tocLinks.forEach(function(a) {
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, link: a });
+  });
+
+  function updateActive() {
+    var scrollY = window.scrollY + 120;
+    var current = sections[0];
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].el.offsetTop <= scrollY) current = sections[i];
+    }
+    tocLinks.forEach(function(a) { a.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive);
+  updateActive();
+
+  // Smooth scroll on click
+  tocLinks.forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+
+// Open first day accordion by default, all others closed
+document.querySelectorAll('.acc-item').forEach((item, i) => {
+  if (i !== 0) item.classList.remove('open');
+});
+
+// Global language toggle for attractions
+function setAllLang(lang) {
+  var contents = document.querySelectorAll('.attraction-content');
+  var btns = document.querySelectorAll('#global-lang-toggle .lang-btn');
+  contents.forEach(function(el) {
+    if (lang === 'zh') {
+      el.classList.add('show-zh');
+    } else {
+      el.classList.remove('show-zh');
+    }
+  });
+  btns.forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  if (lang === 'zh') {
+    btns[1].classList.add('active');
+  } else {
+    btns[0].classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

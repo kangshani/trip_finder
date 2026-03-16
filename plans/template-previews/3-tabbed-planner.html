@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template 3: Clean Tabbed Planner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+  :root {
+    --primary: #6c5ce7;
+    --primary-dark: #5a4bd1;
+    --accent: #fd79a8;
+    --green: #00b894;
+    --bg: #f8f9fc;
+    --card: #ffffff;
+    --text: #2d3436;
+    --muted: #636e72;
+    --border: #e2e8f0;
+    --sidebar: #2d3436;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+  .app-layout { display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--sidebar);
+    color: white;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+  }
+  .sidebar-header {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-header h1 { font-size: 1.3em; font-weight: 700; }
+  .sidebar-header .sub { font-size: 0.8em; opacity: 0.5; margin-top: 4px; }
+  .sidebar-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; padding: 16px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-stat { text-align: center; }
+  .sidebar-stat .num { font-size: 1.1em; font-weight: 700; color: var(--accent); }
+  .sidebar-stat .label { font-size: 0.6em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; }
+
+  .tab-list { padding: 12px 0; flex: 1; }
+  .tab {
+    display: block; padding: 12px 24px;
+    text-decoration: none; color: rgba(255,255,255,0.6);
+    font-size: 0.88em; cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .tab:hover { background: rgba(255,255,255,0.05); color: white; }
+  .tab.active {
+    background: rgba(108,92,231,0.2);
+    border-left-color: var(--primary);
+    color: white;
+    font-weight: 600;
+  }
+  .tab .tab-budget { font-size: 0.75em; opacity: 0.5; display: block; margin-top: 1px; }
+  .tab.day-trip::after {
+    content: 'DAY TRIP';
+    font-size: 0.55em;
+    background: var(--green);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 8px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .tab-divider {
+    height: 1px; background: rgba(255,255,255,0.1);
+    margin: 8px 24px;
+  }
+
+  /* Main */
+  .main-panel {
+    margin-left: 260px;
+    flex: 1;
+    padding: 0;
+  }
+
+  /* Day content */
+  .day-content { display: none; }
+  .day-content.active { display: block; }
+
+  .day-banner {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 36px 40px 28px;
+  }
+  .day-banner.day-trip { background: linear-gradient(135deg, var(--green), #00cec9); }
+  .day-banner .day-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+  .day-banner h2 { font-size: 1.8em; font-weight: 700; margin: 4px 0; }
+  .day-banner .theme { font-style: italic; opacity: 0.8; }
+
+  .day-schedule { padding: 30px 40px; }
+
+  .schedule-item {
+    display: flex;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 8px;
+  }
+  .schedule-item:hover { background: white; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+  .schedule-item:last-child { border-bottom: none; }
+
+  .schedule-time {
+    min-width: 60px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.9em;
+    padding-top: 2px;
+  }
+  .schedule-body { flex: 1; }
+  .schedule-name { font-weight: 600; font-size: 1.05em; margin-bottom: 3px; }
+  .schedule-details { color: var(--muted); font-size: 0.88em; line-height: 1.5; }
+  .schedule-meta { margin-top: 6px; display: flex; gap: 10px; }
+  .schedule-badge {
+    display: inline-block;
+    font-size: 0.72em;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+  .badge-cost { background: #f0f0f5; color: var(--primary); }
+  .badge-free { background: #eafaf1; color: var(--green); }
+  .badge-tip { background: #fff3e0; color: #e67e22; }
+
+  .day-budget-summary {
+    margin: 10px 0 30px;
+    padding: 16px 24px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+  }
+  .day-budget-summary .amount { font-size: 1.2em; color: var(--primary); }
+
+  /* Tips/Budget/Packing panels */
+  .info-panel { padding: 30px 40px; }
+  .info-panel h2 { font-size: 1.4em; color: var(--primary); margin-bottom: 20px; }
+
+  .info-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .info-card h3 { color: var(--primary-dark); font-size: 1em; margin-bottom: 10px; }
+  .info-card ul { padding-left: 18px; }
+  .info-card li { padding: 3px 0; font-size: 0.9em; }
+
+  .budget-table { width: 100%; border-collapse: collapse; }
+  .budget-table th { background: var(--primary); color: white; padding: 10px 16px; text-align: left; font-size: 0.85em; border-radius: 0; }
+  .budget-table th:first-child { border-radius: 8px 0 0 0; }
+  .budget-table th:last-child { border-radius: 0 8px 0 0; }
+  .budget-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .budget-table tr:last-child td { font-weight: 700; background: var(--bg); }
+
+  .checklist label { display: block; padding: 6px 0; cursor: pointer; font-size: 0.9em; }
+  .checklist input { margin-right: 10px; accent-color: var(--primary); }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main-panel { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h1>London &amp; Nearby</h1>
+      <div class="sub">June 2026 &bull; 8 Days</div>
+    </div>
+    <div class="sidebar-stats">
+      <div class="sidebar-stat"><div class="num">8</div><div class="label">Days</div></div>
+      <div class="sidebar-stat"><div class="num">&pound;1.6K</div><div class="label">Avg/pp</div></div>
+      <div class="sidebar-stat"><div class="num">2</div><div class="label">Trips</div></div>
+      <div class="sidebar-stat"><div class="num">6+</div><div class="label">Free</div></div>
+    </div>
+    <div class="tab-list">
+      <a class="tab active" onclick="showDay('day1', this)">Day 1: South Bank<span class="tab-budget">&pound;180-220/pp</span></a>
+      <a class="tab" onclick="showDay('day2', this)">Day 2: Royal London<span class="tab-budget">&pound;160-200/pp</span></a>
+      <a class="tab" onclick="showDay('day3', this)">Day 3: Museums<span class="tab-budget">&pound;130-170/pp</span></a>
+      <a class="tab" onclick="showDay('day4', this)">Day 4: Tower &amp; City<span class="tab-budget">&pound;190-230/pp</span></a>
+      <a class="tab day-trip" onclick="showDay('day5', this)">Day 5: Windsor<span class="tab-budget">&pound;200-280/pp</span></a>
+      <a class="tab" onclick="showDay('day6', this)">Day 6: British Museum<span class="tab-budget">&pound;140-180/pp</span></a>
+      <a class="tab day-trip" onclick="showDay('day7', this)">Day 7: Cotswolds<span class="tab-budget">&pound;180-240/pp</span></a>
+      <a class="tab" onclick="showDay('day8', this)">Day 8: Greenwich<span class="tab-budget">&pound;160-200/pp</span></a>
+      <div class="tab-divider"></div>
+      <a class="tab" onclick="showDay('budget', this)">Budget Summary</a>
+      <a class="tab" onclick="showDay('tips', this)">Essential Tips</a>
+      <a class="tab" onclick="showDay('packing', this)">Packing List</a>
+    </div>
+  </nav>
+
+  <div class="main-panel">
+
+    <!-- Day 1 -->
+    <div class="day-content active" id="day1">
+      <div class="day-banner">
+        <div class="day-label">Day One</div>
+        <h2>South Bank Exploration</h2>
+        <div class="theme">Settle in &amp; riverside family fun</div>
+      </div>
+      <div class="day-schedule">
+        <div class="schedule-item">
+          <div class="schedule-time">Morning</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Arrive &amp; Check In</div>
+            <div class="schedule-details">Drop bags, freshen up at hotel</div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">11:00</div>
+          <div class="schedule-body">
+            <div class="schedule-name">London Eye</div>
+            <div class="schedule-details">Book timed tickets in advance. 30-min capsule ride with panoramic city views. Kids love it!</div>
+            <div class="schedule-meta">
+              <span class="schedule-badge badge-cost">&pound;30/adult &pound;25/child</span>
+              <span class="schedule-badge badge-tip">Book ahead</span>
+            </div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">12:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Lunch at Wahaca Southbank</div>
+            <div class="schedule-details">Mexican street food, kid-friendly menu</div>
+            <div class="schedule-meta">
+              <span class="schedule-badge badge-cost">&pound;40-50 family</span>
+            </div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">13:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">SEA LIFE London Aquarium</div>
+            <div class="schedule-details">Interactive zones, sharks, penguins. Right next to London Eye.</div>
+            <div class="schedule-meta">
+              <span class="schedule-badge badge-cost">&pound;28/adult &pound;23/child</span>
+              <span class="schedule-badge badge-tip">20% off online</span>
+            </div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">15:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Walk along South Bank</div>
+            <div class="schedule-details">Street performers, skateboard park, book market under Waterloo Bridge</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-free">Free</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">16:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Gabriel's Wharf Playground</div>
+            <div class="schedule-details">Let kids burn energy at the riverside playground</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-free">Free</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">18:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Dinner at Giraffe Southbank</div>
+            <div class="schedule-details">Family-friendly chain with global menu</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-cost">&pound;50-60 family</span></div>
+          </div>
+        </div>
+        <div class="day-budget-summary">
+          <span>Day 1 Estimated Budget</span>
+          <span class="amount">&pound;180-220 per person</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-content" id="day2">
+      <div class="day-banner">
+        <div class="day-label">Day Two</div>
+        <h2>Royal London &amp; Parks</h2>
+        <div class="theme">Palaces, guards, and green spaces</div>
+      </div>
+      <div class="day-schedule">
+        <div class="schedule-item">
+          <div class="schedule-time">9:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Changing of the Guard</div>
+            <div class="schedule-details">Buckingham Palace gates. Starts 11:00 - arrive 30 min early for good spot</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-free">Free</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">11:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">St James's Park</div>
+            <div class="schedule-details">Pelicans fed daily at 14:30, explore the lake, spot wildlife</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-free">Free</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">14:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Westminster Abbey</div>
+            <div class="schedule-details">Magnificent interior, Poets' Corner. Kids under 6 free</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-cost">&pound;27/adult &pound;12/child</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">16:00</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Diana Memorial Playground</div>
+            <div class="schedule-details">Hyde Park. Pirate ship! One of London's best playgrounds</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-free">Free</span></div>
+          </div>
+        </div>
+        <div class="day-budget-summary">
+          <span>Day 2 Estimated Budget</span>
+          <span class="amount">&pound;160-200 per person</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 5 (Day Trip) -->
+    <div class="day-content" id="day5">
+      <div class="day-banner day-trip">
+        <div class="day-label">Day Five &bull; Day Trip</div>
+        <h2>Windsor Castle</h2>
+        <div class="theme">The King's weekend home</div>
+      </div>
+      <div class="day-schedule">
+        <div class="schedule-item">
+          <div class="schedule-time">8:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Train from Paddington</div>
+            <div class="schedule-details">Direct to Windsor &amp; Eton Central, ~30 min</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-cost">&pound;12-15 return</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">9:30</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Windsor Castle</div>
+            <div class="schedule-details">State Apartments, Queen Mary's Dolls' House, St George's Chapel. Audio guides included.</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-cost">&pound;30/adult &pound;16.50/child</span></div>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">15:00</div>
+          <div class="schedule-body">
+            <div class="schedule-name">Legoland Windsor (Option A)</div>
+            <div class="schedule-details">Rides, building zones, Miniland. Book in advance!</div>
+            <div class="schedule-meta"><span class="schedule-badge badge-cost">&pound;45/person</span></div>
+          </div>
+        </div>
+        <div class="day-budget-summary">
+          <span>Day 5 Estimated Budget</span>
+          <span class="amount">&pound;200-280 per person</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder for other days -->
+    <div class="day-content" id="day3"><div class="day-banner"><div class="day-label">Day Three</div><h2>Museum Day - South Kensington</h2><div class="theme">Dinosaurs, space, and interactive science</div></div><div class="day-schedule"><p style="color:var(--muted);padding:40px;text-align:center;font-style:italic;">Full schedule follows same pattern as above...</p></div></div>
+    <div class="day-content" id="day4"><div class="day-banner"><div class="day-label">Day Four</div><h2>Tower of London &amp; City</h2><div class="theme">Knights, castles, and crown jewels</div></div><div class="day-schedule"><p style="color:var(--muted);padding:40px;text-align:center;font-style:italic;">Full schedule follows same pattern as above...</p></div></div>
+    <div class="day-content" id="day6"><div class="day-banner"><div class="day-label">Day Six</div><h2>British Museum, Covent Garden &amp; Camden</h2><div class="theme">Ancient treasures &amp; canal-side markets</div></div><div class="day-schedule"><p style="color:var(--muted);padding:40px;text-align:center;font-style:italic;">Full schedule follows same pattern as above...</p></div></div>
+    <div class="day-content" id="day7"><div class="day-banner day-trip"><div class="day-label">Day Seven &bull; Day Trip</div><h2>Cotswolds</h2><div class="theme">Storybook English countryside</div></div><div class="day-schedule"><p style="color:var(--muted);padding:40px;text-align:center;font-style:italic;">Full schedule follows same pattern as above...</p></div></div>
+    <div class="day-content" id="day8"><div class="day-banner"><div class="day-label">Day Eight</div><h2>Greenwich &amp; Departure</h2><div class="theme">Maritime history &amp; final adventures</div></div><div class="day-schedule"><p style="color:var(--muted);padding:40px;text-align:center;font-style:italic;">Full schedule follows same pattern as above...</p></div></div>
+
+    <!-- Budget -->
+    <div class="day-content" id="budget">
+      <div class="info-panel">
+        <h2>Budget Summary</h2>
+        <div class="info-card">
+          <table class="budget-table">
+            <thead><tr><th>Category</th><th>Estimated Cost</th></tr></thead>
+            <tbody>
+              <tr><td>Accommodation (7 nights)</td><td>&pound;700-1,000</td></tr>
+              <tr><td>Attractions &amp; entry fees</td><td>&pound;200-280</td></tr>
+              <tr><td>Food &amp; dining</td><td>&pound;280-380</td></tr>
+              <tr><td>Transport</td><td>&pound;80-120</td></tr>
+              <tr><td>Day trips</td><td>&pound;60-100</td></tr>
+              <tr><td><strong>Total per person</strong></td><td><strong>&pound;1,370-1,980</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="day-content" id="tips">
+      <div class="info-panel">
+        <h2>Essential Tips</h2>
+        <div class="info-card">
+          <h3>Transport</h3>
+          <ul>
+            <li><strong>Kids under 11</strong> travel FREE on Tube/bus</li>
+            <li><strong>Family &amp; Friends Railcard</strong> (&pound;30) - saves 1/3 on train fares</li>
+            <li><strong>Thames Clippers</strong> accept contactless</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>June Weather</h3>
+          <ul>
+            <li>Daylight: Sunrise ~4:45, sunset ~21:20</li>
+            <li>Average 15-22&deg;C, pack layers + rain jacket</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Packing -->
+    <div class="day-content" id="packing">
+      <div class="info-panel">
+        <h2>Packing Checklist</h2>
+        <div class="info-card">
+          <div class="checklist">
+            <label><input type="checkbox"> Comfortable walking shoes</label>
+            <label><input type="checkbox"> Light rain jacket / umbrella</label>
+            <label><input type="checkbox"> Layers (cool mornings, warm afternoons)</label>
+            <label><input type="checkbox"> Sunscreen &amp; sun hats</label>
+            <label><input type="checkbox"> Reusable water bottles</label>
+            <label><input type="checkbox"> Portable phone charger</label>
+            <label><input type="checkbox"> Snacks for kids</label>
+            <label><input type="checkbox"> Travel card games</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showDay(id, tab) {
+  document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (tab) tab.classList.add('active');
+}
+</script>
+
+</body>
+</html>

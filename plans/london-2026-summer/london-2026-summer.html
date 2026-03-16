@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>London &amp; Nearby — Family Travel Plan — June 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+  :root {
+    --primary: #1a3a5c;
+    --accent: #c0392b;
+    --blue: #2980b9;
+    --green: #27ae60;
+    --orange: #e67e22;
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #dce1e5;
+    --tag-bg: #f0f0ea;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.7; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--primary), #2c5f8a);
+    color: white; padding: 30px; border-radius: 10px 10px 0 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .header h1 { font-size: 1.8em; }
+  .header .sub { opacity: 0.7; font-size: 0.9em; margin-top: 4px; }
+  .header .total-budget { text-align: right; background: rgba(255,255,255,0.12); padding: 12px 20px; border-radius: 8px; }
+  .header .total-budget .amount { font-size: 1.4em; font-weight: 700; }
+  .header .total-budget .label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+
+  .info-bar {
+    display: flex; background: white; border: 1px solid var(--border); border-top: none;
+  }
+  .info-bar .item { flex: 1; text-align: center; padding: 12px; border-right: 1px solid var(--border); font-size: 0.85em; }
+  .info-bar .item:last-child { border-right: none; }
+  .info-bar .item strong { display: block; color: var(--blue); }
+
+  /* Section headers */
+  h2 { font-size: 1.4em; color: var(--primary); margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+  h3 { font-size: 1.15em; color: var(--primary); margin: 20px 0 10px; }
+  h4 { font-size: 1em; color: var(--text); margin: 14px 0 8px; }
+
+  /* Generic tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 0.9em; }
+  th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+  th { background: var(--tag-bg); font-weight: 600; }
+  tr:nth-child(even) { background: #fafafa; }
+
+  /* Urgent / book ahead */
+  .urgent-list { list-style: none; padding: 0; }
+  .urgent-list li {
+    padding: 10px 14px; margin-bottom: 6px;
+    background: white; border: 1px solid var(--border); border-radius: 6px;
+    font-size: 0.9em; display: flex; align-items: center; gap: 10px;
+  }
+  .urgent-list li .urgency {
+    font-size: 0.7em; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+  }
+  .urgency-now { background: #fdedec; color: var(--accent); }
+  .urgency-2wk { background: #fef5e7; color: var(--orange); }
+  .urgency-1wk { background: #eafaf1; color: var(--green); }
+
+  /* Accordion */
+  .accordion { margin-top: 16px; }
+  .acc-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .acc-header {
+    display: flex; align-items: center; padding: 14px 20px; cursor: pointer; user-select: none; gap: 14px; transition: background 0.15s;
+  }
+  .acc-header:hover { background: #f8f9fa; }
+  .acc-arrow { font-size: 0.8em; color: var(--muted); transition: transform 0.2s; min-width: 16px; }
+  .acc-item.open .acc-arrow { transform: rotate(90deg); }
+  .acc-day-badge { font-size: 0.7em; font-weight: 700; color: white; background: var(--blue); padding: 4px 10px; border-radius: 4px; min-width: 50px; text-align: center; }
+  .acc-item.day-trip .acc-day-badge { background: var(--green); }
+  .acc-title { flex: 1; font-weight: 600; font-size: 0.95em; }
+  .acc-budget { font-weight: 600; color: var(--blue); font-size: 0.9em; }
+  .acc-item.day-trip .acc-budget { color: var(--green); }
+  .acc-body { display: none; border-top: 1px solid var(--border); }
+  .acc-item.open .acc-body { display: block; }
+
+  /* Route inside accordion */
+  .route-box {
+    background: #f8f9fa; padding: 14px 20px; font-size: 0.88em; border-bottom: 1px solid var(--border);
+  }
+  .route-box strong { color: var(--primary); }
+  .route-flow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 8px;
+  }
+  .route-stop {
+    background: white; border: 1px solid var(--border); padding: 4px 12px; border-radius: 16px;
+    font-weight: 500; font-size: 0.88em;
+  }
+  .route-stop a { color: var(--primary); text-decoration: none; }
+  .route-stop a:hover { color: var(--accent); text-decoration: underline; }
+  .route-arrow { color: var(--muted); font-size: 0.8em; }
+  .route-transport {
+    font-size: 0.75em; color: var(--muted); background: #eef2f7; padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Schedule table */
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+  .schedule-table th {
+    background: #f8f9fa; padding: 8px 16px; text-align: left;
+    font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td { padding: 10px 16px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .schedule-table tr:hover { background: #fafbfc; }
+  .name-cell { font-weight: 500; }
+  .name-cell a { color: var(--primary); text-decoration: none; }
+  .name-cell a:hover { color: var(--accent); text-decoration: underline; }
+  .cost-cell { white-space: nowrap; font-weight: 500; }
+  .cost-cell.free { color: var(--green); }
+  .cost-cell.paid { color: var(--blue); }
+  .details-cell { color: var(--muted); font-size: 0.9em; }
+  .ticket-cell { font-size: 0.85em; color: var(--muted); }
+
+  .table-footer {
+    display: flex; justify-content: space-between; padding: 10px 16px;
+    background: #f8f9fa; font-size: 0.85em; font-weight: 600; color: var(--primary);
+    border-top: 2px solid var(--border);
+  }
+
+  /* Food recs inside day */
+  .food-recs {
+    padding: 14px 20px; background: #fffbf0; border-top: 1px solid #f5e6c8;
+  }
+  .food-recs h4 { color: var(--orange); font-size: 0.85em; margin: 0 0 6px; }
+  .food-recs ul { padding-left: 18px; margin: 0; }
+  .food-recs li { font-size: 0.85em; padding: 2px 0; }
+
+  /* Hotel section */
+  .hotel-card {
+    display: inline-block; padding: 8px 14px; margin: 4px; background: var(--tag-bg); border-radius: 8px; font-size: 0.9em;
+  }
+
+  /* Attraction section */
+  .attraction {
+    margin: 24px 0; padding: 20px; border: 1px solid var(--border); border-radius: 10px; background: white;
+  }
+  .attraction-header {
+    display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
+  }
+  .attraction-name { font-size: 1.1em; font-weight: 700; color: var(--primary); }
+  .attraction-tags { display: flex; gap: 6px; flex-wrap: wrap; font-size: 0.78em; }
+  .tag { padding: 3px 10px; border-radius: 12px; background: var(--tag-bg); color: var(--muted); white-space: nowrap; }
+  .tag.time { background: #e8f0e8; color: #2c5f2d; }
+  .tag.cost { background: #fff3e0; color: #b37300; }
+  .tag.walk { background: #e3f2fd; color: #1565c0; }
+  .tag.free { background: #eafaf1; color: var(--green); }
+  .attraction-img { width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin: 10px 0; }
+  .attraction-desc { font-size: 0.92em; line-height: 1.8; margin-bottom: 8px; }
+  .attraction-desc-zh { font-size: 0.9em; line-height: 1.9; margin-bottom: 8px; color: var(--text); font-family: 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+  .ticket-info {
+    background: #f8f9fa; padding: 10px 14px; border-radius: 6px; font-size: 0.85em; margin-top: 8px;
+    border-left: 3px solid var(--blue);
+  }
+
+  /* Attraction accordion */
+  .attr-acc-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .attr-acc-header {
+    display: flex; align-items: center; padding: 12px 16px; cursor: pointer; user-select: none; gap: 12px; transition: background 0.15s;
+  }
+  .attr-acc-header:hover { background: #f8f9fa; }
+  .attr-acc-header .attr-name { flex: 1; font-weight: 600; font-size: 0.95em; color: var(--primary); }
+  .attr-acc-header .attraction-tags { margin-left: auto; }
+  .attr-acc-body { display: none; border-top: 1px solid var(--border); padding: 16px 20px; }
+  .attr-acc-item.open .attr-acc-body { display: block; }
+  .attr-acc-item.open .acc-arrow { transform: rotate(90deg); }
+
+  /* Language toggle */
+  .lang-toggle {
+    display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; font-size: 0.78em; margin-bottom: 10px;
+  }
+  .lang-btn {
+    padding: 4px 14px; cursor: pointer; background: white; border: none; font-family: inherit;
+    font-weight: 500; color: var(--muted); transition: all 0.15s;
+  }
+  .lang-btn.active { background: var(--primary); color: white; }
+  .lang-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .lang-en, .lang-zh { }
+  .lang-zh { display: none; }
+  .attraction-content.show-zh .lang-en { display: none; }
+  .attraction-content.show-zh .lang-zh { display: block; }
+
+  /* Global language toggle at section level */
+  .section-lang-toggle {
+    float: right; margin-top: -36px;
+  }
+
+  /* Transport section */
+  .transport-card {
+    background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px;
+  }
+  .transport-card h4 { color: var(--primary); margin: 0 0 8px; }
+  .transport-card ul { padding-left: 18px; }
+  .transport-card li { font-size: 0.9em; padding: 2px 0; }
+
+  /* Events */
+  .event-item {
+    padding: 10px 14px; margin-bottom: 6px; background: white; border: 1px solid var(--border); border-radius: 6px;
+    display: flex; align-items: center; gap: 12px; font-size: 0.9em;
+  }
+  .event-date {
+    font-size: 0.75em; font-weight: 700; background: var(--primary); color: white;
+    padding: 4px 10px; border-radius: 4px; white-space: nowrap;
+  }
+  .event-warn {
+    font-size: 0.75em; font-weight: 700; background: #fdedec; color: var(--accent);
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+  }
+
+  /* Links */
+  .links a {
+    display: inline-block; margin: 4px 6px 4px 0; padding: 6px 14px;
+    background: var(--tag-bg); border-radius: 6px; color: var(--primary);
+    text-decoration: none; font-size: 0.85em;
+  }
+  .links a:hover { background: var(--blue); color: white; }
+
+  /* Info accordions */
+  .info-acc-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .info-acc-header { display: flex; align-items: center; padding: 14px 20px; cursor: pointer; gap: 14px; font-weight: 600; }
+  .info-acc-header:hover { background: #f8f9fa; }
+  .info-acc-body { display: none; padding: 16px 20px; border-top: 1px solid var(--border); }
+  .info-acc-item.open .info-acc-body { display: block; }
+  .info-acc-item.open .acc-arrow { transform: rotate(90deg); }
+
+  /* Tips */
+  .tips-section { margin: 12px 0; padding: 14px 18px; background: white; border-radius: 8px; border: 1px solid var(--border); }
+  .tips-section h4 { color: var(--primary); margin: 0 0 8px; }
+  .tips-section ul { padding-left: 18px; }
+  .tips-section li { font-size: 0.9em; padding: 2px 0; }
+
+  /* Checklist */
+  .checklist label { display: flex; align-items: center; padding: 5px 0; cursor: pointer; font-size: 0.9em; gap: 8px; }
+  .checklist input { accent-color: var(--blue); }
+
+  /* Budget table */
+  .budget-table td:last-child { text-align: right; font-weight: 600; }
+
+  /* Print */
+  .print-btn {
+    display: inline-block; margin: 16px 0; padding: 10px 24px; background: var(--primary);
+    color: white; border: none; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.9em;
+  }
+  .print-btn:hover { opacity: 0.9; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8em; padding: 24px 0 10px; border-top: 1px solid var(--border); margin-top: 30px; }
+
+  @media print { .acc-body, .info-acc-body { display: block !important; } .print-btn { display: none; } body { background: white; } }
+  @media (max-width: 600px) {
+    .header { flex-direction: column; gap: 12px; }
+    .info-bar { flex-wrap: wrap; }
+    .info-bar .item { min-width: 45%; }
+    .route-flow { flex-direction: column; align-items: flex-start; }
+    .attraction-header { flex-direction: column; }
+    .attraction-img { height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<div class="header">
+  <div>
+    <h1>London &amp; Nearby</h1>
+    <div class="sub">8 Days &bull; June 2026 &bull; Family with Kids (5-9) &bull; Mid-Range</div>
+  </div>
+  <div class="total-budget">
+    <div class="label">Total per person</div>
+    <div class="amount">&pound;1,370-1,980</div>
+  </div>
+</div>
+<div class="info-bar">
+  <div class="item"><strong>8 Days</strong>Duration</div>
+  <div class="item"><strong>&pound;150-250</strong>Per Day</div>
+  <div class="item"><strong>2 Day Trips</strong>Windsor + Cotswolds</div>
+  <div class="item"><strong>S. Kensington</strong>Recommended Base</div>
+</div>
+
+<!-- ============ BOOK IN ADVANCE ============ -->
+<h2>Book in Advance</h2>
+<p style="font-size:0.88em; color:var(--muted); margin-bottom:12px;">Sorted by urgency. The top items require the most lead time.</p>
+<ul class="urgent-list">
+  <li><span class="urgency urgency-now">NOW (2-3 months)</span> <strong>Hotel accommodation</strong> &mdash; June is peak season. Family rooms sell out fast in central London. Book on <a href="https://www.booking.com">Booking.com</a> with free cancellation</li>
+  <li><span class="urgency urgency-now">NOW (2-3 months)</span> <strong>Family &amp; Friends Railcard</strong> &mdash; &pound;30 online at <a href="https://www.railcard.co.uk">railcard.co.uk</a>. Saves 1/3 on adult fares, 60% off kids' fares for day trips</li>
+  <li><span class="urgency urgency-2wk">2-3 weeks</span> <strong>Dishoom restaurant</strong> &mdash; Farewell dinner. Extremely popular. Book at <a href="https://www.dishoom.com/reservations/">dishoom.com</a></li>
+  <li><span class="urgency urgency-2wk">2 weeks</span> <strong>Cotswolds car hire</strong> &mdash; Book via <a href="https://www.rentalcars.com">Rentalcars.com</a> or join a guided tour via <a href="https://www.getyourguide.com">GetYourGuide</a></li>
+  <li><span class="urgency urgency-1wk">1-2 weeks</span> <strong>London Eye</strong> &mdash; Timed tickets at <a href="https://www.londoneye.com">londoneye.com</a>. 10-20% cheaper online</li>
+  <li><span class="urgency urgency-1wk">1 week</span> <strong>Tower of London</strong> &mdash; Book at <a href="https://www.hrp.org.uk/tower-of-london/">hrp.org.uk</a>. Skip-the-line with online tickets</li>
+  <li><span class="urgency urgency-1wk">1 week</span> <strong>Windsor Castle</strong> &mdash; Book at <a href="https://www.rct.uk/visit/windsor-castle">rct.uk</a></li>
+  <li><span class="urgency urgency-1wk">1 week</span> <strong>SEA LIFE Aquarium</strong> &mdash; Book at <a href="https://www.visitsealife.com/london/">visitsealife.com</a>. Up to 20% off online</li>
+  <li><span class="urgency urgency-1wk">Day before</span> <strong>Train tickets for Windsor</strong> &mdash; Book at <a href="https://www.thetrainline.com">Trainline</a> or <a href="https://www.gwr.com">GWR.com</a></li>
+</ul>
+
+<!-- ============ DAILY ITINERARY ============ -->
+<h2>Daily Itinerary</h2>
+<div class="accordion">
+
+  <!-- DAY 1 -->
+  <div class="acc-item open">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 1</span>
+      <span class="acc-title">South Bank Exploration</span>
+      <span class="acc-budget">&pound;180-220</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Hotel</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Tube ~15 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-london-eye">London Eye</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 2 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-sealife">SEA LIFE Aquarium</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-south-bank">South Bank Walk</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 5 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Gabriel's Wharf Playground</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-london-eye">London Eye</a></td><td>~30 min ride</td><td class="cost-cell paid">&pound;30/ad, &pound;25/ch</td><td class="ticket-cell"><a href="https://www.londoneye.com">londoneye.com</a> &mdash; book timed slot online</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-sealife">SEA LIFE Aquarium</a></td><td>~1.5-2 hours</td><td class="cost-cell paid">&pound;28/ad, &pound;23/ch</td><td class="ticket-cell"><a href="https://www.visitsealife.com/london/">visitsealife.com</a> &mdash; 20% off online</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-south-bank">South Bank Walk</a></td><td>~1 hour</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell">Gabriel's Wharf Playground</td><td>~45 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Settle in &amp; riverside family fun</span><span>&pound;180-220 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Wahaca Southbank</strong> &mdash; Mexican street food, great kids' menu. 2 min from London Eye (~&pound;40-50 family)</li>
+          <li><strong>Giraffe Southbank</strong> &mdash; Global menu, very family-friendly. On the riverside (~&pound;50-60 family)</li>
+          <li><strong>Scooter Caffe</strong> &mdash; Quirky Italian-style cafe near Lower Marsh. Good coffee &amp; paninis</li>
+          <li><strong>South Bank food stalls</strong> &mdash; Street food vendors along the promenade, great for snacking</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 2</span>
+      <span class="acc-title">Royal London &amp; Parks</span>
+      <span class="acc-budget">&pound;160-200</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop"><a href="#attraction-buckingham">Buckingham Palace</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 5 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-st-james">St James's Park</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-westminster">Westminster Abbey</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 20 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-hyde-park">Hyde Park &amp; Diana Playground</a></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-buckingham">Changing of the Guard</a></td><td>~1.5 hours (inc. wait)</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket. Arrive 30 min early for good spot. Check schedule at <a href="https://changing-guard.com">changing-guard.com</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-st-james">St James's Park</a></td><td>~45 min</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-westminster">Westminster Abbey</a></td><td>~1.5 hours</td><td class="cost-cell paid">&pound;27/ad, under 6 free, 6-17 &pound;12</td><td class="ticket-cell"><a href="https://www.westminster-abbey.org">westminster-abbey.org</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-hyde-park">Diana Memorial Playground</a></td><td>~1-1.5 hours</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. In Kensington Gardens</td></tr>
+          <tr><td class="name-cell">Serpentine Pedal Boats</td><td>~30 min</td><td class="cost-cell paid">&pound;14/30 min</td><td class="ticket-cell">Pay at the boathouse, no advance booking</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Palaces, guards, and green spaces</span><span>&pound;160-200 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>The Mall Cafe</strong> &mdash; Inside St James's Park. Sandwiches and drinks with lake views (~&pound;35-45 family)</li>
+          <li><strong>Honest Burgers (Kensington)</strong> &mdash; Famous rosemary fries, near Hyde Park (~&pound;45-55 family)</li>
+          <li><strong>The Orangery at Kensington Palace</strong> &mdash; Elegant tea &amp; cakes in a beautiful setting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 3</span>
+      <span class="acc-title">Museum Day &mdash; South Kensington</span>
+      <span class="acc-budget">&pound;130-170</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop"><a href="#attraction-nhm">Natural History Museum</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 3 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-science">Science Museum</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Optional: Tube 20 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">V&amp;A Museum of Childhood</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-nhm">Natural History Museum</a></td><td>~2-3 hours</td><td class="cost-cell free">Free</td><td class="ticket-cell">Free entry. Arrive at opening to beat crowds</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-science">Science Museum</a></td><td>~2-3 hours</td><td class="cost-cell paid">Free entry; Wonderlab &pound;10/pp</td><td class="ticket-cell">Free entry. <a href="https://www.sciencemuseum.org.uk">sciencemuseum.org.uk</a> for Wonderlab tickets</td></tr>
+          <tr><td class="name-cell">V&amp;A Museum of Childhood</td><td>~1-1.5 hours (optional)</td><td class="cost-cell free">Free</td><td class="ticket-cell">Bethnal Green. Free entry</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Dinosaurs, space, and interactive science</span><span>&pound;130-170 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>V&amp;A Cafe</strong> &mdash; Beautiful Victorian tiled cafe inside V&amp;A Museum. Excellent lunch (~&pound;35-45 family)</li>
+          <li><strong>Oddono's Gelati</strong> &mdash; Outstanding gelato on Bute Street, 2 min from museums</li>
+          <li><strong>Pizza Pilgrims</strong> &mdash; Neapolitan pizza, kids love watching the oven. Multiple locations (~&pound;40-50 family)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 4</span>
+      <span class="acc-title">Tower of London &amp; City</span>
+      <span class="acc-budget">&pound;190-230</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop"><a href="#attraction-tower">Tower of London</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 5 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-tower-bridge">Tower Bridge</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk across bridge 5 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-hms-belfast">HMS Belfast</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Borough Market area</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-tower">Tower of London</a></td><td>~3+ hours</td><td class="cost-cell paid">&pound;33/ad, &pound;16/ch</td><td class="ticket-cell"><a href="https://www.hrp.org.uk/tower-of-london/">hrp.org.uk</a> &mdash; book online for skip-the-line</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-tower-bridge">Tower Bridge Exhibition</a></td><td>~45 min</td><td class="cost-cell paid">&pound;12/ad, &pound;6/ch</td><td class="ticket-cell"><a href="https://www.towerbridge.org.uk">towerbridge.org.uk</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-hms-belfast">HMS Belfast</a></td><td>~1.5-2 hours</td><td class="cost-cell paid">&pound;26/ad, under 16 free</td><td class="ticket-cell"><a href="https://www.iwm.org.uk/visits/hms-belfast">iwm.org.uk</a></td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Knights, castles, and crown jewels</span><span>&pound;190-230 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>St Katharine Docks</strong> &mdash; Marina restaurants (Bills, Honest Burgers). 5 min from Tower (~&pound;45-55 family)</li>
+          <li><strong>Borough Market</strong> &mdash; London's most famous food market. Artisan stalls, street food (closes 17:00 weekdays)</li>
+          <li><strong>Tas Restaurant (The Cut)</strong> &mdash; Turkish, generous portions, very kid-friendly (~&pound;45-55 family)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="acc-item day-trip">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 5</span>
+      <span class="acc-title">Day Trip: Windsor Castle</span>
+      <span class="acc-budget">&pound;200-280</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">London Paddington</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train ~30 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-windsor">Windsor Castle</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Windsor Great Park</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk/taxi 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Legoland or Thames Boat</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 5 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Eton</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Train ~30 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">London</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Train (return)</td><td>~30 min each way</td><td class="cost-cell paid">&pound;12-15/ad return</td><td class="ticket-cell"><a href="https://www.gwr.com">GWR.com</a> or <a href="https://www.thetrainline.com">Trainline</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-windsor">Windsor Castle</a></td><td>~3 hours</td><td class="cost-cell paid">&pound;30/ad, &pound;16.50/ch</td><td class="ticket-cell"><a href="https://www.rct.uk/visit/windsor-castle">rct.uk</a> &mdash; audio guide included</td></tr>
+          <tr><td class="name-cell">Windsor Great Park</td><td>~1 hour</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+          <tr><td class="name-cell">Legoland Windsor (Option A)</td><td>~3-4 hours</td><td class="cost-cell paid">&pound;45/pp advance</td><td class="ticket-cell"><a href="https://www.legoland.co.uk">legoland.co.uk</a> &mdash; much cheaper online</td></tr>
+          <tr><td class="name-cell">Thames boat ride (Option B)</td><td>~40 min</td><td class="cost-cell paid">&pound;10/ad, &pound;6/ch</td><td class="ticket-cell">French Brothers boats, buy at the promenade</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>The King's weekend home</span><span>&pound;200-280 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Cote Brasserie Windsor</strong> &mdash; French bistro on Thames Street, nice set menus (~&pound;45-55 family)</li>
+          <li><strong>Bill's Windsor</strong> &mdash; Casual all-day dining near the castle</li>
+          <li><strong>Duchess of Cambridge pub</strong> &mdash; Traditional pub with riverside garden in Eton</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 6</span>
+      <span class="acc-title">British Museum, Covent Garden &amp; Camden</span>
+      <span class="acc-budget">&pound;140-180</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop"><a href="#attraction-british-museum">British Museum</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 10 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-covent-garden">Covent Garden</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 2 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-transport-museum">London Transport Museum</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Tube 15 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Regent's Canal towpath</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 30 min along canal</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-camden">Camden Market</a></span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell"><a href="#attraction-british-museum">British Museum</a></td><td>~2-3 hours</td><td class="cost-cell free">Free</td><td class="ticket-cell">Free entry. Family trails &amp; activity backpacks at the desk</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-covent-garden">Covent Garden Piazza</a></td><td>~1 hour</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed. Street performers all day</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-transport-museum">London Transport Museum</a></td><td>~1.5 hours</td><td class="cost-cell paid">&pound;20/ad, under 18 free</td><td class="ticket-cell"><a href="https://www.ltmuseum.co.uk">ltmuseum.co.uk</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-camden">Camden Market</a></td><td>~1.5 hours</td><td class="cost-cell free">Free to browse</td><td class="ticket-cell">No ticket needed</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Ancient treasures &amp; canal-side markets</span><span>&pound;140-180 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Homeslice (Covent Garden)</strong> &mdash; Giant 20" pizzas, great value. Near the piazza (~&pound;25-35 for a pizza to share)</li>
+          <li><strong>Shake Shack (Covent Garden)</strong> &mdash; Burgers &amp; milkshakes, kid-approved</li>
+          <li><strong>Neal's Yard</strong> &mdash; Colourful courtyard with ice cream &amp; smoothie shops</li>
+          <li><strong>Camden Market street food</strong> &mdash; Dozens of cuisines: Thai, Indian, Mexican, burgers (~&pound;35-45 family)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 7 -->
+  <div class="acc-item day-trip">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 7</span>
+      <span class="acc-title">Day Trip: Cotswolds</span>
+      <span class="acc-budget">&pound;180-240</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">London</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Drive ~1.5 hours</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-bourton">Bourton-on-the-Water</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Drive ~15 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-bibury">Bibury</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Drive ~20 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Stow-on-the-Wold</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Drive ~1.5-2 hours</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">London</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Car hire</td><td>Full day</td><td class="cost-cell paid">&pound;50-70/day</td><td class="ticket-cell"><a href="https://www.rentalcars.com">Rentalcars.com</a>. Or guided tour via <a href="https://www.getyourguide.com">GetYourGuide</a> (~&pound;60-80/ad)</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-bourton">Bourton-on-the-Water</a></td><td>~2-2.5 hours</td><td class="cost-cell paid">Model Village &pound;5/ad, &pound;3/ch</td><td class="ticket-cell">Buy at the door</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-bibury">Bibury &amp; Trout Farm</a></td><td>~1-1.5 hours</td><td class="cost-cell paid">Trout Farm ~&pound;6/pp</td><td class="ticket-cell">Buy at the farm</td></tr>
+          <tr><td class="name-cell">Stow-on-the-Wold</td><td>~45 min-1 hour</td><td class="cost-cell free">Free</td><td class="ticket-cell">No ticket needed</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Storybook English countryside</span><span>&pound;180-240 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>The Mousetrap Inn (Bourton)</strong> &mdash; Traditional pub with garden, kid-friendly (~&pound;40-50 family)</li>
+          <li><strong>Bakery on the Water (Bourton)</strong> &mdash; Sandwiches &amp; cakes by the river</li>
+          <li><strong>The Catherine Wheel (Bibury)</strong> &mdash; Classic Cotswolds pub, good food</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 8 -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="acc-arrow">&#9654;</span>
+      <span class="acc-day-badge">Day 8</span>
+      <span class="acc-title">Greenwich &amp; Departure</span>
+      <span class="acc-budget">&pound;160-200</span>
+    </div>
+    <div class="acc-body">
+      <div class="route-box">
+        <strong>Route:</strong>
+        <div class="route-flow">
+          <span class="route-stop">Westminster Pier</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Thames Clipper ~30 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-cutty-sark">Cutty Sark</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk 3 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-maritime">National Maritime Museum</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Walk uphill 15 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop"><a href="#attraction-observatory">Royal Observatory</a></span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-transport">Thames Clipper / DLR ~30 min</span>
+          <span class="route-arrow">&rarr;</span>
+          <span class="route-stop">Central London</span>
+        </div>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Attraction</th><th>Time Needed</th><th>Cost</th><th>Tickets</th></tr></thead>
+        <tbody>
+          <tr><td class="name-cell">Thames Clipper (return)</td><td>~30 min each way</td><td class="cost-cell paid">&pound;8/ad, &pound;4/ch one way</td><td class="ticket-cell">Use Oyster/contactless at the pier</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-cutty-sark">Cutty Sark</a></td><td>~1-1.5 hours</td><td class="cost-cell paid">&pound;16/ad, &pound;8/ch</td><td class="ticket-cell"><a href="https://www.rmg.co.uk/cutty-sark">rmg.co.uk</a></td></tr>
+          <tr><td class="name-cell"><a href="#attraction-maritime">National Maritime Museum</a></td><td>~1.5 hours</td><td class="cost-cell free">Free</td><td class="ticket-cell">Free entry. Interactive gallery &amp; ship simulator for kids</td></tr>
+          <tr><td class="name-cell"><a href="#attraction-observatory">Royal Observatory</a></td><td>~1-1.5 hours</td><td class="cost-cell paid">&pound;18/ad, &pound;9/ch</td><td class="ticket-cell"><a href="https://www.rmg.co.uk/royal-observatory">rmg.co.uk</a></td></tr>
+          <tr><td class="name-cell">Hamleys (Regent Street)</td><td>~1 hour</td><td class="cost-cell free">Free to browse</td><td class="ticket-cell">No ticket needed. 7 floors of toys!</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footer"><span>Maritime history &amp; final adventures</span><span>&pound;160-200 /person</span></div>
+      <div class="food-recs">
+        <h4>Nearby Food &amp; Drink</h4>
+        <ul>
+          <li><strong>Greenwich Market</strong> &mdash; Covered market with Thai, Ethiopian, crepes, pie &amp; mash (~&pound;35-45 family)</li>
+          <li><strong>The Old Brewery</strong> &mdash; Inside the Old Royal Naval College, great food &amp; views</li>
+          <li><strong>Dishoom (King's Cross or Covent Garden)</strong> &mdash; Farewell dinner! Incredible Indian food (~&pound;55-70 family). <strong>Book 2+ weeks ahead!</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end accordion -->
+
+<!-- ============ WHERE TO STAY ============ -->
+<h2>Where to Stay</h2>
+<p style="font-size:0.85em; color:var(--muted); margin-bottom:12px;">Prices are indicative for June 2026. Family rooms in central London. Filter: Google rating &ge;4.0, walkable to Tube, family-friendly. Book 2-3 months ahead for June.</p>
+
+<h3>Option A: South Kensington (Best for museums)</h3>
+<p style="font-size:0.88em; margin-bottom:8px;">Walk to Natural History Museum, Science Museum, V&amp;A, Hyde Park. Tube: Piccadilly &amp; District lines.</p>
+<div class="hotel-card"><strong>Citadines South Kensington</strong> ~&pound;170/night &middot; 4.2&#9733; &middot; Aparthotel with kitchenette</div>
+<div class="hotel-card"><strong>Premier Inn South Kensington</strong> ~&pound;155/night &middot; 4.1&#9733; &middot; Reliable family rooms</div>
+<div class="hotel-card"><strong>The Kensington Hotel</strong> ~&pound;220/night &middot; 4.5&#9733; &middot; Boutique, elegant</div>
+
+<h3>Option B: King's Cross / St Pancras (Best for day trips)</h3>
+<p style="font-size:0.88em; margin-bottom:8px;">Direct trains to Windsor &amp; Cotswolds pickup. Near British Library, Regent's Canal, Camden. Multiple Tube lines.</p>
+<div class="hotel-card"><strong>Point A King's Cross</strong> ~&pound;130/night &middot; 4.0&#9733; &middot; Modern budget design</div>
+<div class="hotel-card"><strong>Hub by Premier Inn King's Cross</strong> ~&pound;145/night &middot; 4.1&#9733; &middot; Compact but smart</div>
+<div class="hotel-card"><strong>Great Northern Hotel</strong> ~&pound;240/night &middot; 4.6&#9733; &middot; Historic luxury, in St Pancras station</div>
+
+<h3>Option C: Covent Garden / Holborn (Central for everything)</h3>
+<p style="font-size:0.88em; margin-bottom:8px;">Walking distance to British Museum, Covent Garden, South Bank. Central Tube hub.</p>
+<div class="hotel-card"><strong>Premier Inn Holborn</strong> ~&pound;160/night &middot; 4.1&#9733; &middot; Great value, central</div>
+<div class="hotel-card"><strong>Travelodge Covent Garden</strong> ~&pound;140/night &middot; 3.9&#9733; &middot; Budget-friendly location</div>
+<div class="hotel-card"><strong>The Hoxton, Holborn</strong> ~&pound;200/night &middot; 4.4&#9733; &middot; Stylish, great restaurant</div>
+
+<p style="font-size:0.88em; color:var(--muted); margin-top:12px;">Book on <a href="https://www.booking.com">Booking.com</a> or <a href="https://www.hotels.com">Hotels.com</a> with free cancellation. Check <a href="https://www.google.com/travel/hotels">Google Hotels</a> for price comparison. Prices may vary &mdash; verify before booking.</p>
+
+<!-- ============ GETTING AROUND ============ -->
+<h2>Getting Around</h2>
+
+<div class="transport-card">
+  <h4>Within London</h4>
+  <ul>
+    <li><strong>Tube (Underground)</strong> &mdash; Fastest way around. Use contactless bank card or Oyster card. &pound;2.80/ride (Zone 1), daily cap ~&pound;8.10. <strong>Kids under 11 ride FREE with a paying adult</strong></li>
+    <li><strong>Bus</strong> &mdash; &pound;1.75/ride, daily cap &pound;5.25. Hop-on hop-off with contactless. Great for sightseeing from the top deck. Bus 11 (King's Road to Liverpool Street) is a classic scenic route</li>
+    <li><strong>Thames Clippers (Uber Boat)</strong> &mdash; River bus service. ~&pound;8-10/trip, accepts Oyster/contactless. Fun alternative for Greenwich, Westminster, Canary Wharf routes</li>
+    <li><strong>Walking</strong> &mdash; Central London is very walkable. Most attractions within 15-20 min walk of each other. Expect 8-12 miles/day</li>
+  </ul>
+</div>
+
+<div class="transport-card">
+  <h4>Day Trips from London</h4>
+  <ul>
+    <li><strong>Windsor</strong> &mdash; GWR train from Paddington, ~30 min, &pound;12-15 return. Direct service every 30 min</li>
+    <li><strong>Cotswolds</strong> &mdash; Car hire recommended (~&pound;50-70/day). Alternatively, guided tour from London (~&pound;60-80/ad). No practical direct train to the villages</li>
+    <li><strong>Family &amp; Friends Railcard</strong> (&pound;30/year) &mdash; saves 1/3 off adult fares and 60% off children's fares. Pays for itself on the Windsor trip alone</li>
+  </ul>
+</div>
+
+<div class="transport-card">
+  <h4>Taxis &amp; Ride-Hailing</h4>
+  <table>
+    <tr><th>App</th><th>Typical Cost</th><th>Notes</th></tr>
+    <tr><td><strong>Uber</strong></td><td>&pound;8-15 short trips, &pound;20-35 across London</td><td>Most widely used. UberX is standard. Family-size cars available</td></tr>
+    <tr><td><strong>Bolt</strong></td><td>&pound;6-12 short trips</td><td>Often 10-20% cheaper than Uber. Good coverage in central London</td></tr>
+    <tr><td><strong>Black Cab</strong></td><td>&pound;10-25 typical trip</td><td>Iconic London experience. Flag one down or use the Gett app. Metered fare. Kids love them!</td></tr>
+    <tr><td><strong>Free Now</strong></td><td>Similar to black cab</td><td>Book licensed black cabs via app</td></tr>
+  </table>
+  <p style="font-size:0.85em; color:var(--muted); margin-top:8px;">Tip: Tube is almost always faster than taxis in central London due to traffic. Save taxis for late nights with tired kids or reaching the airport.</p>
+</div>
+
+<!-- ============ EVENTS ============ -->
+<h2>June Events</h2>
+<p style="font-size:0.88em; color:var(--muted); margin-bottom:12px;">Events happening during your trip &mdash; to participate in or plan around.</p>
+
+<div class="event-item">
+  <span class="event-date">Mid-Jun</span>
+  <div><strong>Trooping the Colour</strong> &mdash; King's official birthday parade on The Mall. Spectacular military ceremony with horses, guards, and a RAF flypast over Buckingham Palace. <span class="event-warn">Crowds</span> The Mall and surrounding areas will be packed. If your Day 2 coincides, go early or watch from St James's Park</div>
+</div>
+<div class="event-item">
+  <span class="event-date">Late Jun</span>
+  <div><strong>Wimbledon Championships</strong> &mdash; Starts late June at the All England Club. Queue for ground passes from ~&pound;25. Worth it for tennis fans; otherwise area is very busy. <a href="https://www.wimbledon.com">wimbledon.com</a></div>
+</div>
+<div class="event-item">
+  <span class="event-date">All Jun</span>
+  <div><strong>Open Garden Squares Weekend</strong> &mdash; Private gardens across London open to the public for one weekend. Great for kids who love exploring hidden green spaces. <a href="https://opensquares.org">opensquares.org</a></div>
+</div>
+<div class="event-item">
+  <span class="event-date">All Jun</span>
+  <div><strong>West End Shows</strong> &mdash; Matinee performances of family shows (Lion King, Wicked, Matilda). Book via <a href="https://www.todaytix.com">TodayTix</a> for discounted same-day tickets</div>
+</div>
+<div class="event-item">
+  <span class="event-date">Jun weekends</span>
+  <div><strong>South Bank free festivals</strong> &mdash; Free outdoor music, dance, and art events along the South Bank. Check <a href="https://www.southbankcentre.co.uk">southbankcentre.co.uk</a> for schedule</div>
+</div>
+<div class="event-item">
+  <span class="event-date">21 Jun</span>
+  <div><strong>Summer Solstice</strong> &mdash; Longest day of the year. Sunrise ~4:43, sunset ~21:21. Over 16.5 hours of daylight! Special events at Stonehenge (2 hours from London)</div>
+</div>
+
+<!-- ============ ATTRACTIONS GUIDE ============ -->
+<h2>Attractions Guide</h2>
+<div style="display:flex; justify-content:space-between; align-items:center; margin:-8px 0 12px;">
+  <span style="font-size:0.85em; color:var(--muted);">Click to expand each attraction. Use the toggle to switch language.</span>
+  <div class="lang-toggle" id="global-lang-toggle">
+    <button class="lang-btn active" onclick="setAllLang('en')">English</button>
+    <button class="lang-btn" onclick="setAllLang('zh')">&#20013;&#25991;</button>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-london-eye" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">London Eye</span>
+    <div class="attraction-tags">
+      <span class="tag time">~30 min</span>
+      <span class="tag cost">&pound;30/ad, &pound;25/ch</span>
+      <span class="tag walk">South Bank, Waterloo</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/London-Eye-2009.JPG/1280px-London-Eye-2009.JPG" alt="London Eye">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The London Eye is a 135-metre tall observation wheel on the South Bank of the River Thames, offering breathtaking 360-degree views of the city skyline. On a clear day you can see up to 40 kilometres, spotting landmarks like Big Ben, The Shard, St Paul's Cathedral, and Buckingham Palace. Each of the 32 sealed glass capsules holds up to 25 passengers and completes one full rotation in approximately 30 minutes.</div>
+        <div class="attraction-desc">For families, the London Eye is an ideal experience &mdash; the capsules are spacious enough for strollers, and young children are mesmerised by the slowly changing panorama. June evenings offer particularly golden light for photos. The experience is wheelchair and buggy accessible, with no steps involved. Consider booking a late afternoon slot for the best light and slightly smaller crowds.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">伦敦眼是一座高135米的观景摩天轮，矗立在泰晤士河南岸，可以360度俯瞰整个城市天际线。天气晴好时，视野可达40公里，大本钟、碎片大厦、圣保罗大教堂和白金汉宫等地标尽收眼底。摩天轮共有32个密封玻璃座舱，每个可容纳25名乘客，完成一圈大约需要30分钟。</div>
+        <div class="attraction-desc-zh">对于家庭游客来说，伦敦眼是非常理想的体验&mdash;&mdash;座舱空间宽敞，可以容纳婴儿车，小朋友们会被缓缓变化的全景深深吸引。六月的傍晚光线格外金黄，非常适合拍照。整个体验无障碍通行，没有台阶。建议预订下午较晚的时段，光线最佳且人流稍少。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book timed slots at <a href="https://www.londoneye.com">londoneye.com</a>. Standard: &pound;30/adult, &pound;25/child. Online booking is 10-20% cheaper than walk-up. Family tickets available.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-sealife" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">SEA LIFE London Aquarium</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">&pound;28/ad, &pound;23/ch</span>
+      <span class="tag walk">South Bank, next to London Eye</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sea_Life_London_Aquarium.jpg/1280px-Sea_Life_London_Aquarium.jpg" alt="SEA LIFE London Aquarium">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Located in the grand County Hall building right next to the London Eye, SEA LIFE London Aquarium is home to over 600 species of marine life across 14 themed zones. Children can walk through an underwater glass tunnel surrounded by sharks and rays, meet Gentoo penguins, touch rock pool creatures in the interactive zone, and explore a recreated rainforest environment.</div>
+        <div class="attraction-desc">The aquarium is especially well-suited for younger children (ages 3-10), with interactive displays at kid-friendly heights and regular feeding demonstrations throughout the day. Allow 1.5-2 hours for a comfortable visit without rushing. The gift shop at the exit is large and tempting &mdash; set expectations with kids beforehand!</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">伦敦海洋生物水族馆位于伦敦眼旁边宏伟的郡政厅大楼内，拥有14个主题区域中超过600种海洋生物。孩子们可以穿过被鲨鱼和鳐鱼环绕的水下玻璃隧道，与巴布亚企鹅见面，在互动区触摸潮池生物，还可以探索仿真的热带雨林环境。</div>
+        <div class="attraction-desc-zh">水族馆特别适合低龄儿童（3-10岁），互动展示设置在适合儿童的高度，全天定期进行喂食表演。建议预留1.5-2小时从容参观。出口处的纪念品商店很大且充满诱惑&mdash;&mdash;建议提前和孩子们做好心理准备！</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.visitsealife.com/london/">visitsealife.com</a>. Up to 20% off online vs walk-up. Combo tickets with London Eye available for additional savings.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-south-bank" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">South Bank Walk</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1 hour</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Waterloo to Blackfriars</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/South_Bank%2C_London.jpg/1280px-South_Bank%2C_London.jpg" alt="South Bank London">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The South Bank is London's vibrant riverside promenade stretching from Westminster Bridge to Blackfriars Bridge. This pedestrian-friendly walkway buzzes with life &mdash; street performers, living statues, and musicians entertain crowds while the second-hand book market under Waterloo Bridge offers treasures for browsers. The skateboard park under the brutalist Southbank Centre is mesmerising to watch.</div>
+        <div class="attraction-desc">For families, the South Bank offers free entertainment that keeps kids engaged. Gabriel's Wharf has a riverside playground perfect for burning off energy, and Jubilee Gardens provides open green space with stunning views of Big Ben across the river. On warm June evenings, this stretch comes alive with pop-up food stalls, outdoor cinema screenings, and festival events.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">南岸是伦敦充满活力的河畔步行道，从威斯敏斯特桥一直延伸到黑衣修士桥。这条步行友好的走道热闹非凡&mdash;&mdash;街头艺人、活雕像和音乐家为人群带来欢乐，滑铁卢桥下的二手书市场则为淘书爱好者提供了寻宝之地。南岸中心粗犷主义建筑下的滑板公园也非常值得驻足观看。</div>
+        <div class="attraction-desc-zh">对于家庭游客，南岸提供了丰富的免费娱乐活动。Gabriel's Wharf有一个河畔游乐场，非常适合孩子们释放精力；朱比利花园则提供开阔的绿地空间，可以欣赏对岸大本钟的壮丽景色。在温暖的六月傍晚，这一带会变得更加热闹，有临时美食摊位、露天电影放映和各类节日活动。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-buckingham" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Buckingham Palace &amp; Changing of the Guard</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5 hours</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">St James's Park, Green Park Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Buckingham_Palace%2C_London_-_April_2009.jpg/1280px-Buckingham_Palace%2C_London_-_April_2009.jpg" alt="Buckingham Palace">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Buckingham Palace has served as the official London residence of the British monarch since 1837. The Changing of the Guard ceremony is one of London's most iconic free spectacles &mdash; soldiers in scarlet tunics and bearskin hats march to military band music in a precisely choreographed handover of duties. In June, the ceremony typically takes place daily at 11:00am and lasts about 45 minutes.</div>
+        <div class="attraction-desc">Arrive at least 30 minutes early to secure a good viewing spot along the palace gates. The Victoria Memorial in front of the palace offers elevated positions. For kids, the spectacle of mounted cavalry, gleaming swords, and military music is genuinely exciting. Check the schedule at <a href="https://changing-guard.com">changing-guard.com</a> as it can be cancelled in heavy rain.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">白金汉宫自1837年起一直是英国君主在伦敦的官方住所。卫兵换岗仪式是伦敦最具标志性的免费观赏活动之一&mdash;&mdash;身穿猩红色制服、头戴熊皮帽的士兵在军乐队伴奏下，进行精心编排的换岗交接。六月期间，换岗仪式通常每天上午11:00举行，持续约45分钟。</div>
+        <div class="attraction-desc-zh">建议至少提前30分钟到达，以便在宫门旁占据好的观赏位置。宫前的维多利亚纪念碑可以提供较高的视角。对于孩子们来说，骑兵、闪亮的佩剑和军乐的壮观场面真的非常令人兴奋。请在 <a href="https://changing-guard.com">changing-guard.com</a> 查看时间表，大雨天可能会取消。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-st-james" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">St James's Park</span>
+    <div class="attraction-tags">
+      <span class="tag time">~45 min</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Between Buckingham Palace &amp; Westminster</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/London_St_James_Park.jpg/1280px-London_St_James_Park.jpg" alt="St James's Park">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">St James's Park is the oldest of London's eight Royal Parks, originally a marshy watermeadow drained by Henry VIII for deer hunting. Today it is an immaculately maintained 23-hectare oasis with a central lake, ornamental flowerbeds, and ancient plane trees. The park's resident pelicans &mdash; descendants of birds gifted by the Russian Ambassador in 1664 &mdash; are fed daily at 2:30pm near Duck Island.</div>
+        <div class="attraction-desc">The views from the Blue Bridge spanning the lake are among London's finest &mdash; looking east toward the fairy-tale turrets of Horse Guards, and west toward Buckingham Palace framed by weeping willows. In June, the flowerbeds are at their most spectacular. The park's playground near the Birdcage Walk entrance is well-equipped for young children.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">圣詹姆斯公园是伦敦八大皇家公园中历史最悠久的一个，最初是亨利八世为猎鹿而排干的沼泽地。如今，它是一片精心维护的23公顷绿洲，拥有中央湖泊、观赏花坛和古老的悬铃木。公园里常驻的鹈鹕&mdash;&mdash;1664年俄罗斯大使赠送的鸟类后代&mdash;&mdash;每天下午2:30在鸭岛附近接受喂食。</div>
+        <div class="attraction-desc-zh">从横跨湖面的蓝桥上看到的景色堪称伦敦最美之一&mdash;&mdash;向东望去是骑兵卫队大楼童话般的塔楼，向西则是垂柳掩映中的白金汉宫。六月的花坛最为壮观。公园在鸟笼步道入口附近的游乐场设施齐全，非常适合年幼的孩子。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-westminster" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Westminster Abbey</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5 hours</span>
+      <span class="tag cost">&pound;27/ad, 6-17 &pound;12, under 6 free</span>
+      <span class="tag walk">Westminster Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Westminster_Abbey_St_Peter.jpg/800px-Westminster_Abbey_St_Peter.jpg" alt="Westminster Abbey">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Westminster Abbey is one of the world's great churches &mdash; the coronation church of the British monarchy since 1066 and the final resting place of 17 monarchs, along with celebrated figures from Charles Darwin to Charles Dickens. The Gothic architecture soars to dizzying heights, with fan vaulting, medieval tombs, and the famous Poets' Corner where literary giants are memorialised.</div>
+        <div class="attraction-desc">For families, the Abbey offers a multimedia guide with a special children's trail that turns the visit into a treasure hunt through history. The Chapter House features some of the finest medieval floor tiles in England. Allow about 1.5 hours; the cloisters and College Garden (oldest cultivated garden in England, free with admission) provide a peaceful escape from the crowds inside.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">威斯敏斯特大教堂是世界上最伟大的教堂之一&mdash;&mdash;自1066年以来一直是英国君主的加冕教堂，也是17位君主以及达尔文、狄更斯等名人的安息之所。哥特式建筑高耸入云，拥有扇形拱顶、中世纪墓葬和著名的诗人角，众多文学巨匠在此被纪念。</div>
+        <div class="attraction-desc-zh">对于家庭游客，大教堂提供多媒体导览和专门的儿童探索路线，将参观变成一场穿越历史的寻宝之旅。议事厅拥有英格兰最精美的中世纪地砖。建议预留约1.5小时；回廊和学院花园（英格兰最古老的人工花园，凭门票免费参观）提供了远离人群的宁静空间。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.westminster-abbey.org">westminster-abbey.org</a>. &pound;27/adult, children 6-17 &pound;12, under 6 free. Multimedia guide included.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-hyde-park" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Hyde Park &amp; Diana Memorial Playground</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-2 hours</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Lancaster Gate / Queensway Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Hyde_Park_London_from_the_air.jpg/1280px-Hyde_Park_London_from_the_air.jpg" alt="Hyde Park aerial view">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Hyde Park and the adjoining Kensington Gardens form a 253-hectare green expanse in the heart of London. The park has been a royal hunting ground, a venue for the Great Exhibition of 1851, and a site of free speech at Speakers' Corner. The Serpentine lake offers pedal boats in summer, and the Rose Garden is magnificent in June bloom.</div>
+        <div class="attraction-desc">The undisputed highlight for families is the Diana Memorial Playground in Kensington Gardens &mdash; a massive wooden pirate ship surrounded by teepees, sensory trails, and musical instruments, all inspired by Peter Pan. It's regularly voted one of London's best playgrounds. Free entry, open daily. A second smaller playground exists near the Serpentine. On warm June evenings, the park is perfect for a sunset picnic.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">海德公园与毗邻的肯辛顿花园共同构成了伦敦市中心253公顷的广阔绿地。这座公园曾是皇家猎场、1851年万国博览会的举办地，也是演讲者之角的自由言论场所。蛇形湖在夏季提供脚踏船，六月盛开的玫瑰园美不胜收。</div>
+        <div class="attraction-desc-zh">对家庭来说，最大的亮点是肯辛顿花园内的戴安娜纪念游乐场&mdash;&mdash;一艘巨大的木制海盗船，周围环绕着帐篷、感官探索小径和乐器，全部以彼得·潘为灵感设计。它经常被评为伦敦最佳游乐场之一，免费入场，每天开放。蛇形湖附近还有一个较小的游乐场。温暖的六月傍晚，公园非常适合来一场日落野餐。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-nhm" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Natural History Museum</span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">South Kensington Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Natural_History_Museum_London_Jan_2006.jpg/1280px-Natural_History_Museum_London_Jan_2006.jpg" alt="Natural History Museum London">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Natural History Museum is housed in a magnificent Romanesque cathedral-like building designed by Alfred Waterhouse in 1881. The vast Hintze Hall greets visitors with the skeleton of a blue whale suspended from the ceiling &mdash; at 25 metres long, it is one of the most awe-inspiring museum entrances in the world. The collection holds over 80 million specimens spanning 4.5 billion years of life on Earth.</div>
+        <div class="attraction-desc">For children aged 5-9, the Dinosaur Gallery is an absolute must &mdash; featuring animatronic T-Rex, genuine fossils, and interactive dig pits. The earthquake simulator in the Earth galleries lets you experience the 1995 Kobe earthquake. In June, the Wildlife Garden is open and buzzing with real butterflies and insects. Arrive right at opening (10:00am) to explore the dinosaur galleries before the midday crowds descend.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">自然历史博物馆坐落在阿尔弗雷德·沃特豪斯于1881年设计的宏伟罗马式建筑中。宽敞的欣策大厅迎接访客的是悬挂在天花板上的蓝鲸骨架&mdash;&mdash;长25米，是世界上最令人叹为观止的博物馆入口之一。馆藏超过8000万件标本，跨越45亿年的地球生命史。</div>
+        <div class="attraction-desc-zh">对于5-9岁的孩子来说，恐龙馆是必去之处&mdash;&mdash;有仿真霸王龙、真实化石和互动挖掘坑。地球馆的地震模拟器可以让你体验1995年神户大地震。六月份，野生动物花园开放，蝴蝶和昆虫翩翩飞舞。建议在开馆时间（上午10:00）到达，在中午人潮涌入之前探索恐龙馆。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> FREE entry, no booking needed. Some special exhibitions have a charge. <a href="https://www.nhm.ac.uk">nhm.ac.uk</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-science" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Science Museum</span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag cost">Free; Wonderlab &pound;10/pp</span>
+      <span class="tag walk">South Kensington Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Science_Museum%2C_Exhibition_Road%2C_London_SW7_-_geograph.org.uk.jpg/1280px-Science_Museum%2C_Exhibition_Road%2C_London_SW7_-_geograph.org.uk.jpg" alt="Science Museum London">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Science Museum brings science to life through hands-on exhibits spanning space exploration, computing history, engineering, and medicine. Highlights include a replica of Stephenson's Rocket, an Apollo 10 command module, and the earliest computers. The museum's approach is firmly interactive &mdash; designed to inspire rather than lecture.</div>
+        <div class="attraction-desc">The Wonderlab gallery (&pound;10/person, highly recommended) is a dedicated interactive science playground where kids experiment with forces, friction, light, and sound through over 50 hands-on exhibits. Live science shows run every 30 minutes. The Flight gallery and Exploring Space gallery captivate older children. Plan to spend at least 2 hours; with Wonderlab, allow 3.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">科学博物馆通过涵盖太空探索、计算机历史、工程学和医学的互动展览将科学变得生动有趣。亮点包括斯蒂芬森火箭号的复制品、阿波罗10号指令舱和最早期的计算机。博物馆的理念是坚定的互动性&mdash;&mdash;旨在激发灵感而非说教。</div>
+        <div class="attraction-desc-zh">Wonderlab互动馆（每人10英镑，强烈推荐）是一个专门的互动科学游乐场，孩子们可以通过50多个动手展品来实验力、摩擦力、光和声音。每30分钟有一场现场科学表演。飞行馆和太空探索馆则能吸引年龄较大的孩子。建议至少预留2小时；如果参观Wonderlab，则需要3小时。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> FREE general entry. Wonderlab: &pound;10/person, book at <a href="https://www.sciencemuseum.org.uk">sciencemuseum.org.uk</a>. IMAX &pound;11/person.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-tower" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Tower of London</span>
+    <div class="attraction-tags">
+      <span class="tag time">~3+ hours</span>
+      <span class="tag cost">&pound;33/ad, &pound;16/ch</span>
+      <span class="tag walk">Tower Hill Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Tower_of_London_-_geograph.org.uk.jpg/1280px-Tower_of_London_-_geograph.org.uk.jpg" alt="Tower of London">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Tower of London is a 950-year-old fortress that has served as a royal palace, prison, armoury, and treasury. Founded by William the Conqueror in 1066, it houses the Crown Jewels &mdash; a dazzling collection of crowns, sceptres, and orbs still used in coronation ceremonies. The White Tower, the oldest part, contains a remarkable collection of royal armour including suits made for Henry VIII.</div>
+        <div class="attraction-desc">Join a free Yeoman Warder (Beefeater) tour for entertaining tales of executions, escapes, and royal intrigue &mdash; tours depart every 30 minutes from the main entrance and are excellent for families. Children receive free activity trails at the ticket desk. Look for the Tower's famous ravens &mdash; legend says if they ever leave, the kingdom will fall. Arrive at opening (9:00am) and head straight to the Crown Jewels to avoid the longest queues.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">伦敦塔是一座有950年历史的堡垒，曾先后用作皇家宫殿、监狱、军械库和国库。它由征服者威廉于1066年建造，收藏着皇冠珠宝&mdash;&mdash;一系列至今仍在加冕典礼上使用的璀璨王冠、权杖和宝球。最古老的白塔中收藏了精美的皇家盔甲，包括为亨利八世制作的铠甲套装。</div>
+        <div class="attraction-desc-zh">可以参加免费的御用侍卫（Beefeater）导览，聆听关于处决、越狱和皇室阴谋的精彩故事&mdash;&mdash;每30分钟从主入口出发，非常适合家庭。在售票处可以领取免费的儿童活动路线图。别忘了找找塔内著名的渡鸦&mdash;&mdash;传说如果它们离开，王国就会灭亡。建议在开门时间（上午9:00）到达，直奔皇冠珠宝展厅以避开最长的排队。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.hrp.org.uk/tower-of-london/">hrp.org.uk</a>. &pound;33.60/adult, &pound;16.70/child (5-15). Online is cheaper and skip-the-line. Family ticket available.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-tower-bridge" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Tower Bridge Exhibition</span>
+    <div class="attraction-tags">
+      <span class="tag time">~45 min</span>
+      <span class="tag cost">&pound;12/ad, &pound;6/ch</span>
+      <span class="tag walk">5 min from Tower of London</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Tower_Bridge_from_Shad_Thames.jpg/1280px-Tower_Bridge_from_Shad_Thames.jpg" alt="Tower Bridge">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Tower Bridge is London's most recognisable bridge, a Victorian engineering marvel that has spanned the Thames since 1894. The Exhibition takes you inside the bridge's twin towers and along the high-level glass walkways 42 metres above the river. The glass floor sections let you look straight down at the traffic and river below &mdash; a thrilling experience for brave kids!</div>
+        <div class="attraction-desc">The Victorian Engine Rooms beneath the bridge reveal the original steam-powered hydraulic machinery that once raised the bridge's bascules. Check the bridge lift schedule online &mdash; if you time it right, you can watch the bridge open for tall ships from the walkway above, a spectacular sight. Walking across the bridge itself is always free and offers excellent photo opportunities.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">塔桥是伦敦最具辨识度的桥梁，一座自1894年横跨泰晤士河的维多利亚时代工程奇迹。展览带你进入桥的双塔内部，沿着河面上方42米的高空玻璃走道行走。玻璃地板部分可以让你直接俯瞰下方的车辆和河水&mdash;&mdash;对勇敢的孩子来说是一次刺激的体验！</div>
+        <div class="attraction-desc-zh">桥下的维多利亚时代机房展示了曾经升起桥面的原始蒸汽液压机械。可以在网上查看桥面升起的时间表&mdash;&mdash;如果时间恰好，你可以从上方走道观看大桥为高桅船只开启的壮观景象。步行过桥本身始终免费，也是极好的拍照机会。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.towerbridge.org.uk">towerbridge.org.uk</a>. &pound;12.30/adult, &pound;5.70/child.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-hms-belfast" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">HMS Belfast</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5-2 hours</span>
+      <span class="tag cost">&pound;26/ad, under 16 free</span>
+      <span class="tag walk">London Bridge area</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HMS_Belfast_1.jpg/1280px-HMS_Belfast_1.jpg" alt="HMS Belfast">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">HMS Belfast is a WWII light cruiser permanently moored on the Thames near Tower Bridge. Launched in 1938, she played key roles in the Battle of North Cape and the D-Day landings. Visitors can explore nine decks of the ship, from the captain's bridge to the boiler and engine rooms deep in the hull, experiencing what life was like for the crew of 950 men.</div>
+        <div class="attraction-desc">Children love scrambling through the narrow passageways, sitting in the gun turrets, and exploring the cramped mess decks where sailors ate and slept. The interactive exhibits include a simulated firing experience in the operations room. Under-16s enter free with a paying adult, making it excellent family value. The ship is not fully wheelchair/buggy accessible due to steep ladders between decks.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">贝尔法斯特号是一艘二战轻巡洋舰，永久停泊在塔桥附近的泰晤士河上。1938年下水，她在北角海战和诺曼底登陆中发挥了关键作用。游客可以探索舰船的九层甲板，从舰长室到船体深处的锅炉和机房，体验950名船员的生活。</div>
+        <div class="attraction-desc-zh">孩子们喜欢在狭窄的通道中穿梭、坐在炮塔里、探索水手们吃饭和睡觉的拥挤餐厅甲板。互动展品包括作战室中的模拟射击体验。16岁以下儿童在付费成人陪同下免费入场，性价比很高。由于甲板之间有陡峭的梯子，该舰不完全适合轮椅/婴儿车通行。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.iwm.org.uk/visits/hms-belfast">iwm.org.uk</a>. &pound;26/adult, under 16 free. Annual pass option available.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-windsor" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Windsor Castle</span>
+    <div class="attraction-tags">
+      <span class="tag time">~3 hours</span>
+      <span class="tag cost">&pound;30/ad, &pound;16.50/ch</span>
+      <span class="tag walk">Windsor, Berkshire (30 min train)</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Windsor_Castle_at_Sunset_-_Nov_2006.jpg/1280px-Windsor_Castle_at_Sunset_-_Nov_2006.jpg" alt="Windsor Castle">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Windsor Castle is the oldest and largest occupied castle in the world, and the King's preferred weekend residence. Founded by William the Conqueror in the 11th century, the castle has been continuously occupied for over 900 years. The State Apartments are lavishly decorated with paintings by Rembrandt, Rubens, and Canaletto, while St George's Chapel is a masterpiece of Gothic architecture and the burial place of 10 monarchs.</div>
+        <div class="attraction-desc">The undeniable highlight for children is Queen Mary's Dolls' House &mdash; the most famous dolls' house in the world, designed by Sir Edwin Lutyens in the 1920s. Every detail is exquisitely crafted at 1:12 scale, including working electricity, running water, and a wine cellar with real vintage wines in miniature bottles. The audio guide (included) has a specific children's version. Allow a full morning for a thorough visit.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">温莎城堡是世界上最古老、最大的有人居住的城堡，也是国王首选的周末居所。由征服者威廉于11世纪创建，城堡已被连续使用超过900年。国事厅以伦勃朗、鲁本斯和卡纳莱托的画作奢华装饰，而圣乔治教堂则是哥特式建筑的杰作，也是10位君主的安葬之地。</div>
+        <div class="attraction-desc-zh">对孩子们来说，最大的亮点是玛丽王后的玩偶屋&mdash;&mdash;世界上最著名的玩偶屋，由埃德温·鲁琴斯爵士于1920年代设计。每个细节都按1:12比例精心制作，包括可工作的电力系统、自来水，甚至还有装有真正微缩版陈年葡萄酒的酒窖。语音导览（包含在门票中）有专门的儿童版本。建议预留一整个上午进行充分参观。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.rct.uk/visit/windsor-castle">rct.uk</a>. &pound;30/adult, &pound;16.50/child (5-17), under 5 free. Audio guide included. Ask for a "Concessionary Admission" receipt at exit to convert your ticket to a 1-year pass at no extra cost.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-british-museum" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">British Museum</span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-3 hours</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Holborn / Tottenham Court Road Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/British_Museum_from_NE_2.JPG/1280px-British_Museum_from_NE_2.JPG" alt="British Museum">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The British Museum holds a collection of over 8 million objects spanning two million years of human history. It is the most visited attraction in the UK, and its treasures include the Rosetta Stone (the key to deciphering Egyptian hieroglyphics), the Parthenon Sculptures, Egyptian mummies, Sutton Hoo Anglo-Saxon treasures, and Samurai armour from feudal Japan. The Great Court, with its spectacular glass roof designed by Norman Foster, is one of the largest covered public squares in Europe.</div>
+        <div class="attraction-desc">For families with young children, pick up a free family trail and activity backpack at the information desk &mdash; these turn the visit into an interactive adventure with drawing, searching, and discovery challenges. The Egyptian galleries (Rooms 62-63) with real mummies are the biggest hit with kids aged 5-9. Don't try to see everything; focus on 3-4 galleries over 2 hours. The museum cafe in the Great Court is a pleasant lunch spot.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">大英博物馆收藏了超过800万件物品，跨越200万年的人类历史。它是英国参观人数最多的景点，珍品包括罗塞塔石碑（破译埃及象形文字的关键）、帕特农神庙雕塑、埃及木乃伊、萨顿胡盎格鲁-撒克逊宝藏和日本封建时代的武士盔甲。由诺曼·福斯特设计的大中庭拥有壮观的玻璃穹顶，是欧洲最大的室内公共广场之一。</div>
+        <div class="attraction-desc-zh">对于带小孩的家庭，可以在咨询台领取免费的家庭探索路线图和活动背包&mdash;&mdash;这些将参观变成一场包含绘画、搜索和发现挑战的互动冒险。埃及馆（62-63号展厅）的真实木乃伊最受5-9岁孩子欢迎。不要试图看完所有展品，建议在2小时内专注于3-4个展厅。大中庭的咖啡馆是一个不错的午餐地点。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> FREE entry, no booking needed. Special exhibitions may charge. <a href="https://www.britishmuseum.org">britishmuseum.org</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-covent-garden" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Covent Garden</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1 hour</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Covent Garden Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Covent_Garden_Interior_May_2006_crop.jpg/1280px-Covent_Garden_Interior_May_2006_crop.jpg" alt="Covent Garden">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Covent Garden's covered market piazza, designed by Inigo Jones in the 1630s, is one of London's most atmospheric public spaces. The elegant iron-and-glass market building, dating from 1830, now houses boutique shops, craft stalls, and cafes. But the real draw is the street performance programme &mdash; licensed performers stage magic shows, acrobatics, opera, and comedy acts throughout the day in the North Piazza.</div>
+        <div class="attraction-desc">Children are captivated by the street performers, particularly the magic acts and acrobats who often invite young audience members to participate. The colourful hidden courtyard of Neal's Yard, just a 2-minute walk away, is a wonderful photo spot with ice cream shops and juice bars. Covent Garden is also home to the Royal Opera House; even if you don't attend a show, the building's terrace offers lovely views over the piazza.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">考文特花园的室内市场广场由伊尼戈·琼斯于1630年代设计，是伦敦最具氛围的公共空间之一。始建于1830年的优雅铁艺玻璃市场大楼如今汇集了精品店、手工艺品摊位和咖啡馆。但最大的看点是街头表演节目&mdash;&mdash;持证表演者全天在北广场上演魔术、杂技、歌剧和喜剧表演。</div>
+        <div class="attraction-desc-zh">街头表演让孩子们着迷，尤其是魔术和杂技表演者经常邀请年轻观众参与互动。距此步行仅2分钟的Neal's Yard隐藏庭院色彩缤纷，是绝佳的拍照地点，还有冰淇淋店和果汁吧。考文特花园也是皇家歌剧院的所在地；即使不看演出，大楼的露台也能欣赏到广场的美丽景色。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-transport-museum" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">London Transport Museum</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5 hours</span>
+      <span class="tag cost">&pound;20/ad, under 18 free</span>
+      <span class="tag walk">Covent Garden Piazza</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/London_Transport_Museum%2C_Covent_Garden.jpg/1280px-London_Transport_Museum%2C_Covent_Garden.jpg" alt="London Transport Museum">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Located right on the Covent Garden piazza, the London Transport Museum traces 200 years of the city's transport history through beautifully preserved vehicles. Children can climb aboard a genuine Victorian horse-drawn bus, sit in the driver's cab of a real Tube train, and operate interactive signal levers. The collection includes iconic red Routemaster buses, early underground carriages, and the original Harry Beck Tube map.</div>
+        <div class="attraction-desc">The museum is exceptionally well-designed for young visitors, with dedicated play zones on every floor and regular family workshops. The Tube simulator where kids can "drive" a train through tunnels is a perennial favourite. Under 18s enter completely free, making it outstanding family value. Your adult ticket is valid for unlimited return visits for a full year.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">伦敦交通博物馆就位于考文特花园广场上，通过保存完好的交通工具追溯了城市200年的交通历史。孩子们可以登上一辆真正的维多利亚时代马拉公共汽车，坐在真实地铁列车的驾驶室里，操作互动信号杆。馆藏包括标志性的红色Routemaster巴士、早期地铁车厢和哈里·贝克设计的原版地铁线路图。</div>
+        <div class="attraction-desc-zh">博物馆为年轻访客设计得非常出色，每层都有专门的游乐区，并定期举办家庭工作坊。地铁模拟器让孩子们可以"驾驶"列车穿过隧道，是长盛不衰的人气项目。18岁以下完全免费入场，家庭出游性价比极高。成人门票可在一年内无限次重复使用。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> &pound;20/adult, under 18 FREE. Ticket valid for 1 year of unlimited visits. <a href="https://www.ltmuseum.co.uk">ltmuseum.co.uk</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-camden" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Camden Market</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5 hours</span>
+      <span class="tag free">Free to browse</span>
+      <span class="tag walk">Camden Town Tube</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Camden_Market_shops.jpg/1280px-Camden_Market_shops.jpg" alt="Camden Market">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Camden Market is actually a collection of interconnected markets stretching along Camden High Street and the Regent's Canal. With over 1,000 stalls, it's a wonderfully chaotic mix of vintage clothing, handmade crafts, quirky gifts, and some of London's best street food. The buildings themselves are an attraction &mdash; decorated with giant sculptures, colourful murals, and the famous mechanical Camden Lock sign.</div>
+        <div class="attraction-desc">The street food section is exceptional, with stalls serving cuisines from around the world: freshly rolled sushi, wood-fired pizza, pad thai cooked in giant woks, and Argentine steak sandwiches. Kids love the sweet stalls with rainbow bagels, giant cookies, and candy floss. The canal-side area is more relaxed &mdash; watch the narrow boats navigate the locks and spot the colourful houseboats moored along the towpath.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">卡姆登市场实际上是沿卡姆登大街和摄政运河延伸的一系列相互连通的市场。拥有超过1000个摊位，是复古服装、手工艺品、奇趣礼品和伦敦最佳街头美食的精彩汇聚。建筑本身就是一道风景&mdash;&mdash;装饰着巨型雕塑、彩色壁画和著名的机械卡姆登水闸标志。</div>
+        <div class="attraction-desc-zh">街头美食区域格外出色，摊位提供来自世界各地的美食：现场制作的寿司、柴火披萨、大锅炒制的泰式炒面和阿根廷牛排三明治。孩子们喜欢甜食摊位的彩虹贝果、巨型饼干和棉花糖。运河边的区域更加悠闲&mdash;&mdash;可以看窄船穿过水闸，欣赏停泊在岸边的彩色船屋。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-bourton" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Bourton-on-the-Water</span>
+    <div class="attraction-tags">
+      <span class="tag time">~2-2.5 hours</span>
+      <span class="tag cost">Model Village &pound;5/ad, &pound;3/ch</span>
+      <span class="tag walk">Cotswolds, Gloucestershire</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Bourton_on_the_Water_2.jpg/1280px-Bourton_on_the_Water_2.jpg" alt="Bourton-on-the-Water">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Known as the "Venice of the Cotswolds," Bourton-on-the-Water is arguably the prettiest village in England. The shallow, crystal-clear River Windrush flows through the village centre, crossed by a series of elegant low stone bridges. The honey-coloured limestone buildings, dating from the 17th and 18th centuries, create a picture-postcard setting that feels frozen in time.</div>
+        <div class="attraction-desc">For children, the river is the main attraction &mdash; on a warm June day, kids can safely paddle and splash in the shallow water (bring a change of clothes!). The Model Village is a 1:9 scale replica of Bourton itself, fascinating for children who love miniatures. Birdland Park &amp; Gardens houses flamingos, penguins, and over 500 birds in a natural setting along the river. The village gets busy by midday; arrive early for the most peaceful experience.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">水上伯顿被称为"科茨沃尔德的威尼斯"，堪称英格兰最美丽的村庄。清澈见底的温德拉什河从村中心流过，由一系列优雅的低矮石桥跨越。蜜色石灰岩建筑始建于17和18世纪，营造出如明信片般恍若时光停滞的美景。</div>
+        <div class="attraction-desc-zh">对于孩子们来说，河流是最大的吸引力&mdash;&mdash;在温暖的六月天，孩子们可以安全地在浅水中戏水玩耍（记得带换洗衣物！）。微缩村庄是水上伯顿本身1:9的缩小版，对喜欢微缩模型的孩子们来说非常有趣。鸟园拥有火烈鸟、企鹅和超过500种鸟类，在河畔的自然环境中生活。中午时分村庄会变得拥挤，建议早点到达以获得最宁静的体验。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-bibury" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Bibury</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">Trout Farm ~&pound;6/pp</span>
+      <span class="tag walk">Cotswolds, Gloucestershire</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Bibury_Cottages_in_the_Cotswolds_-_June_2007.jpg/1280px-Bibury_Cottages_in_the_Cotswolds_-_June_2007.jpg" alt="Arlington Row, Bibury">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">Bibury was described by William Morris as "the most beautiful village in England," and a walk along Arlington Row makes the case convincingly. This terrace of 14th-century weavers' cottages, with their steeply pitched stone roofs and cottage gardens, is one of the most photographed scenes in the Cotswolds &mdash; and even appears on the inside cover of British passports.</div>
+        <div class="attraction-desc">The Bibury Trout Farm, established in 1902, is a delightful stop for families. Children can feed the trout, try their hand at catching one (catch-and-release or purchase your catch), and explore the grounds. The clear chalk stream that runs through the village is home to wild trout and water voles. A short stroll along the river path offers beautiful views of the surrounding meadows, alive with wildflowers in June.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">拜伯里被威廉·莫里斯称为"英格兰最美丽的村庄"，沿阿灵顿排屋走一趟便能令人信服。这排14世纪织工小屋有着陡峭的石板屋顶和花园，是科茨沃尔德最常被拍摄的场景之一&mdash;&mdash;甚至出现在英国护照的内页上。</div>
+        <div class="attraction-desc-zh">拜伯里鳟鱼农场始建于1902年，是家庭出游的好去处。孩子们可以喂鳟鱼、尝试钓鱼（可放回或购买你的渔获），并探索农场。流经村庄的清澈白垩溪流是野生鳟鱼和水田鼠的家园。沿河小道散步可以欣赏周围草地的美景，六月时野花遍布。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-cutty-sark" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Cutty Sark</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">&pound;16/ad, &pound;8/ch</span>
+      <span class="tag walk">Greenwich, Cutty Sark DLR</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Cutty_Sark%2C_Greenwich%2C_England_Jan_2015_-_crop.jpg/1280px-Cutty_Sark%2C_Greenwich%2C_England_Jan_2015_-_crop.jpg" alt="Cutty Sark">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Cutty Sark is the world's sole surviving tea clipper and the fastest ship of her era, built in 1869 to race tea from China to London. Now magnificently restored and raised on a glass support structure in Greenwich, visitors can walk beneath the gleaming copper hull &mdash; an extraordinary engineering experience &mdash; as well as explore the decks above where the crew lived and worked.</div>
+        <div class="attraction-desc">Children are fascinated by the below-deck living quarters, the enormous ship's wheel they can turn, and the cargo hold stories of tea-laden voyages around the world. Interactive digital displays throughout the ship bring maritime history to life. The glass-enclosed dry dock beneath the ship creates a unique space where you can touch the original hull planking. Combined tickets with the Royal Observatory offer better value.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">卡蒂萨克号是世界上唯一幸存的茶叶快速帆船，也是其时代最快的船只，建于1869年，专为从中国运茶到伦敦的竞速而造。如今它在格林尼治被精心修复，架设在玻璃支撑结构上。游客可以在闪亮的铜质船底下方行走&mdash;&mdash;这是一次非凡的工程体验&mdash;&mdash;也可以探索船员生活和工作的上层甲板。</div>
+        <div class="attraction-desc-zh">孩子们会被甲板下的生活区、可以转动的巨大舵轮以及货舱中关于满载茶叶环球航行的故事深深吸引。船上的互动数字展示让航海历史变得栩栩如生。船底玻璃围合的干船坞创造了一个独特的空间，你可以触摸到原始的船体木板。与皇家天文台的联票更加划算。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.rmg.co.uk/cutty-sark">rmg.co.uk</a>. &pound;16/adult, &pound;8/child. Combo with Observatory available.</div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-maritime" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">National Maritime Museum</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1.5 hours</span>
+      <span class="tag free">Free</span>
+      <span class="tag walk">Greenwich, 3 min from Cutty Sark</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/National_Maritime_Museum%2C_Greenwich.jpg/1280px-National_Maritime_Museum%2C_Greenwich.jpg" alt="National Maritime Museum">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The National Maritime Museum is the world's largest maritime museum, housed in a stunning colonnaded building in Greenwich. The collection spans navigation, exploration, naval warfare, and trade &mdash; from the uniform Nelson wore at Trafalgar (complete with bullet hole) to maps, ship models, and navigational instruments. The Great Map in the central hall, where children can walk across a giant interactive floor map of the world, is a recent and popular addition.</div>
+        <div class="attraction-desc">The AHOY! gallery is specifically designed for children under 7, with a ship to "sail," cargo to load, and a lighthouse to operate. Older children enjoy the ship simulator, where they can navigate a vessel into port. The Polar Worlds gallery tells the gripping stories of Arctic and Antarctic exploration. Free entry makes this an easy, low-pressure stop &mdash; even 45 minutes here is worthwhile.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">国家海事博物馆是世界上最大的海事博物馆，坐落在格林尼治一座壮观的柱廊建筑中。馆藏涵盖航海、探险、海战和贸易&mdash;&mdash;从纳尔逊在特拉法尔加海战中穿着的制服（上面还有弹孔）到地图、船模和航海仪器。中央大厅的巨幅地图是近年的热门展品，孩子们可以在一幅巨大的互动地板地图上行走。</div>
+        <div class="attraction-desc-zh">AHOY!展厅专为7岁以下儿童设计，有船可以"驾驶"，有货物可以装卸，还有灯塔可以操作。较大的孩子喜欢船舶模拟器，可以驾驶船只驶入港口。极地世界展厅讲述了扣人心弦的南北极探险故事。免费入场使其成为一个轻松无压力的参观点&mdash;&mdash;即使只在这里待45分钟也很值得。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> FREE entry. Some special exhibitions charge. <a href="https://www.rmg.co.uk/national-maritime-museum">rmg.co.uk</a></div>
+  </div>
+</div>
+
+<div class="attr-acc-item" id="attraction-observatory" onclick="this.classList.toggle('open')">
+  <div class="attr-acc-header">
+    <span class="acc-arrow">&#9654;</span>
+    <span class="attr-name">Royal Observatory Greenwich</span>
+    <div class="attraction-tags">
+      <span class="tag time">~1-1.5 hours</span>
+      <span class="tag cost">&pound;18/ad, &pound;9/ch</span>
+      <span class="tag walk">Greenwich Park (15 min uphill from Maritime Museum)</span>
+    </div>
+  </div>
+  <div class="attr-acc-body">
+    <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Royal_Observatory%2C_Greenwich_-_geograph.org.uk.jpg/1280px-Royal_Observatory%2C_Greenwich_-_geograph.org.uk.jpg" alt="Royal Observatory Greenwich">
+    <div class="attraction-content">
+      <div class="lang-en">
+        <div class="attraction-desc">The Royal Observatory is where time and space begin &mdash; literally. It sits on the Prime Meridian Line at 0&deg; longitude, the reference point for Greenwich Mean Time and every time zone on Earth. Founded in 1675 by Charles II, it was here that astronomers solved the problem of determining longitude at sea, revolutionising global navigation. The red Time Ball on the roof has dropped at exactly 1:00pm every day since 1833.</div>
+        <div class="attraction-desc">The famous Meridian Line is marked by a steel strip in the courtyard &mdash; children love straddling the line with one foot in the Eastern hemisphere and one in the Western. Inside, the Flamsteed House contains beautiful historic telescopes and clocks. The Peter Harrison Planetarium offers stunning digital shows about the night sky (separate ticket, very much worth it for kids). The walk up through Greenwich Park rewards you with one of London's finest panoramic views.</div>
+      </div>
+      <div class="lang-zh">
+        <div class="attraction-desc-zh">皇家天文台是时间和空间的起点&mdash;&mdash;名副其实。它坐落在本初子午线上，即经度0&deg;，是格林尼治标准时间和地球上每个时区的参考点。由查理二世于1675年创建，天文学家们正是在这里解决了海上确定经度的难题，从而彻底改变了全球航海。屋顶上的红色报时球自1833年以来每天下午1:00准时降落。</div>
+        <div class="attraction-desc-zh">著名的子午线在庭院中以一条钢带标示&mdash;&mdash;孩子们喜欢双脚跨在线上，一只脚在东半球，另一只脚在西半球。弗拉姆斯蒂德大厦内收藏有精美的历史望远镜和钟表。彼得·哈里森天文馆提供关于夜空的精彩数字秀（需另购门票，非常值得带孩子去看）。穿过格林尼治公园的上坡路，你将看到伦敦最壮丽的全景之一。</div>
+      </div>
+    </div>
+    <div class="ticket-info"><strong>Tickets:</strong> Book at <a href="https://www.rmg.co.uk/royal-observatory">rmg.co.uk</a>. &pound;18/adult, &pound;9/child. Planetarium: additional &pound;8/adult, &pound;5/child. Combo tickets with Cutty Sark available.</div>
+  </div>
+</div>
+
+<!-- ============ BUDGET ============ -->
+<h2>Estimated Budget (Per Person, Excl. Flights)</h2>
+<table class="budget-table">
+  <tr><th>Category</th><th>Estimated Cost</th></tr>
+  <tr><td>Accommodation (7 nights)</td><td>&pound;700-1,000</td></tr>
+  <tr><td>Attractions &amp; entry fees</td><td>&pound;200-280</td></tr>
+  <tr><td>Food &amp; dining</td><td>&pound;280-380</td></tr>
+  <tr><td>Transport (Tube, trains, boats)</td><td>&pound;80-120</td></tr>
+  <tr><td>Day trip costs (car hire/tours)</td><td>&pound;60-100</td></tr>
+  <tr><td>Miscellaneous &amp; shopping</td><td>&pound;50-100</td></tr>
+  <tr><td><strong>Total per person</strong></td><td><strong>&pound;1,370-1,980</strong></td></tr>
+</table>
+
+<!-- ============ USEFUL LINKS ============ -->
+<h2>Useful Links</h2>
+<div class="links">
+  <a href="https://www.visitlondon.com">VisitLondon.com &mdash; Official tourism guide</a>
+  <a href="https://tfl.gov.uk">TfL.gov.uk &mdash; Tube maps, bus routes, journey planner</a>
+  <a href="https://www.thetrainline.com">Trainline &mdash; Book UK train tickets</a>
+  <a href="https://www.gwr.com">GWR &mdash; Great Western Railway for Windsor trains</a>
+  <a href="https://www.booking.com">Booking.com &mdash; Hotels with free cancellation</a>
+  <a href="https://www.google.com/travel/hotels">Google Hotels &mdash; Price comparison tool</a>
+  <a href="https://www.uber.com/gb/en/">Uber UK &mdash; Ride-hailing in London</a>
+  <a href="https://www.rentalcars.com">Rentalcars.com &mdash; Car hire for day trips</a>
+  <a href="https://www.getyourguide.com">GetYourGuide &mdash; Guided tours (Cotswolds etc.)</a>
+  <a href="https://www.railcard.co.uk">Railcard &mdash; Family &amp; Friends Railcard (&pound;30)</a>
+  <a href="https://changing-guard.com">Changing-Guard.com &mdash; Guard ceremony schedule</a>
+  <a href="https://www.todaytix.com">TodayTix &mdash; Discounted West End show tickets</a>
+  <a href="https://www.xe.com/currencyconverter/">XE Currency &mdash; Live GBP exchange rates</a>
+  <a href="https://www.nhs.uk/using-the-nhs/healthcare-abroad/healthcare-when-travelling-abroad/">NHS Travel Health &mdash; UK health advice for visitors</a>
+</div>
+
+<!-- ============ PRACTICAL TIPS ============ -->
+<h2>Practical Tips</h2>
+
+<div class="tips-section">
+  <h4>Money</h4>
+  <ul>
+    <li>Contactless payment accepted almost everywhere. Apple Pay / Google Pay widely used</li>
+    <li>Carry ~&pound;30-50 cash for small market stalls and street food vendors</li>
+    <li>ATMs (cash machines) are free at major banks. Avoid standalone ATMs with fees</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>June Weather &amp; Daylight</h4>
+  <ul>
+    <li><strong>Daylight:</strong> Sunrise ~4:45, sunset ~21:20 &mdash; incredibly long days for sightseeing</li>
+    <li><strong>Temperature:</strong> Average 15-22&deg;C, can reach 28&deg;C+. Pack layers + light rain jacket</li>
+    <li>London rain is usually light drizzle, not downpours. A packable umbrella is essential</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>Travelling with Kids (5-9)</h4>
+  <ul>
+    <li><strong>Kids under 11 travel FREE</strong> on Tube and bus with a paying adult</li>
+    <li>Avoid Tube rush hours (8-9:30am, 5-6:30pm) &mdash; trains are packed and stressful with kids</li>
+    <li>Carry snacks and water always. London is a walking city (expect 8-12 miles/day)</li>
+    <li>Schedule rest time after lunch. Days 3 and 7 have built-in lighter afternoons</li>
+    <li><strong>Rainy day backups:</strong> Science Museum, Natural History Museum, Hamleys toy store</li>
+    <li>Check <a href="https://tfl.gov.uk/transport-accessibility/wheelchair-access-and-avoiding-stairs">TfL step-free access</a> if using a buggy/stroller &mdash; many Tube stations have stairs</li>
+  </ul>
+</div>
+
+<div class="tips-section">
+  <h4>Packing Checklist</h4>
+  <div class="checklist">
+    <label><input type="checkbox"> Comfortable walking shoes (cobblestones &amp; hills)</label>
+    <label><input type="checkbox"> Light rain jacket / packable umbrella</label>
+    <label><input type="checkbox"> Layers (cool mornings, warm afternoons)</label>
+    <label><input type="checkbox"> Sunscreen &amp; sun hats (June sun can be strong)</label>
+    <label><input type="checkbox"> Reusable water bottles (free refills at cafes)</label>
+    <label><input type="checkbox"> Small daypack / backpack</label>
+    <label><input type="checkbox"> Portable phone charger</label>
+    <label><input type="checkbox"> Snacks for kids</label>
+    <label><input type="checkbox"> Travel card games for train journeys</label>
+    <label><input type="checkbox"> Change of clothes for Bourton-on-the-Water paddling</label>
+  </div>
+</div>
+
+<div style="text-align:center;">
+  <button class="print-btn" onclick="window.print()">Print This Plan</button>
+</div>
+
+<footer>
+  <p>Plan generated by Trip Finder on 2026-03-12.<br>
+  All images from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a> (CC licensed).<br>
+  Prices and availability should be verified before booking.</p>
+</footer>
+
+<script>
+// Open first day accordion by default, all others closed
+document.querySelectorAll('.acc-item').forEach((item, i) => {
+  if (i !== 0) item.classList.remove('open');
+});
+
+// Global language toggle for attractions
+function setAllLang(lang) {
+  var contents = document.querySelectorAll('.attraction-content');
+  var btns = document.querySelectorAll('#global-lang-toggle .lang-btn');
+  contents.forEach(function(el) {
+    if (lang === 'zh') {
+      el.classList.add('show-zh');
+    } else {
+      el.classList.remove('show-zh');
+    }
+  });
+  btns.forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  if (lang === 'zh') {
+    btns[1].classList.add('active');
+  } else {
+    btns[0].classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>
